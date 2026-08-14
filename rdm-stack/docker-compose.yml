@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # CAPA 1: Base de Datos Unificada
+  db:
+    image: mongo:latest
+    networks:
+      - rdm-network
+
+  # CAPA 2: El Motor (tamv-core)
+  core:
+    build: ./services/core
+    container_name: tamv-core
+    environment:
+      - MONGO_URL=mongodb://db:27017/tamv_db
+    depends_on:
+      - db
+    networks:
+      - rdm-network
+
+  # CAPA 3: Gestión (rdm-smart-city-os)
+  admin-os:
+    build: ./apps/admin-os
+    container_name: admin-os
+    environment:
+      - API_URL=http://core:8000
+    ports:
+      - "${ADMIN_OS_PORT}:3000"
+    depends_on:
+      - core
+    networks:
+      - rdm-network
+
+  # CAPA 4: Interfaz Pública (visitarealdelmonte)
+  visitor-web:
+    build: ./apps/visitor-web
+    container_name: visitor-web
+    ports:
+      - "${VISITOR_PORT}:80"
+    networks:
+      - rdm-network
+
+  # CAPA 5: Infraestructura (nodo-cero)
+  nodo-cero:
+    build: ./infrastructure/nodo-cero
+    container_name: nodo-cero
+    privileged: true
+    networks:
+      - rdm-network
+
+  # CAPA 6: Gateway (Enrutador de tráfico)
+  gateway:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - visitor-web
+      - admin-os
+    networks:
+      - rdm-network
+
+networks:
+  rdm-network:
+    driver: bridge

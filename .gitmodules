@@ -1,0 +1,12 @@
+[submodule "rdm-stack/services/core"]
+	path = rdm-stack/services/core
+	url = https://github.com/TAMV-ONLINE-NET/tamv-core.git
+[submodule "rdm-stack/apps/visitor-web"]
+	path = rdm-stack/apps/visitor-web
+	url = https://github.com/OsoPanda1/visitarealdelmonte.git
+[submodule "rdm-stack/apps/admin-os"]
+	path = rdm-stack/apps/admin-os
+	url = https://github.com/OsoPanda1/rdm-smart-city-os.git
+[submodule "rdm-stack/infrastructure/nodo-cero"]
+	path = rdm-stack/infrastructure/nodo-cero
+	url = https://github.com/OsoPanda1/nodo-cero.git

@@ -1,0 +1,1 @@
+Placeholder para el webroot de certbot. Aquí se sirven los desafíos HTTP-01 de Let's Encrypt durante la renovación de certificados.

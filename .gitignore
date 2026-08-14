@@ -1,0 +1,31 @@
+# Dependencias
+node_modules/
+
+# Builds y cachés
+dist/
+build/
+.output/
+.vite/
+.next/
+coverage/
+.turbo/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Entornos (los .env del stack son solo config, pero nunca credenciales)
+.env.local
+.env.*.local
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Certificados reales (los README/placeholders sí se suben)
+*.pem
+*.key
+certbot/conf/
