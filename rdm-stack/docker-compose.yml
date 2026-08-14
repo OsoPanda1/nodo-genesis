@@ -1,65 +1,145 @@
-version: '3.8'
+# RDM Sovereign Stack — Orquestación del Nodo Génesis
+# Uso local: docker compose up -d --build
+# El orden de las capas sigue el modelo heptafederado de TAMV.
+
+name: rdm-stack
 
 services:
-  # CAPA 1: Base de Datos Unificada
+  # CAPA 0 · Infraestructura — Base de Datos Federada (PostgreSQL)
   db:
-    image: mongo:latest
+    image: postgres:16-alpine
+    container_name: rdm-db
+    environment:
+      POSTGRES_USER: rdm
+      POSTGRES_PASSWORD: rdm
+      POSTGRES_DB: rdm_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rdm -d rdm_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
-  # CAPA 2: El Motor (tamv-core)
+  # CAPA 1 · Motor — tamv-core (SSR TanStack Start / Bun)
+  # Fase B lo convertirá en backend real (BookPI, MSR, Isabella, Guardian).
   core:
-    build: ./services/core
+    build:
+      context: ./services/core
     container_name: tamv-core
     environment:
-      - MONGO_URL=mongodb://db:27017/tamv_db
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=8000
+    ports:
+      - "${CORE_PORT:-8000}:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD", "bun", "-e", "fetch('http://localhost:8000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
 
-  # CAPA 3: Gestión (rdm-smart-city-os)
+  # CAPA 3 · Gestión — rdm-smart-city-os (SPA Vite en :3000)
   admin-os:
-    build: ./apps/admin-os
-    container_name: admin-os
+    build:
+      context: ./apps/admin-os
+      args:
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
+    container_name: rdm-admin-os
     environment:
       - API_URL=http://core:8000
     ports:
-      - "${ADMIN_OS_PORT}:3000"
+      - "${ADMIN_OS_PORT:-3000}:3000"
     depends_on:
       - core
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
-  # CAPA 4: Interfaz Pública (visitarealdelmonte)
+  # CAPA 4 · Interfaz Pública — visitarealdelmonte (SPA Vite en :80)
   visitor-web:
-    build: ./apps/visitor-web
-    container_name: visitor-web
+    build:
+      context: ./apps/visitor-web
+      args:
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
+    container_name: rdm-visitor-web
     ports:
-      - "${VISITOR_PORT}:80"
+      - "${VISITOR_PORT:-8080}:80"
+    depends_on:
+      - core
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
-  # CAPA 5: Infraestructura (nodo-cero)
+  # CAPA 5 · Sistema Operativo Territorial — nodo-cero (Next.js 16, API real)
   nodo-cero:
-    build: ./infrastructure/nodo-cero
-    container_name: nodo-cero
-    privileged: true
+    build:
+      context: ./infrastructure/nodo-cero
+    container_name: rdm-nodo-cero
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgres://rdm:rdm@db:5432/rdm_db
+      - NEXT_PUBLIC_SITE_URL=http://localhost
+    depends_on:
+      db:
+        condition: service_healthy
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/yun/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
-  # CAPA 6: Gateway (Enrutador de tráfico)
+  # CAPA 6 · Gateway — Enrutador de tráfico (nginx)
   gateway:
     image: nginx:alpine
+    container_name: rdm-gateway
     ports:
       - "80:80"
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - visitor-web
-      - admin-os
+      visitor-web:
+        condition: service_healthy
+      admin-os:
+        condition: service_healthy
+      nodo-cero:
+        condition: service_healthy
     networks:
       - rdm-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres-data:
 
 networks:
   rdm-network:

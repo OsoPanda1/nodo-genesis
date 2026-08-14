@@ -63,6 +63,12 @@ else
     echo -e "${RED}⚠️  Health check NO responde${NC}"
 fi
 
+if curl -s https://visitarealdelmonte.online/api/yun/status | grep -q "ready"; then
+    echo -e "${GREEN}✅ API territorial (nodo-cero) operativa${NC}"
+else
+    echo -e "${RED}⚠️  API territorial NO responde${NC}"
+fi
+
 echo ""
 echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}║  ✅ DEPLOYMENT COMPLETADO             ║${NC}"

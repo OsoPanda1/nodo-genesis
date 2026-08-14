@@ -19,21 +19,11 @@ git clone https://github.com/OsoPanda1/nodo-cero.git infrastructure/nodo-cero
 
 # 3. Crear archivo de variables de entorno unificado
 echo -e "${GREEN}Configurando variables de entorno...${NC}"
-cat <<EOF > .env
-# Global Config
-PROJECT_NAME=RDM_SOVEREIGN
-DOMAIN=rdm.local
-
-# API Core
-CORE_PORT=8000
-DATABASE_URL=mongodb://mongo:27017/tamv_db
-
-# Apps
-VISITOR_PORT=8080
-ADMIN_OS_PORT=3000
-
-# Infrastructure
-NODO_ID=RDM-N0-ALPHA
-EOF
+cp .env.example .env
 
 echo -e "${GREEN}Proyecto estructurado exitosamente.${NC}"
+echo ""
+echo -e "Pasos siguientes:"
+echo -e "  ${GREEN}1.${NC} Edita ${GREEN}rdm-stack/.env${NC} con tus credenciales de Supabase"
+echo -e "  ${GREEN}2.${NC} docker compose up -d --build"
+echo -e "  ${GREEN}3.${NC} Abre http://localhost (web), /admin (panel), /api (API)"

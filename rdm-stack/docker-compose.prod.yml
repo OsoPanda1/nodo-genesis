@@ -1,5 +1,6 @@
 # Override de producción — RDM Sovereign Stack
 # Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Entorno: visitarealdelmonte.online (detrás de Cloudflare)
 
 services:
   gateway:
@@ -15,7 +16,7 @@ services:
   db:
     restart: unless-stopped
     volumes:
-      - mongodata:/data/db
+      - postgres-data:/var/lib/postgresql/data
 
   core:
     restart: unless-stopped
@@ -30,4 +31,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  mongodata:
+  postgres-data:
+    external: false
