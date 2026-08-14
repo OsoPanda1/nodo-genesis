@@ -29,6 +29,12 @@ services:
 
   nodo-cero:
     restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SITE_URL=https://www.visitarealdelmonte.online
+      - BASE_URL=https://www.visitarealdelmonte.online
+      - API_URL=https://www.visitarealdelmonte.online/api
+      - NODE_ID=RDM-N0-ALPHA
 
 volumes:
   postgres-data:

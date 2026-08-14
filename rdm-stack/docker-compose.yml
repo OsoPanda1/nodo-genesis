@@ -101,7 +101,10 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - DATABASE_URL=postgres://rdm:rdm@db:5432/rdm_db
-      - NEXT_PUBLIC_SITE_URL=http://localhost
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-http://localhost}
+      - BASE_URL=${BASE_URL:-http://localhost}
+      - API_URL=${API_URL:-http://localhost/api}
+      - NODE_ID=${NODO_ID:-RDM-N0-ALPHA}
     depends_on:
       db:
         condition: service_healthy

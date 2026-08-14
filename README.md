@@ -57,6 +57,8 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - `/api` y `/ws` → `nodo-cero` (API territorial real, no el core)
 - `/health` → estado del gateway
 
+**URL oficial de despliegue:** `https://www.visitarealdelmonte.online` (canónica). El apex `visitarealdelmonte.online` redirige 301 al canónico.
+
 ---
 
 ## Arquitectura del stack
@@ -195,7 +197,7 @@ Se definen en `rdm-stack/.env` (desarrollo) y `rdm-stack/.env.production`. Todas
 | `NODO_ID` | Identificador del nodo territorial |
 | `VITE_SUPABASE_URL` | URL del proyecto Supabase |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Anon/publishable key de Supabase |
-| `BASE_URL` / `API_URL` | URLs base del stack |
+| `BASE_URL` / `API_URL` | URLs base del stack (canónico `https://www.visitarealdelmonte.online`) |
 
 > **Nunca** se commitean credenciales reales. Los `.env` del stack contienen solo configuración; los secretos van en variables de entorno del host o del proveedor.
 
@@ -206,7 +208,7 @@ Se definen en `rdm-stack/.env` (desarrollo) y `rdm-stack/.env.production`. Todas
 Hay dos modos:
 
 - **`docker-compose.yml`** — desarrollo local (puertos individuales expuestos + gateway en `:80`).
-- **`docker-compose.prod.yml`** — producción (gateway `:80` + `:443` con certificados en `gateway/ssl/visitarealdelmonte.online/` y volumes para certbot).
+- **`docker-compose.prod.yml`** — producción (gateway `:80` + `:443` con certificados en `gateway/ssl/visitarealdelmonte.online/` y volumes para certbot). Dominio canónico `https://www.visitarealdelmonte.online`; el apex redirige 301.
 
 Para producción:
 

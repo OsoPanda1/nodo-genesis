@@ -40,12 +40,12 @@ deploy-prod:
 
 ssl-check:
 	@echo "$(BLUE)Verificando certificado SSL...$(NC)"
-	@curl -I https://visitarealdelmonte.online | grep -E "(HTTP|SSL)"
+	@curl -I https://www.visitarealdelmonte.online | grep -E "(HTTP|SSL)"
 
 dns-check:
 	@echo "$(BLUE)Verificando DNS...$(NC)"
-	@dig visitarealdelmonte.online +short
 	@dig www.visitarealdelmonte.online +short
+	@dig visitarealdelmonte.online +short
 
 logs-prod:
 	@docker compose $(FILES) $(ENV_FILE) logs -f --tail=100

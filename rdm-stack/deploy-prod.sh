@@ -9,7 +9,7 @@ NC='\033[0m'
 
 echo -e "${BLUE}╔════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║  DEPLOY TO PRODUCTION                 ║${NC}"
-echo -e "${BLUE}║  visitarealdelmonte.online            ║${NC}"
+echo -e "${BLUE}║  www.visitarealdelmonte.online         ║${NC}"
 echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
 
 cd "$(dirname "$0")"
@@ -24,7 +24,7 @@ FILES="-f docker-compose.yml -f docker-compose.prod.yml"
 ENV_FILE="--env-file .env.production"
 
 # Verificar que el dominio está configurado
-if ! grep -q "DOMAIN=visitarealdelmonte.online" .env.production; then
+if ! grep -q "DOMAIN=www.visitarealdelmonte.online" .env.production; then
     echo -e "${RED}❌ Error: DOMAIN no está configurado en .env.production${NC}"
     exit 1
 fi
@@ -51,19 +51,19 @@ $COMPOSE $FILES $ENV_FILE ps
 
 # Test de conectividad
 echo -e "${BLUE}Probando conectividad...${NC}"
-if curl -s --head https://visitarealdelmonte.online | grep -q "HTTP/"; then
-    echo -e "${GREEN}✅ Dominio principal accesible${NC}"
+if curl -s --head https://www.visitarealdelmonte.online | grep -q "HTTP/"; then
+    echo -e "${GREEN}✅ Dominio canónico accesible${NC}"
 else
-    echo -e "${RED}⚠️  Dominio principal NO responde (puede tardar en propagarse DNS)${NC}"
+    echo -e "${RED}⚠️  Dominio canónico NO responde (puede tardar en propagarse DNS)${NC}"
 fi
 
-if curl -s --head https://visitarealdelmonte.online/health | grep -q "HTTP/"; then
+if curl -s --head https://www.visitarealdelmonte.online/health | grep -q "HTTP/"; then
     echo -e "${GREEN}✅ Health check accesible${NC}"
 else
     echo -e "${RED}⚠️  Health check NO responde${NC}"
 fi
 
-if curl -s https://visitarealdelmonte.online/api/yun/status | grep -q "ready"; then
+if curl -s https://www.visitarealdelmonte.online/api/yun/status | grep -q "ready"; then
     echo -e "${GREEN}✅ API territorial (nodo-cero) operativa${NC}"
 else
     echo -e "${RED}⚠️  API territorial NO responde${NC}"
@@ -75,6 +75,7 @@ echo -e "${GREEN}║  ✅ DEPLOYMENT COMPLETADO             ║${NC}"
 echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${BLUE}URLs oficiales:${NC}"
-echo -e "  🌐 Web: ${YELLOW}https://visitarealdelmonte.online${NC}"
-echo -e "  🔧 Admin: ${YELLOW}https://visitarealdelmonte.online/admin${NC}"
-echo -e "  🔌 API: ${YELLOW}https://visitarealdelmonte.online/api${NC}"
+echo -e "  🌐 Web: ${YELLOW}https://www.visitarealdelmonte.online${NC}"
+echo -e "  🔧 Admin: ${YELLOW}https://www.visitarealdelmonte.online/admin${NC}"
+echo -e "  🔌 API: ${YELLOW}https://www.visitarealdelmonte.online/api${NC}"
+echo -e "  ↪  Apex redirige a: ${YELLOW}https://www.visitarealdelmonte.online${NC}"
