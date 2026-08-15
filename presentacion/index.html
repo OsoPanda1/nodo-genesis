@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RDM Digital Hub — Ecosistema Territorial SOBERANO de Real del Monte. Plataforma de lujo editorial para gobernanza, turismo e inteligencia de datos.">
+    <meta name="theme-color" content="#0B0B0B">
+    <title>RDM Digital Hub — Ecosistema Territorial SOBERANO</title>
+    
+    <!-- Preconexiones de Alto Rendimiento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.rdm-hub.mx">
+    
+    <!-- Tipografías de Alta Gama -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Plus+Jakarta+Sans:wght@200;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- BARRA DE NAVEGACIÓN QUINTAESENCIAL -->
+    <header>
+        <div class="logo-container">
+            <div class="logo-mark">RDM<span>HUB</span></div>
+        </div>
+        
+        <nav>
+            <ul id="nav-menu">
+                <li class="nav-item" id="menu-proyecto">
+                    <a href="#seccion-proyecto" class="nav-link" onclick="scrollToSection('seccion-proyecto'); return false;">Proyecto</a>
+                </li>
+                <li class="nav-item" id="menu-oficina">
+                    <a href="#seccion-oficina" class="nav-link" onclick="scrollToSection('seccion-oficina'); return false;">Oficina</a>
+                    <div class="dropdown">
+                        <a href="#galeria">Galería Territorial</a>
+                        <a href="#audio">Audio-Guías</a>
+                        <a href="#mapa">Geografía Inmersiva</a>
+                    </div>
+                </li>
+                <li class="nav-item" id="menu-inteligencia">
+                    <a href="#seccion-inteligencia" class="nav-link" onclick="scrollToSection('seccion-inteligencia'); return false;">Inteligencia</a>
+                </li>
+                <li class="nav-item" id="menu-contacto">
+                    <a href="#seccion-contacto" class="nav-link" onclick="scrollToSection('seccion-contacto'); return false;">Contacto</a>
+                </li>
+            </ul>
+        </nav>
+        
+        <button class="passport-widget" id="passportBtn" onclick="togglePassportIdentity()">
+            <span class="passport-dot" id="passportDot"></span>
+            <span id="passportLabel">PASAPORTE: HUÉSPED</span>
+        </button>
+    </header>
+
+    <!-- SECCIÓN 1: PROYECTO (Hero Editorial) -->
+    <section id="seccion-proyecto" class="canvas-section">
+        <h1 class="hero-title" id="main-hero-txt">
+            Real del Monte:<br>
+            <em>Identidad y Soberanía Territorial</em>
+        </h1>
+        <p class="lead-text">
+            Un ecosistema digital que fusiona gobernanza comunal, turismo de lujo e inteligencia de datos en una plataforma editorial de clase mundial.
+        </p>
+        
+        <div class="editorial-layout">
+            <div class="editorial-body">
+                <p>
+                    El RDM Digital Hub no es un sitio web convencional. Es un <strong>manifiesto territorial</strong> que opera en dos capas: una pública para visitantes globales y otra soberana para la gobernanza comunal.
+                </p>
+                <p>
+                    Cada módulo —desde la galería asimétrica hasta el dashboard de telemetría— está diseñado bajo principios de <em>ultra-minimalismo sofisticado</em>, eliminando el ruido visual para priorizar la narrativa y la funcionalidad.
+                </p>
+            </div>
+            
+            <div class="editorial-sidebar">
+                <div class="sidebar-block">
+                    <h4>ESTADO DEL SISTEMA</h4>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; color: var(--color-text-muted);">
+                        <strong>Telemetría:</strong> Activa<br>
+                        <strong>Nodos:</strong> 12 en línea<br>
+                        <strong>Última actualización:</strong> Hace 3 minutos
+                    </p>
+                </div>
+                <div class="sidebar-block">
+                    <h4>ARQUITECTURA</h4>
+                    <p style="font-family: var(--font-sans); font-size: 0.9rem; color: var(--color-text-muted);">
+                        Frontend: React + Vite<br>
+                        Backend: API territorial (nodo-cero)<br>
+                        Infraestructura: Gateway + Supabase
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 2: OFICINA (Galería + Audio + Mapa) -->
+    <section id="seccion-oficina" class="canvas-section">
+        <h2 class="hero-title" style="font-size: 3.5rem;">
+            Oficina de Narrativas<br>
+            <em>Territoriales</em>
+        </h2>
+        <p class="lead-text" id="oficina-lead">
+            Un recorrido estético por las leyendas, el comercio de alta gama y la geografía inmersiva de la montaña.
+        </p>
+        
+        <!-- GALERÍA ASIMÉTRICA -->
+        <div id="galeria" class="art-gallery">
+            <div class="art-frame">
+                <img src="/assets/rdm-mina-01.jpg" alt="Mina de Acosta" loading="lazy" decoding="async">
+                <div class="art-meta">
+                    <h5>Mina de Acosta</h5>
+                    <span>Patrimonio Industrial</span>
+                </div>
+            </div>
+            <div class="art-frame">
+                <img src="/assets/rdm-centro-02.jpg" alt="Centro Histórico" loading="lazy" decoding="async">
+                <div class="art-meta">
+                    <h5>Centro Histórico</h5>
+                    <span>Arquitectura Colonial</span>
+                </div>
+            </div>
+            <div class="art-frame">
+                <img src="/assets/rdm-panteon-03.jpg" alt="Panteón Inglés" loading="lazy" decoding="async">
+                <div class="art-meta">
+                    <h5>Panteón Inglés</h5>
+                    <span>Memoria Cultural</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AUDIO INMERSIVO -->
+        <div id="audio" class="audio-immersive-section">
+            <h3 style="font-family: var(--font-editorial); font-size: 2.5rem; margin-bottom: 2rem;">
+                Audio-Guías de <em>Lujo</em>
+            </h3>
+            
+            <div class="audio-row">
+                <div class="audio-strip">
+                    <div>
+                        <h4>Episodio 01: La Leyenda del Cerro</h4>
+                        <p style="font-family: var(--font-sans); font-size: 0.9rem; color: rgba(255,255,255,0.7);">
+                            Narrativa inmersiva sobre los orígenes mineros de Real del Monte.
+                        </p>
+                    </div>
+                    <canvas id="waveform-1" width="400" height="80"></canvas>
+                    <audio id="audio-1" controls preload="none" style="width: 100%; margin-top: 1rem; filter: invert(1);">
+                        <source src="/audio/ep01-cerro.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                
+                <div class="audio-strip">
+                    <div>
+                        <h4>Episodio 02: Rutas del Plata</h4>
+                        <p style="font-family: var(--font-sans); font-size: 0.9rem; color: rgba(255,255,255,0.7);">
+                            Recorrido sonoro por las antiguas vías comerciales.
+                        </p>
+                    </div>
+                    <canvas id="waveform-2" width="400" height="80"></canvas>
+                    <audio id="audio-2" controls preload="none" style="width: 100%; margin-top: 1rem; filter: invert(1);">
+                        <source src="/audio/ep02-plata.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MAPA MINIMALISTA -->
+        <div id="mapa" class="map-container-fluid">
+            <iframe 
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-98.68,20.12,-98.64,20.16&layer=mapnik&marker=20.14,-98.66"
+                style="border: 0; filter: grayscale(1) contrast(1.1);"
+                loading="lazy"
+                title="Mapa de Real del Monte">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: INTELIGENCIA (Dashboard de Datos) -->
+    <section id="seccion-inteligencia" class="canvas-section">
+        <h2 class="hero-title" style="font-size: 3.5rem;">
+            Inteligencia<br>
+            <em>Territorial</em>
+        </h2>
+        <p class="lead-text">
+            Telemetría en tiempo real de los pulsos económicos, turísticos y ambientales del municipio.
+        </p>
+        
+        <div class="dashboard-grid">
+            <div class="data-node-card">
+                <label>Visitantes Hoy</label>
+                <div class="big-number" data-value="1247">0</div>
+                <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 1rem;">
+                    +12% vs. semana anterior
+                </p>
+            </div>
+            
+            <div class="data-node-card">
+                <label>Actividad Comercial</label>
+                <div class="big-number" data-value="89">0</div>
+                <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 1rem;">
+                    Establecimientos activos
+                </p>
+            </div>
+            
+            <div class="data-node-card">
+                <label>Temperatura</label>
+                <div class="big-number" data-value="18">0</div>
+                <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 1rem;">
+                    Grados Celsius (promedio)
+                </p>
+            </div>
+            
+            <div class="data-node-card">
+                <label>Calidad del Aire</label>
+                <div class="big-number" data-value="92">0</div>
+                <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 1rem;">
+                    Índice ICA (excelente)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 4: CONTACTO -->
+    <section id="seccion-contacto" class="canvas-section">
+        <h2 class="hero-title" style="font-size: 3.5rem;">
+            Contacto<br>
+            <em>Soberano</em>
+        </h2>
+        <p class="lead-text">
+            Para colaboraciones institucionales, acceso a la API de datos o gobernanza comunal.
+        </p>
+        
+        <div class="contact-split">
+            <div>
+                <h3 style="font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 2rem;">
+                    INFORMACIÓN DE LA OFICINA
+                </h3>
+                <p style="font-family: var(--font-editorial); font-size: 1.3rem; line-height: 2; margin-bottom: 2rem;">
+                    Plaza Principal s/n, Real del Monte,<br>
+                    Hidalgo, México. C.P. 43530
+                </p>
+                <p style="font-family: var(--font-sans); font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.8;">
+                    <strong>Horario de atención:</strong><br>
+                    Lunes a Viernes: 9:00 – 18:00<br>
+                    Sábados: 10:00 – 14:00
+                </p>
+                <p style="font-family: var(--font-sans); font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.8; margin-top: 2rem;">
+                    <strong>Correo institucional:</strong><br>
+                    contacto@rdm-hub.mx
+                </p>
+            </div>
+            
+            <form class="contact-form-premium" action="/api/contacto" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" name="email" placeholder="Correo institucional" required>
+                <input type="text" name="asunto" placeholder="Asunto" required>
+                <textarea name="mensaje" rows="4" placeholder="Mensaje" required></textarea>
+                <button type="submit" class="submit-btn-premium">ENVIAR MENSAJE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="background-color: var(--color-bg-dark); color: var(--color-bg); padding: 4rem 6rem; text-align: center;">
+        <p style="font-family: var(--font-display); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1rem;">
+            RDM DIGITAL HUB © 2026
+        </p>
+        <p style="font-family: var(--font-sans); font-size: 0.75rem; color: rgba(255,255,255,0.5);">
+            Plataforma soberana de gobernanza territorial. Todos los datos son propiedad comunal.
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
