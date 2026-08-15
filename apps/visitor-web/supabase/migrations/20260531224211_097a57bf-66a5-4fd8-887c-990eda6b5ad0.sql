@@ -1,0 +1,1 @@
+ALTER FUNCTION public.forum_posts_only_likes_changed() SET search_path = public;

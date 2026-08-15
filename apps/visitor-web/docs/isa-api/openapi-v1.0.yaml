@@ -1,0 +1,309 @@
+openapi: 3.0.3
+info:
+  title: ISA-API v1.0 – Isabella Service Architecture API
+  description: >
+    ISA-API es la interfaz cognitiva del ecosistema YUN. Expone los motores de
+    Isabella (ORION, SOPHIA, ARGUS, MNEMOS, LUMEN, KERNEL, TOPOLOGY) como
+    endpoints REST con metadatos YUN para integración con GEMET, políticas y
+    auditoría.
+  version: 1.0.0
+  x-yun-domain: isabella
+  x-yun-federation: F5
+  x-yun-event-topic: x.yun.isabella
+
+servers:
+  - url: https://api.tamv.online/v1
+    description: Producción
+  - url: https://staging.api.tamv.online/v1
+    description: Staging
+
+paths:
+  /orion/chat:
+    post:
+      summary: Chat principal con Isabella
+      description: Procesa mensajes de usuario y devuelve respuestas de ORION
+      x-yun-domain: knowledge
+      x-yun-federation: F2, F6
+      x-yun-event-topic: isabella.orion.chat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                session_id:
+                  type: string
+                federation_id:
+                  type: string
+                  enum: [F1, F2, F3, F4, F5, F6, F7]
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                  session_id:
+                    type: string
+                  trace_id:
+                    type: string
+
+  /orion/voice:
+    post:
+      summary: Entrada/salida de voz
+      description: Speech-to-text y text-to-speech para interacción por voz
+      x-yun-domain: knowledge
+      x-yun-federation: F2, F6
+      x-yun-event-topic: isabella.orion.voice
+      requestBody:
+        required: true
+        content:
+          audio/wav:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Audio de respuesta
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+
+  /sophia/query:
+    post:
+      summary: Consulta ontológica
+      description: Consulta el grafo de conocimiento de SOPHIA
+      x-yun-domain: knowledge
+      x-yun-federation: F2, F3
+      x-yun-event-topic: isabella.sophia.query
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                federations:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Resultado de la consulta ontológica
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                  trace_id:
+                    type: string
+
+  /argus/diagnose:
+    post:
+      summary: Diagnóstico de sistema
+      description: ARGUS evalúa salud de componentes y detecta anomalías
+      x-yun-domain: telemetry, security
+      x-yun-federation: F5, F7
+      x-yun-event-topic: isabella.argus.diagnose
+      x-yun-triple-lock: required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target:
+                  type: string
+                  description: Componente a diagnosticar (dominio, federación, nodo)
+                scope:
+                  type: string
+                  enum: [quick, full, security]
+      responses:
+        '200':
+          description: Reporte de diagnóstico
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, critical]
+                  findings:
+                    type: array
+                    items:
+                      type: object
+                  trace_id:
+                    type: string
+
+  /mnemos/recall:
+    post:
+      summary: Consulta de memoria histórica
+      description: MNEMOS recupera eventos históricos y patrones
+      x-yun-domain: knowledge
+      x-yun-federation: F3, F5
+      x-yun-event-topic: isabella.mnemos.recall
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                time_range:
+                  type: object
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                    to:
+                      type: string
+                      format: date-time
+                event_types:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Eventos históricos recuperados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      type: object
+                  trace_id:
+                    type: string
+
+  /lumen/policy:
+    post:
+      summary: Evaluación de políticas
+      description: LUMEN evalúa operaciones contra la Constitución YUN
+      x-yun-domain: governance
+      x-yun-federation: F1, F4
+      x-yun-event-topic: isabella.lumen.policy
+      x-yun-triple-lock: required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                resource:
+                  type: string
+                context:
+                  type: object
+      responses:
+        '200':
+          description: Decisión de política
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  decision:
+                    type: string
+                    enum: [approved, rejected, review]
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                  trace_id:
+                    type: string
+
+  /kernel/health:
+    get:
+      summary: Salud consolidada del ecosistema
+      description: KERNEL agrega telemetría de todos los dominios y federaciones
+      x-yun-domain: telemetry
+      x-yun-federation: F5, F7
+      x-yun-event-topic: isabella.kernel.health
+      parameters:
+        - name: federations
+          in: query
+          schema:
+            type: string
+          description: Filtrar por federaciones (comma-separated)
+      responses:
+        '200':
+          description: Dashboard de salud consolidada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  overall:
+                    type: string
+                    enum: [healthy, degraded, critical]
+                  federations:
+                    type: object
+                  domains:
+                    type: object
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /topology/graph:
+    get:
+      summary: Grafo topológico de red y federaciones
+      description: TOPOLOGY retorna la topología viva de nodos CITEMESH, federaciones y agentes
+      x-yun-domain: federation
+      x-yun-federation: F5
+      x-yun-event-topic: isabella.topology.graph
+      responses:
+        '200':
+          description: Grafo topológico
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nodes:
+                    type: array
+                    items:
+                      type: object
+                  edges:
+                    type: array
+                    items:
+                      type: object
+                  timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    x-yun-signature:
+      type: apiKey
+      in: header
+      name: X-YUN-Signature
+      description: Firma criptográfica para triple bloqueo semántico
+
+security:
+  - bearerAuth: []

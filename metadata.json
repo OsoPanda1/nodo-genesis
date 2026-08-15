@@ -1,0 +1,6 @@
+{
+  "name": "RDM Digital Hub — Nodo Cero",
+  "description": "Plataforma digital soberana y Sistema de Inteligencia Territorial en tiempo real para Real del Monte, Hidalgo, México. Arquitectura Heptafederada YUN, Isabella AI, Criptografía Post-Cuántica y Gemelo Digital 2D/3D Phygital.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

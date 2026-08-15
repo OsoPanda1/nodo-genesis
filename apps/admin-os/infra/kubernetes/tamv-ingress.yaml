@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tamv-ingress
+spec:
+  rules:
+    - host: rdm.tamv.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tamv-api-gateway
+                port:
+                  number: 80

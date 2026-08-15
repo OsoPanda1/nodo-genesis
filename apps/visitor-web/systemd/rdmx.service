@@ -1,0 +1,96 @@
+[Unit]
+Description=RDM Digital OS · LDTOCS API Service (Real del Monte Hub · Territorial Node Zero)
+After=network-online.target
+Wants=network-online.target
+Documentation=https://visitarealdelmonte.online/docs/api
+
+# Evita reinicios en bucle si el proceso falla repetidamente
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+# systemd considera activo el servicio cuando el binario ya fue ejecutado correctamente
+Type=exec
+
+# Usuario sin privilegios
+User=rdmx
+Group=rdmx
+UMask=0077
+
+WorkingDirectory=/opt/rdmx
+
+# Variables de entorno del ecosistema federado
+Environment=NODE_ENV=production
+Environment=LDTOCS_NODE_ID=rdm-node-zero
+Environment=LDTOCS_FEDERATION=F1_DEKATEOTL
+Environment=LDTOCS_LAYER=L4_IDENTITY_COMMERCE
+Environment=LDTOCS_PIPELINE=P2_PROCESAMIENTO_LINGUISTICO
+
+# Límites razonables para Node/V8 en producción
+Environment=NODE_OPTIONS=--max-old-space-size=2048 --max-http-header-size=16384
+EnvironmentFile=-/etc/rdmx/api.env
+
+# Ejecución y ciclo de vida
+ExecStart=/usr/bin/node /opt/rdmx/server/dist/index.js
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Resiliencia
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=45s
+TimeoutStopSec=20s
+
+# Directorios gestionados por systemd
+RuntimeDirectory=rdmx
+StateDirectory=rdmx
+LogsDirectory=rdmx
+ConfigurationDirectory=rdmx
+
+# Recursos
+CPUWeight=100
+MemoryHigh=2G
+MemoryMax=2.5G
+MemorySwapMax=0
+LimitNOFILE=65535
+
+# Hardening base
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ReadWritePaths=/opt/rdmx /var/log/rdmx /var/lib/rdmx
+
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectClock=true
+ProtectHostname=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+
+# Aislamiento adicional
+RestrictNamespaces=true
+PrivateUsers=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+# /proc más cerrado
+ProcSubset=pid
+ProtectProc=invisible
+
+# Syscalls
+SystemCallArchitectures=native
+SystemCallFilter=@system-service @basic-io @file-system @network-io
+SystemCallErrorNumber=EPERM
+
+# Nota:
+# MemoryDenyWriteExecute=false intencionalmente omitido porque Node/V8 necesita JIT.
+# Activarlo puede romper el runtime.
+
+[Install]
+WantedBy=multi-user.target

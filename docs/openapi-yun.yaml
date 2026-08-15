@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: YUN Quantum Semantic Core — API
+  description: |
+    Sobres semánticos cifrados del Nodo Cero. KEM/AEAD para el cuerpo,
+    firma híbrida (Ed25519 clásica + ML-DSA post-cuántica) y política
+    semántica por sensibilidad. Sin proveedor auditado configurado, el
+    sellado y la verificación fallan cerrado (503 CRYPTO_PROVIDER_NOT_CONFIGURED).
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /yun/status:
+    get:
+      operationId: yunStatus
+      summary: Estado del Quantum Semantic Core
+      responses:
+        '200':
+          description: Versión, proveedor criptográfico y contadores.
+  /yun/ready:
+    get:
+      operationId: yunReady
+      summary: Prontitud operativa
+      responses:
+        '200':
+          description: Listo (proveedor disponible y federaciones operativas).
+        '503':
+          description: No listo.
+  /yun/federations/health:
+    get:
+      operationId: yunFederationsHealth
+      summary: Salud de la heptafederación (Fed1..Fed7)
+      responses:
+        '200':
+          description: Listado de salud HEALTHY/DEGRADED/DOWN.
+  /yun/envelope/create:
+    post:
+      operationId: yunEnvelopeCreate
+      summary: Crea un sobre semántico (sin sellar)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvelopeCreateInput'
+      responses:
+        '201':
+          description: Sobre creado con hash de integridad canónico.
+        '400':
+          description: Contrato zod estricto violado.
+  /yun/envelope/seal:
+    post:
+      operationId: yunEnvelopeSeal
+      summary: Sella un sobre (cifra + firma híbrida)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvelopeCreateInput'
+      responses:
+        '201':
+          description: Sobre sellado (encryptedPayload + signatures).
+        '503':
+          description: CRYPTO_PROVIDER_NOT_CONFIGURED.
+  /yun/envelope/verify:
+    post:
+      operationId: yunEnvelopeVerify
+      summary: Verifica un sobre (regla AND)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvelopeVerifyInput'
+      responses:
+        '200':
+          description: valid true/false según la regla AND.
+        '503':
+          description: CRYPTO_PROVIDER_NOT_CONFIGURED.
+components:
+  schemas:
+    SemanticContext:
+      type: object
+      required: [sensitivity, domain]
+      properties:
+        sensitivity:
+          type: string
+          enum: [public, internal, confidential, restricted, critical]
+        domain:
+          type: string
+          enum: [identity, commerce, knowledge, telemetry, gameplay, security, federations]
+        federationId:
+          type: string
+          enum: [Fed1, Fed2, Fed3, Fed4, Fed5, Fed6, Fed7]
+        entityType:
+          type: string
+        entityId:
+          type: string
+        ontology:
+          type: string
+        retentionPolicy:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        provenance:
+          type: array
+          items:
+            type: object
+            required: [type, origin, hash]
+            properties:
+              type: { type: string }
+              origin: { type: string }
+              hash: { type: string }
+      additionalProperties: false
+    EnvelopeCreateInput:
+      type: object
+      required: [semantic, payload, producer]
+      properties:
+        semantic: { $ref: '#/components/schemas/SemanticContext' }
+        payload: {}
+        producer: { type: string }
+        correlationId: { type: string }
+      additionalProperties: false
+    EnvelopeVerifyInput:
+      type: object
+      required: [envelope]
+      properties:
+        envelope: { type: object }
+      additionalProperties: false

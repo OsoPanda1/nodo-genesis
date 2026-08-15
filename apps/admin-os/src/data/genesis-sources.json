@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "fusion_date": "2026-06-12",
+  "sources": [
+    {
+      "slug": "genesis-digytamv-nexus",
+      "name": "Genesis DigyTAMV Nexus",
+      "origin": "OsoPanda1/genesis-digytamv-nexus",
+      "role": "Metaverso · Orb Isabella · Globe Search · TAMV-Trix Effect",
+      "pages": ["Index", "MetaverseHome", "Membership", "Documentation", "Auth", "Login", "Register"],
+      "modules": ["BancoTAMV", "IsabellaChat", "ModulesGrid", "FederationBadge", "SocialWall", "Stories", "VideoCarousel", "GlobeSearch", "IsabellaOrb"],
+      "absorbed_into": ["/tamv-hub", "/realito-ai", "/nodo-cero", "/auth"],
+      "status": "fused"
+    },
+    {
+      "slug": "rdm-hub-unite",
+      "name": "RDM Hub Unite",
+      "origin": "OsoPanda1/rdm-hub-unite",
+      "role": "Hub turístico unificado · Anubis · Codex · Dichos · Federaciones · MD-X4",
+      "pages": ["Anubis", "Codex", "Dichos", "Federaciones", "Historia", "LTOS", "MDX4", "Mapa", "Negocios", "Observatorio", "Rutas", "TAMV", "Transporte"],
+      "modules": ["RDMLayout", "RDMNavbar", "TimelineInteractive", "CitasArchive", "ShuttleRouteCard", "BusinessCard", "IsabellaOrb"],
+      "absorbed_into": ["/historia", "/dichos", "/mapa", "/comercios", "/transporte", "/rutas", "/federation", "/ltos", "/tamv-hub"],
+      "status": "fused"
+    },
+    {
+      "slug": "rdm-turismodigital",
+      "name": "RDM Turismo Digital",
+      "origin": "OsoPanda1/rdm-turismodigital",
+      "role": "Plataforma turística soberana · Architect · Territory · Tomos · Federations · Live Status",
+      "pages": ["Home", "Territorio", "Turismo", "Identidad", "Repositorio", "Dashboard", "ComercioRegistro", "Auth"],
+      "modules": ["architect", "territory", "tomos", "federations", "live-status", "kernel", "isabella", "tourism-ai-assistant", "territory-map", "checkout-button"],
+      "edge_functions": ["federation-state"],
+      "absorbed_into": ["/dashboard", "/comercios", "/atlas", "/federation", "/realito-ai", "/auth"],
+      "status": "fused"
+    }
+  ],
+  "totals": {
+    "repos_uploaded": 3,
+    "pages_absorbed": 30,
+    "components_absorbed": 41,
+    "edge_functions_absorbed": 1
+  }
+}

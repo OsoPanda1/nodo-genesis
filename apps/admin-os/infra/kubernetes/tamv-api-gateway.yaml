@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tamv-api-gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tamv-api-gateway
+  template:
+    metadata:
+      labels:
+        app: tamv-api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: your-registry/tamv-api-gateway:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: tamv-api-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tamv-api-gateway
+spec:
+  selector:
+    app: tamv-api-gateway
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  type: ClusterIP

@@ -1,0 +1,13 @@
+{
+  "name": "RDM Knowledge Cells",
+  "version": "1.0.0",
+  "description": "3D/4D rendering microservices for RDM Digital Hub",
+  "cells": [
+    { "id": "render-3d", "path": "api/knowledge-cells/render-3d", "type": "vercel-function" },
+    { "id": "render-4d", "path": "api/knowledge-cells/render-4d", "type": "vercel-function" }
+  ],
+  "entrypoints": {
+    "rest": "/api/knowledge-cells",
+    "health": "/api/health"
+  }
+}

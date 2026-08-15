@@ -1,0 +1,183 @@
+name: "🛡️ YUN Sovereign Guard — CodeQL & DB Matrix"
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+  schedule:
+    # Escaneo completo semanal un domingo a las 19:21 UTC
+    - cron: "21 19 * * 0"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  packages: read
+  security-events: write
+
+concurrency:
+  group: security-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+env:
+  CODEQL_CATEGORY_PREFIX: "/rdm-heptafederation"
+  NODE_VERSION: 20
+  PYTHON_VERSION: "3.11"
+  # Trazas mínimas de contexto YUN para correlación con otros sistemas
+  YUN_GUARD_CONTEXT: "rdm-digital-hub/nodo-cero"
+
+jobs:
+  analyze-federations:
+    name: YUN · Guard Audit (${{ matrix.federation_scope }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # F1 & F5 - Núcleo transaccional (TypeScript/JS)
+          - federation_scope: "F1-F5_Core-Engine"
+            language: "javascript-typescript"
+            queries: "security-extended,security-and-quality"
+            paths:
+              include:
+                - "api/"
+                - "server/"
+                - "src/"
+                - "supabase/"
+              ignore:
+                - "hardware/**"
+                - "hardware/sensors/**"
+                - "tests/**"
+                - "e2e/**"
+
+          # F3 & F7 - Edge/Hardware/IoT (Python y bajo nivel)
+          - federation_scope: "F3-F7_Edge-Hardware"
+            language: "python"
+            queries: "security-and-quality"
+            paths:
+              include:
+                - "hardware/"
+                - "systemd/"
+              ignore:
+                - "src/**"
+                - "serverless/**"
+                - "e2e/**"
+                - "tests/**"
+
+    permissions:
+      actions: read
+      contents: read
+      packages: read
+      security-events: write
+
+    steps:
+      - name: 🛡️ Hardened Checkout (Sovereign Tree)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📂 Matrix Paths Info
+        run: |
+          echo "### 🌐 YUN Guard — Federation Scope: ${{ matrix.federation_scope }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Language: ${{ matrix.language }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Query packs: ${{ matrix.queries }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 🟢 Setup Runtime (Node.js)
+        if: matrix.language == 'javascript-typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: 📦 Restore Sovereign Node Dependencies
+        if: matrix.language == 'javascript-typescript'
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --legacy-peer-deps
+          else
+            npm install --legacy-peer-deps
+          fi
+
+      - name: 🐍 Setup Edge Python Environment
+        if: matrix.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📥 Restore Edge Dependencies
+        if: matrix.language == 'python'
+        run: |
+          if [ -f hardware/requirements.txt ]; then
+            pip install -r hardware/requirements.txt
+          elif [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "⚠️ No se encontró requirements.txt para Edge; se continúa con análisis estático puro."
+          fi
+
+      - name: 🛰️ Initialize CodeQL Security Engines
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: ${{ matrix.queries }}
+          paths: ${{ toJson(matrix.paths.include) }}
+          paths-ignore: ${{ toJson(matrix.paths.ignore) }}
+          config: |
+            query-filters:
+              - exclude:
+                  precision: low
+              - exclude:
+                  tags: /experimental/
+
+      - name: 🔬 Perform Deep Static CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "${{ env.CODEQL_CATEGORY_PREFIX }}/scope:${{ matrix.federation_scope }}"
+          upload: true
+
+  database-integrity-audit:
+    name: F1 · Supabase & PostGIS RLS Gatekeeper
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 🛡️ Hardened Checkout
+        uses: actions/checkout@v4
+
+      - name: 🗃️ Lint PostgreSQL Schemas & Row Level Security (RLS)
+        run: |
+          echo "### 🔍 Analizando Reglas RLS en Supabase y Postgres..." >> "$GITHUB_STEP_SUMMARY"
+
+          if ! command -v grep >/dev/null 2>&1; then
+            echo "🛑 Entorno sin grep disponible; abortando auditoría de RLS."
+            exit 1
+          fi
+
+          RLS_ERRORS=0
+
+          for file in $(find supabase/ -name "*.sql"); do
+            # Solo revisar archivos que definan tablas
+            if grep -qi "create table" "$file"; then
+              # Excluir esquemas de prueba o sandbox explícitos si así se define
+              if echo "$file" | grep -qi "sandbox"; then
+                echo "⚠️ Sandbox detectado en $file — omitido del conteo de RLS obligatorio."
+                continue
+              fi
+
+              if ! grep -qi "row level security" "$file" && \
+                 ! grep -qi "enable row level security" "$file" && \
+                 ! grep -qi "enable rls" "$file"; then
+                echo "🚨 RIESGO DE SEGURIDAD F1: La tabla definida en $file no tiene habilitado RLS de manera explícita."
+                RLS_ERRORS=$((RLS_ERRORS+1))
+              fi
+            fi
+          done
+
+          if [ "$RLS_ERRORS" -gt 0 ]; then
+            echo "🛑 F1/F5 Database Integrity: se detectaron $RLS_ERRORS tablas sin RLS explícito. Corrige antes de desplegar." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          else
+            echo "✅ F1/F5 Database Integrity: todas las tablas definidas localmente cuentan con políticas RLS de protección explícita." >> "$GITHUB_STEP_SUMMARY"
+          fi

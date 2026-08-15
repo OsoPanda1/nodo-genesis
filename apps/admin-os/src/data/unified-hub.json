@@ -1,0 +1,104 @@
+{
+  "version": "2.0.0",
+  "fusion_date": "2026-08-03",
+  "owner": "OsoPanda1",
+  "target": "Vercel · SPA · Vite + React 18",
+  "nodes": [
+    {
+      "slug": "unified-digital-hub",
+      "name": "Unified Digital Hub",
+      "repo": "https://github.com/OsoPanda1/unified-digital-hub",
+      "visibility": "privado",
+      "role": "Hub unificado de módulos territoriales · shell de navegación y manifiesto",
+      "absorbed_into": ["/hub-unificado", "/nodo-cero", "/genesis"],
+      "capabilities": ["Shell unificado", "Manifiesto de módulos", "Navegación soberana"],
+      "status": "fused"
+    },
+    {
+      "slug": "digital-hub-collaborator",
+      "name": "Digital Hub Collaborator",
+      "repo": "https://github.com/OsoPanda1/digital-hub-collaborator",
+      "visibility": "privado",
+      "role": "Capa colaborativa: comunidad, foro civil y publicación ciudadana",
+      "absorbed_into": ["/comunidad", "/foro", "/noticias"],
+      "capabilities": ["Publicaciones", "Comentarios", "Deliberación civil"],
+      "status": "fused"
+    },
+    {
+      "slug": "RDM-Digital-X",
+      "name": "RDM Digital X",
+      "repo": "https://github.com/OsoPanda1/RDM-Digital-X",
+      "visibility": "público",
+      "role": "Experiencia turística extendida: membresías, donativos, comercios y TAMV Hub",
+      "absorbed_into": ["/membresias", "/apoya", "/comercios", "/tamv-hub", "/catalogo"],
+      "capabilities": ["Checkout comercios", "Donativos", "Archivo sonoro", "TAMV API Explorer"],
+      "status": "fused"
+    },
+    {
+      "slug": "project-corrector",
+      "name": "Project Corrector",
+      "repo": "https://github.com/OsoPanda1/project-corrector",
+      "visibility": "privado",
+      "role": "Auditoría de calidad: corrección de sesgos, linting y verificación previa al despliegue",
+      "absorbed_into": ["/kernel", "/manual"],
+      "capabilities": ["Verify pipeline", "Guardrails de diseño", "Smoke tests"],
+      "status": "fused"
+    },
+    {
+      "slug": "rdm-live-web-oficial",
+      "name": "RDM Live Web Oficial",
+      "repo": "https://github.com/OsoPanda1/rdm-live-web-oficial",
+      "visibility": "privado",
+      "role": "Sitio oficial en vivo: identidad pública y narrativa institucional",
+      "absorbed_into": ["/", "/about", "/historia"],
+      "capabilities": ["Landing cinematográfica", "SEO institucional", "Narrativa territorial"],
+      "status": "fused"
+    },
+    {
+      "slug": "rdm-live-web",
+      "name": "RDM Live Web",
+      "repo": "https://github.com/OsoPanda1/rdm-live-web",
+      "visibility": "público",
+      "role": "Superconjunto de 119 vistas: Atlas, gamificación, blockchain MSR, XR y wiki TAMV",
+      "absorbed_into": ["/atlas", "/mitos", "/media", "/membresias", "/manual", "/federation"],
+      "capabilities": ["Atlas por capítulos", "Leaderboard y juegos", "Blockchain MSR", "Wiki TAMV", "Telemetría"],
+      "status": "fused"
+    },
+    {
+      "slug": "rdm-smart-city-os",
+      "name": "RDM Smart City OS",
+      "repo": "https://github.com/OsoPanda1/rdm-smart-city-os",
+      "visibility": "público",
+      "role": "Sistema operativo de ciudad inteligente · núcleo idéntico a este proyecto",
+      "absorbed_into": ["/kernel", "/nodo-cero", "/geoexplorer", "/mapa"],
+      "capabilities": ["Kernel TAMV", "Gemelo digital", "Telemetría urbana", "Geoexplorador"],
+      "status": "core"
+    },
+    {
+      "slug": "rdm-digital-hub-ldtocs",
+      "name": "RDM Digital Hub · LDTOCS",
+      "repo": "https://github.com/OsoPanda1/rdm-digital-hub-ldtocs",
+      "visibility": "público",
+      "role": "Nodo Cero · Soberanía Latinoamericana en Movimiento",
+      "absorbed_into": ["/nodo-cero", "/ltos", "/federation"],
+      "capabilities": ["Nodo Cero", "Federación LTOS", "Soberanía de datos"],
+      "status": "fused"
+    },
+    {
+      "slug": "TURISMO-DEL-MONTE",
+      "name": "Turismo del Monte",
+      "repo": "https://github.com/OsoPanda1/TURISMO-DEL-MONTE",
+      "visibility": "público",
+      "role": "Plataforma turística inteligente: rutas, paquetes y transporte",
+      "absorbed_into": ["/rutas", "/paquetes", "/transporte", "/shuttle-cdmx-rdm"],
+      "capabilities": ["Rutas guiadas", "Paquetes turísticos", "Shuttle CDMX", "Transporte local"],
+      "status": "fused"
+    }
+  ],
+  "totals": {
+    "repos": 9,
+    "public": 5,
+    "private": 4,
+    "routes_unified": 70
+  }
+}

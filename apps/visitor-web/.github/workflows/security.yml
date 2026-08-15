@@ -1,0 +1,181 @@
+name: Security
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: "0 6 * * 1" # Lunes 06:00 UTC · barrido semanal completo
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  checks: write
+  id-token: write
+
+concurrency:
+  group: security-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: 20
+  AUDIT_LEVEL: high
+
+jobs:
+  #
+  # 1) Secret scanning de doble capa (Gitleaks + TruffleHog)
+  #
+  secrets:
+    name: Secrets · Gitleaks + TruffleHog
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        scanner: [gitleaks, trufflehog]
+
+    steps:
+      - name: Hardened checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        if: matrix.scanner == 'gitleaks'
+        uses: gitleaks/gitleaks-action@v3
+        with:
+          args: detect --source=. --report-format sarif --report-path gitleaks.sarif
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "true"
+
+      - name: Upload Gitleaks SARIF
+        if: matrix.scanner == 'gitleaks' && always() && hashFiles('gitleaks.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: gitleaks.sarif
+
+      - name: TruffleHog (PR diff)
+        if: matrix.scanner == 'trufflehog' && github.event_name == 'pull_request'
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: .
+          base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
+          extra_args: --only-verified
+
+      - name: TruffleHog (full branch)
+        if: matrix.scanner == 'trufflehog' && github.event_name != 'pull_request'
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: .
+          base: ""
+          head: ${{ github.ref_name }}
+          extra_args: --only-verified
+
+  #
+  # 2) Dependabot-like audit endurecido (deps + lockfile) con cache agresivo
+  #
+  deps-audit:
+    name: Dependencies · npm audit + lock drift
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: secrets
+    env:
+      FORCE_COLOR: "1"
+
+    steps:
+      - name: Hardened checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: npm audit (high+critical)
+        run: |
+          echo "Running npm audit (level=${{ env.AUDIT_LEVEL }})..."
+          npm audit --audit-level=${{ env.AUDIT_LEVEL }} || echo "::warning::npm audit reported issues (level=${{ env.AUDIT_LEVEL }})"
+
+      - name: better-npm-audit report
+        run: npx --yes better-npm-audit audit --level ${{ env.AUDIT_LEVEL }} || echo "::warning::better-npm-audit reported issues"
+
+      - name: Detect lockfile drift (lockfile source of truth)
+        run: |
+          echo "Checking lockfiles drift..."
+          if [ ! -f package-lock.json ]; then
+            echo "::error::package-lock.json is required as CI source of truth"
+            exit 1
+          fi
+          if [ -f pnpm-lock.yaml ]; then
+            echo "::warning::pnpm-lock.yaml detected; npm package-lock.json remains CI source of truth."
+          fi
+
+  #
+  # 3) Policy-as-code / Zero‑trust de configuración (gitleaks.toml, .npmrc, vercel.json, supabase)
+  #
+  policy:
+    name: Policy-as-Code · Config Hardening
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [deps-audit]
+
+    steps:
+      - name: Hardened checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+
+      - name: Validate GitHub Actions policies
+        run: |
+          echo "Validating workflows for unsafe GITHUB_TOKEN usage..."
+          rg "GITHUB_TOKEN" .github/workflows || echo "::notice::No explicit GITHUB_TOKEN usage found in workflows."
+
+      - name: Validate Supabase / Vercel / other configs
+        run: |
+          echo "Scanning for unsafe configurations..."
+          # Supabase anon key nunca debe estar comprometido como 'source of truth' en el repo
+          if rg -q "anon-key" supabase; then
+            echo "::error::Supabase anon key appears in supabase/ directory"
+            exit 1
+          fi
+          # Buscar patrones de SUPABASE_ en configs; aviso, no error duro
+          if rg -q "SUPABASE_" .; then
+            echo "::warning::SUPABASE_ env patterns found; ensure they are not hardcoded secrets."
+          fi
+          # Cloudflare / Wrangler indicios
+          if rg -q "CF_ACCOUNT_ID" .; then
+            echo "::warning::CF_ACCOUNT_ID found; validate that no secrets are committed."
+          fi
+
+  #
+  # 4) Telemetría y observabilidad del pipeline (cardinalidad controlada)
+  #
+  telemetry:
+    name: Security Telemetry · Job Summary
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [secrets, deps-audit, policy]
+    if: always()
+
+    steps:
+      - name: Emit security CI summary
+        run: |
+          echo "## Security CI · Real del Monte Digital Hub" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Secrets scan (Gitleaks + TruffleHog): ${{ needs.secrets.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Dependencies audit: ${{ needs.deps-audit.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Policy-as-code: ${{ needs.policy.result }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "> Code scanning (SAST) is handled in a separate workflow: .github/workflows/codeql.yml" >> "$GITHUB_STEP_SUMMARY"
+          echo "> All jobs are designed with bounded cardinality in logs and labels for Prometheus/OpenTelemetry." >> "$GITHUB_STEP_SUMMARY"

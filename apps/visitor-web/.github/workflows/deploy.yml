@@ -1,0 +1,56 @@
+name: TAMV Continuous Integration & Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-and-build:
+    name: Validar, Compilar y Desplegar el Core del TAMV
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: 🟢 Configurar Node.js (Versión LTS 22.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias con caché optimizada
+        run: npm ci
+
+      - name: ⚙️ Validar sintaxis y compilación de TypeScript (API & Packages)
+        run: |
+          npm run build --if-present
+        env:
+          NODE_ENV: production
+
+      - name: 🛡️ Análisis estático de seguridad (Linting y Auditoría)
+        run: |
+          npm run lint --if-present
+        continue-on-error: false
+
+      - name: 🚀 Desplegar a Vercel en Producción
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod --yes'
+          working-directory: ./

@@ -1,0 +1,26 @@
+title = "RDM Digital LTOS — gitleaks config"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "supabase-service-role-jwt"
+description = "Supabase service_role JWT"
+regex = '''eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}'''
+tags = ["jwt", "supabase"]
+
+[[rules]]
+id = "gemini-api-key"
+description = "Google AI / Gemini API key"
+regex = '''AIza[0-9A-Za-z_\-]{35}'''
+tags = ["google", "gemini"]
+
+[allowlist]
+description = "Globally ignore test fixtures, lockfiles, and generated types"
+paths = [
+  '''(?i)\.lock$''',
+  '''(?i)\.lockb$''',
+  '''integrations/supabase/types\.ts''',
+  '''^docs/''',
+  '''^\.github/''',
+]
