@@ -287,6 +287,44 @@ Antes de declarar producción:
 - [ ] Dominio con HTTPS (certbot)
 - [ ] Logs y monitoreo de errores
 
+### Despliegue en Vercel (plan Hobby, sin servidor propio)
+
+Cada app se publica en su propio proyecto y subdominio; la API de nodo-cero ya
+emite CORS y maneja preflight OPTIONS para las apps hermanas (no hay gateway
+nginx en Vercel):
+
+| App | Proyecto Vercel | Dominio | Repo |
+|-----|-----------------|---------|------|
+| Nodo Cero (API + web) | p. ej. `rdm-nodo-cero` | `api.visitarealdelmonte.online` | `infrastructure/nodo-cero` |
+| Admin OS | p. ej. `rdm-admin-os` | `admin.visitarealdelmonte.online` | `apps/admin-os` |
+| Visitor Web | p. ej. `rdm-visitor-web` | `www.visitarealdelmonte.online` | `apps/visitor-web` |
+
+Pasos:
+
+1. En Vercel → *Add New → Project* para cada repo (importar desde GitHub) y
+   conectar el dominio correspondiente al proyecto. Vercel gestiona el DNS
+   (muestra los registros exactos a crear en el panel del registrador) y el
+   TLS. El apex `visitarealdelmonte.online` puede quedar como alias/redirect
+   a `www` desde el panel de Vercel.
+2. **Nodo Cero** (framework `nextjs` ya en `vercel.json`): configurar en
+   *Project → Settings → Environment Variables* (Production/Preview/Dev):
+   - `APP_URL=https://api.visitarealdelmonte.online`
+   - `NEXT_PUBLIC_SITE_URL=https://api.visitarealdelmonte.online`
+   - `CANONICAL_ORIGINS=https://www.visitarealdelmonte.online,https://admin.visitarealdelmonte.online`
+   - `TRUSTED_HOSTS=api.visitarealdelmonte.online,www.visitarealdelmonte.online,admin.visitarealdelmonte.online,visitarealdelmonte.online`
+   - y el resto de claves de producción (Supabase/Postgres, Redis/memoria, pagos, IA).
+3. **Admin OS** (`vite`, build `vite build`): `VITE_API_URL=https://api.visitarealdelmonte.online`,
+   `VITE_SITE_URL=https://admin.visitarealdelmonte.online`, Supabase y demás `VITE_*`.
+4. **Visitor Web** (`vite`, build `npm run build`): `VITE_API_URL=https://api.visitarealdelmonte.online`,
+   `VITE_NEXT_PUBLIC_SUPABASE_REDIRECT_URL=https://www.visitarealdelmonte.online/auth/callback`, Supabase y demás.
+5. Aplicar migraciones SQL de `nodo-cero/supabase/migrations/` en la base de datos
+   de producción una sola vez antes del primer deploy.
+6. Los repos locales dependen de `npm install --legacy-peer-deps`; Vercel lo hace
+   automáticamente vía `installCommand` en `vercel.json` (nodo-cero y visitor-web).
+
+> Nota: el backend Express propio de visitor-web (`apps/visitor-web/server/`) no
+> corre en Vercel; sus endpoints quedan documentados como gaps en la Fase F.
+
 ---
 
 ## Operación (Makefile)
