@@ -15,7 +15,7 @@ Este repositorio es el **nodo génesis** de un sistema operativo territorial fed
 
 El proyecto combina turismo, patrimonio, economía local, participación comunitaria y capacidades territoriales (mapas, gemelo digital, asistente IA) bajo principios de identidad soberana, memoria verificable, explicabilidad y gobernanza humana (HITL).
 
-> **Estado real:** desarrollo activo. Fases A, B y C completadas y pusheadas (infraestructura orquestada, core con backend real y pruebas, visitor-web consolidado); cada módulo evoluciona de forma incremental y ninguno se declara listo para producción integral sin evidencia verificable.
+> **Estado real:** desarrollo activo. Fases A, B, C y D completadas y pusheadas (infraestructura orquestada, core con backend real y pruebas, visitor-web consolidado, admin-os conectado a la API territorial real); cada módulo evoluciona de forma incremental y ninguno se declara listo para producción integral sin evidencia verificable.
 
 ---
 
@@ -117,7 +117,7 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 |---|---|---|---|
 | `services/core` | [TAMV-ONLINE-NET/tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | Bun · TanStack Start · SSR | **Motor TAMV real** (Fase B): contratos zod (BookPI, Isabella, Guardian), bus de eventos `publishEvent` con DLQ y trazabilidad, BookPI con sello SHA-256 encadenado, Prisma/PostgreSQL, endpoints `createServerFn` y 22 tests Vitest. |
 | `apps/visitor-web` | [OsoPanda1/visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | React · Vite · TypeScript | Interfaz pública: turismo, patrimonio, gamificación, gemelo digital 2D/3D (Fase C). Es la app más madura (~105.8k líneas en `src/`). |
-| `apps/admin-os` | [OsoPanda1/rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | React · Vite · TypeScript | SPA de gestión/operación territorial (Kernel TAMV OS, economía, observabilidad). |
+| `apps/admin-os` | [OsoPanda1/rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | React · Vite · TypeScript | SPA de gestión/operación territorial (Kernel TAMV OS, economía, observabilidad). Fase D conecta su gateway a la API territorial real de nodo-cero. |
 | `infrastructure/nodo-cero` | [OsoPanda1/nodo-cero](https://github.com/OsoPanda1/nodo-cero) | Next.js 16 · React 19 · TypeScript | **Sistema Operativo Territorial**: 97 rutas API con route-guard, 254 archivos en `lib/`, ~44.8k líneas TS, 48 archivos de test. Es el backend real de facto. |
 
 ### Cifras de referencia (repositorio local)
@@ -172,9 +172,20 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - **Calidad:** 63 tests Vitest en verde (14 suites), typecheck y lint limpios, `vite build` exitoso (3617 módulos). Se declaró `@testing-library/dom` que faltaba.
 - Commit `8672e3a` pusheado a `main`.
 
+### ✅ Fase D — Consolidar admin-os (completada)
+
+`apps/admin-os` dejó de depender de mocks silenciosos y se conectó a la API territorial real:
+
+- **Gateway real**: `callGateway` ya no invoca la edge function inexistente `tamv-gateway` de Supabase; ahora llama a la API de **nodo-cero** (`/api/gemet/nodes`, `/api/monitor/health`) con mapeo de operaciones (`ops.nodes.list`, `security.sentinel.status`) y transformaciones tipadas. Las páginas mantienen su fallback de demostración cuando el backend no está disponible.
+- **SHA-256 real**: se eliminó el hash falso (djb2 disfrazado) de `experience.orchestrator.ts` y `decision.store.ts`; la auditoría usa ahora SHA-256 FIPS 180-4 (`src/lib/crypto/sha256.ts`, sin `node:crypto`, browser-safe) con test de vectores.
+- **Pagos reales**: `paymentsApi.createDonation` llama a `/api/payments/checkout` de nodo-cero (contrato zod, idempotencia) en lugar de redirigir localmente.
+- **DevHub**: la consola de operaciones usa `callGateway` real (eliminada la dependencia de `supabase.functions.invoke`).
+- **Proxy `/api` en Vite** (→ `http://localhost:3000` a nodo-cero, sobreescribible con `VITE_DEV_PROXY_TARGET`) y `.env.example` con `VITE_API_URL`, `VITE_DEV_PROXY_TARGET` y `VITE_RDM_API_KEY`.
+- **Calidad:** typecheck y lint limpios, `vite build` exitoso; SHA-256 verificado contra `node:crypto`. (2 tests pre-existentes de `experience-orchestrator` y `useGeoCluster` siguen fallando en el árbol limpio, ajenos a esta fase.)
+- Commit `86ad14b` pusheado a `main`.
+
 ### ⏳ Fases posteriores
 
-- **D** — Limpiar/consolidar `admin-os` (Kernel TAMV OS, economía, observabilidad).
 - **E** — Nodo-cero hacia producción territorial (modelo de datos, RLS, monitoreo, RTO/RPO).
 - **F** — Coherencia entre repos: contratos compartidos, versionado y una sola fuente de verdad.
 
@@ -283,7 +294,7 @@ make restore-prod # restaura un dump (psql)
 1. **Fase A — Infraestructura** ✅ Docker correcto, gateway a la API real, Postgres, seguridad básica.
 2. **Fase B — Core real** ✅ motor TAMV (contratos, eventos, BookPI SHA-256, Prisma, endpoints, 22 tests).
 3. **Fase C — Visitor-web consolidado** ✅ Supabase real, proxy `/api`, fix base path, gemelo digital a API, tech pages fuera del routing público.
-4. **Fase D — Admin-os limpio** (Kernel TAMV OS, economía, observabilidad).
+4. **Fase D — Admin-os limpio** ✅ gateway conectado a la API territorial real de nodo-cero (`/api/gemet/nodes`, `/api/monitor/health`, `/api/payments/checkout`), SHA-256 real en auditoría, pagos contra backend real, proxy `/api` en Vite.
 5. **Fase E — Nodo-cero a producción** territorial.
 6. **Fase F — Coherencia del ecosistema.**
 
@@ -309,7 +320,7 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 | [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `main` | `53e42e1` |
 | [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `600efd1` |
 | [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `8672e3a` |
-| [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `2ae4743` |
+| [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `86ad14b` |
 | [nodo-cero](https://github.com/OsoPanda1/nodo-cero) | `main` | `d4b5e65` |
 
 ---
