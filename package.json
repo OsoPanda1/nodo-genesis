@@ -1,0 +1,15 @@
+{
+  "name": "nodo-genesis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Visita Real del Monte — capa de presentación (portal estático). Las apps del stack viven en sus propios repos/submódulos (nodo-cero, admin-os, visitor-web).",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node build.mjs && node preview.mjs",
+    "dev": "node preview.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
