@@ -184,9 +184,17 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - **Calidad:** typecheck y lint limpios, `vite build` exitoso; SHA-256 verificado contra `node:crypto`. (2 tests pre-existentes de `experience-orchestrator` y `useGeoCluster` siguen fallando en el árbol limpio, ajenos a esta fase.)
 - Commit `86ad14b` pusheado a `main`.
 
+### ✅ Fase E — Nodo-cero hacia producción (completada)
+
+- **Suite de pruebas verificada en Windows**: el alias `server-only` de Vitest usaba `.pathname` de `URL`, que en Windows devuelve `/C:/...` y rompía la resolución. Se corrigió con `fileURLToPath` (`vitest.config.mts`), y las **11 suites que fallaban** pasaron a correr: **48 suites / 485 tests en verde**.
+- **Verificación completa del Nodo**: `tsc --noEmit`, `npm run lint`, `npm run audit` (0 errores), `npm run check:contracts` (100% de rutas con route-guard único) y `npm run build` (Next.js 16) **OK**.
+- **Persistencia territorial**: `lib/core/persistence/postgres.ts` (postgres.js unificado, Supabase primario + Neon réplica, fail-open a memoria en demo) con repos durables en twins, gamification, marketplace, payments, identity y archive; migraciones SQL con RLS en `supabase/migrations/`.
+- **RTO/RPO y monitoreo**: `lib/continuity/` (journal, outbox, recovery-orchestrator), `lib/monitoring/` y `lib/observability/` implementados y con tests.
+- `check:env` falla solo por la ausencia de `.env.local` (modo demo por diseño, gitignored); las claves se documentan en `.env.example`.
+- Commit `41755a3` pusheado a `main`.
+
 ### ⏳ Fases posteriores
 
-- **E** — Nodo-cero hacia producción territorial (modelo de datos, RLS, monitoreo, RTO/RPO).
 - **F** — Coherencia entre repos: contratos compartidos, versionado y una sola fuente de verdad.
 
 ---
@@ -295,7 +303,7 @@ make restore-prod # restaura un dump (psql)
 2. **Fase B — Core real** ✅ motor TAMV (contratos, eventos, BookPI SHA-256, Prisma, endpoints, 22 tests).
 3. **Fase C — Visitor-web consolidado** ✅ Supabase real, proxy `/api`, fix base path, gemelo digital a API, tech pages fuera del routing público.
 4. **Fase D — Admin-os limpio** ✅ gateway conectado a la API territorial real de nodo-cero (`/api/gemet/nodes`, `/api/monitor/health`, `/api/payments/checkout`), SHA-256 real en auditoría, pagos contra backend real, proxy `/api` en Vite.
-5. **Fase E — Nodo-cero a producción** territorial.
+5. **Fase E — Nodo-cero a producción** ✅ suite de pruebas íntegra en Windows (48 suites / 485 tests), persistencia territorial (postgres.js + migraciones SQL con RLS), continuidad RTO/RPO, monitoreo y observabilidad; build Next.js 16 OK.
 6. **Fase F — Coherencia del ecosistema.**
 
 ---
@@ -321,7 +329,7 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 | [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `600efd1` |
 | [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `8672e3a` |
 | [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `86ad14b` |
-| [nodo-cero](https://github.com/OsoPanda1/nodo-cero) | `main` | `d4b5e65` |
+| [nodo-cero](https://github.com/OsoPanda1/nodo-cero) | `main` | `41755a3` |
 
 ---
 
