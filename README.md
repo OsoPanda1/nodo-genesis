@@ -193,9 +193,16 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - `check:env` falla solo por la ausencia de `.env.local` (modo demo por diseño, gitignored); las claves se documentan en `.env.example`.
 - Commit `41755a3` pusheado a `main`.
 
+### ✅ Fase F — Coherencia del ecosistema (completada)
+
+- **Bug de contrato corregido en admin-os**: `paymentsApi.createDonation` enviaba `paymentMethod` y `message`, pero el contrato canónico de nodo-cero (`lib/payments/contracts.ts`, `userPaymentSchema`) exige `method` (enum, requerido) y usa `concept`. El POST real habría devuelto 400; ahora envía `method`/`concept` alineado con la fuente de verdad.
+- **Inventario de fuentes de verdad**: nodo-cero es el backend territorial canónico (**97 rutas API** con route-guard único). visitor-web mantiene capas propias (Express `server/src/routes/`, Vercel `api/`, Supabase edge functions) que solapan endpoints; admin-os consume nodo-cero vía `callGateway`.
+- **Gaps detectados en visitor-web** (documentados, no corregidos por estar fuera del flujo principal): `/api/donations` (404), `/api/track` (404), `/api/isabella/feedback` (404), router `music.ts` definido pero no montado, y edge functions referenciadas que no existen (`create-payment`, `chat`).
+- Commit `582ca76` (admin-os) pusheado a `main`.
+
 ### ⏳ Fases posteriores
 
-- **F** — Coherencia entre repos: contratos compartidos, versionado y una sola fuente de verdad.
+- Sin fases restantes en la ruta de evolución actual.
 
 ---
 
@@ -304,7 +311,7 @@ make restore-prod # restaura un dump (psql)
 3. **Fase C — Visitor-web consolidado** ✅ Supabase real, proxy `/api`, fix base path, gemelo digital a API, tech pages fuera del routing público.
 4. **Fase D — Admin-os limpio** ✅ gateway conectado a la API territorial real de nodo-cero (`/api/gemet/nodes`, `/api/monitor/health`, `/api/payments/checkout`), SHA-256 real en auditoría, pagos contra backend real, proxy `/api` en Vite.
 5. **Fase E — Nodo-cero a producción** ✅ suite de pruebas íntegra en Windows (48 suites / 485 tests), persistencia territorial (postgres.js + migraciones SQL con RLS), continuidad RTO/RPO, monitoreo y observabilidad; build Next.js 16 OK.
-6. **Fase F — Coherencia del ecosistema.**
+6. **Fase F — Coherencia del ecosistema** ✅ contrato de pagos alineado con la fuente canónica (method/concept), inventario de rutas y fuentes de verdad documentado, gaps de visitor-web identificados.
 
 ---
 
@@ -328,7 +335,7 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 | [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `main` | `53e42e1` |
 | [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `600efd1` |
 | [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `8672e3a` |
-| [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `86ad14b` |
+| [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `582ca76` |
 | [nodo-cero](https://github.com/OsoPanda1/nodo-cero) | `main` | `41755a3` |
 
 ---
