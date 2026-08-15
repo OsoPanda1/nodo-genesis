@@ -1,265 +1,317 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="tod-day">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RDM Digital Hub — Ecosistema Territorial Soberano de Real del Monte, Hidalgo. Capa de presentación editorial: gobernanza comunal, turismo de patrimonio e inteligencia de datos.">
-    <meta name="theme-color" content="#FAF9F6">
+    <meta name="description" content="Visita Real del Monte, Hidalgo — Pueblo Mágico minero. Plataforma turística inteligente: clima en vivo, mapa interactivo, pasaporte digital, audio-guías y comercio local certificado.">
+    <meta name="theme-color" content="#0F172A">
     <meta name="color-scheme" content="light">
-    <title>RDM Digital Hub — Ecosistema Territorial Soberano</title>
+    <title>Visita Real del Monte · Pueblo Mágico Minero de Hidalgo</title>
 
     <!-- Open Graph -->
-    <meta property="og:title" content="RDM Digital Hub — Ecosistema Territorial Soberano">
-    <meta property="og:description" content="Capa de presentación editorial del ecosistema digital de Real del Monte, Hidalgo.">
+    <meta property="og:title" content="Visita Real del Monte · Destino Turístico Inteligente">
+    <meta property="og:description" content="Descubre el Pueblo Mágico minero de Hidalgo: patrimonio, gastronomía del paste, naturaleza y platería. Clima en vivo, mapa interactivo y pasaporte digital.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_MX">
+    <meta property="og:url" content="https://visitarealdelmonte.online">
     <meta property="og:image" content="assets/rdm-mina-01.jpg">
+    <link rel="canonical" href="https://visitarealdelmonte.online">
 
-    <!-- Favicon en línea (veta de oro sobre obsidiana) -->
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0B0B'/%3E%3Cpath d='M8 22 L16 9 L24 22' fill='none' stroke='%23C5A872' stroke-width='2.4' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <!-- Favicon (veta de plata sobre noche real) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F172A'/%3E%3Cpath d='M8 22 L16 9 L24 22' fill='none' stroke='%23D97706' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E">
 
-    <!-- Preconexiones de alto rendimiento -->
+    <!-- Preconexiones -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.open-meteo.com">
+    <link rel="dns-prefetch" href="https://air-quality-api.open-meteo.com">
 
-    <!-- Tipografías: dos familias (editorial serif + sans utilitaria) -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tipografías: Fraunces (display editorial) + Plus Jakarta Sans (UI) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet (mapa vectorial ligero) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a href="#seccion-proyecto" class="skip-link">Saltar al contenido principal</a>
+    <a href="#inicio" class="skip-link">Saltar al contenido principal</a>
 
-    <!-- BARRA DE NAVEGACIÓN -->
+    <!-- ============ BARRA DE TELEMETRÍA DTI ============ -->
+    <div class="telemetry-bar" id="telemetryBar" aria-label="Estado del destino en vivo">
+        <div class="telemetry-track" id="telemetryTrack">
+            <span class="telemetry-chip" data-metric="clima">
+                <span class="chip-icon" aria-hidden="true">◐</span>
+                <span class="chip-label">Clima</span>
+                <span class="chip-value" id="tmClima">—</span>
+            </span>
+            <span class="telemetry-chip" data-metric="aire">
+                <span class="chip-icon" aria-hidden="true">≋</span>
+                <span class="chip-label">Aire</span>
+                <span class="chip-value" id="tmAire">—</span>
+            </span>
+            <span class="telemetry-chip" data-metric="vestimenta">
+                <span class="chip-icon" aria-hidden="true">❈</span>
+                <span class="chip-label">Recomendación</span>
+                <span class="chip-value" id="tmVestimenta">—</span>
+            </span>
+            <span class="telemetry-chip" data-metric="aforo">
+                <span class="chip-icon" aria-hidden="true">◈</span>
+                <span class="chip-label">Aforo centro</span>
+                <span class="chip-value" id="tmAforo">—</span>
+            </span>
+            <span class="telemetry-chip" data-metric="parking">
+                <span class="chip-icon" aria-hidden="true">◫</span>
+                <span class="chip-label">Estacionamiento</span>
+                <span class="chip-value" id="tmParking">—</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- ============ ENCABEZADO ============ -->
     <header data-header>
-        <a class="logo-mark" href="#seccion-proyecto" aria-label="RDM Hub — inicio">RDM<span>HUB</span></a>
+        <a class="logo-mark" href="#inicio" aria-label="Visita Real del Monte — inicio">
+            Real del Monte<span>· Hidalgo</span>
+        </a>
 
         <nav class="primary-nav" aria-label="Navegación principal">
             <ul id="nav-menu">
-                <li class="nav-item">
-                    <a href="#seccion-proyecto" class="nav-link" data-spy="seccion-proyecto">Proyecto</a>
-                </li>
-                <li class="nav-item has-dropdown">
-                    <a href="#seccion-oficina" class="nav-link" data-spy="seccion-oficina" aria-haspopup="true" aria-expanded="false">Oficina</a>
-                    <div class="dropdown" role="menu">
-                        <a role="menuitem" href="#galeria">Galería Territorial</a>
-                        <a role="menuitem" href="#audio">Audio-Guías</a>
-                        <a role="menuitem" href="#mapa">Geografía Inmersiva</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="#seccion-inteligencia" class="nav-link" data-spy="seccion-inteligencia">Inteligencia</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#seccion-contacto" class="nav-link" data-spy="seccion-contacto">Contacto</a>
-                </li>
+                <li class="nav-item"><a href="#inicio" class="nav-link" data-spy="inicio">Inicio</a></li>
+                <li class="nav-item"><a href="#descubre" class="nav-link" data-spy="descubre">Descubre</a></li>
+                <li class="nav-item"><a href="#mapa" class="nav-link" data-spy="mapa">Mapa</a></li>
+                <li class="nav-item"><a href="#experiencias" class="nav-link" data-spy="experiencias">Experiencias</a></li>
+                <li class="nav-item"><a href="#comercio" class="nav-link" data-spy="comercio">Comercio</a></li>
+                <li class="nav-item"><a href="#contacto" class="nav-link" data-spy="contacto">Contacto</a></li>
             </ul>
         </nav>
 
         <div class="header-actions">
-            <button class="passport-widget" id="passportBtn" type="button" aria-pressed="false">
+            <button class="passport-widget" id="passportBtn" type="button" aria-label="Ir al pasaporte digital">
                 <span class="passport-dot" id="passportDot" aria-hidden="true"></span>
-                <span id="passportLabel">Pasaporte: Huésped</span>
+                <span id="passportLabel">Pasaporte <b id="passportCount">0/5</b></span>
             </button>
-
             <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </header>
 
-    <!-- NAVEGACIÓN MÓVIL -->
+    <!-- ============ NAVEGACIÓN MÓVIL ============ -->
     <div class="mobile-nav" id="mobile-nav" hidden>
         <nav aria-label="Navegación móvil">
-            <a href="#seccion-proyecto" class="mobile-link">Proyecto</a>
-            <a href="#seccion-oficina" class="mobile-link">Oficina</a>
-            <a href="#galeria" class="mobile-link mobile-sub">Galería Territorial</a>
-            <a href="#audio" class="mobile-link mobile-sub">Audio-Guías</a>
-            <a href="#mapa" class="mobile-link mobile-sub">Geografía Inmersiva</a>
-            <a href="#seccion-inteligencia" class="mobile-link">Inteligencia</a>
-            <a href="#seccion-contacto" class="mobile-link">Contacto</a>
+            <a href="#inicio" class="mobile-link">Inicio</a>
+            <a href="#descubre" class="mobile-link">Descubre</a>
+            <a href="#mapa" class="mobile-link">Mapa</a>
+            <a href="#experiencias" class="mobile-link">Experiencias</a>
+            <a href="#comercio" class="mobile-link">Comercio</a>
+            <a href="#contacto" class="mobile-link">Contacto</a>
         </nav>
     </div>
 
     <main>
-        <!-- SECCIÓN 1: PROYECTO (Hero Editorial) -->
-        <section id="seccion-proyecto" class="canvas-section hero-section">
-            <p class="eyebrow reveal">Real del Monte · Hidalgo · México</p>
-            <h1 class="hero-title reveal" id="main-hero-txt">
-                Real del Monte:
-                <em>Identidad y Soberanía Territorial</em>
-            </h1>
-            <p class="lead-text reveal">
-                Un ecosistema digital que fusiona gobernanza comunal, turismo de patrimonio e inteligencia de datos en una plataforma editorial de clase mundial.
-            </p>
-
-            <div class="editorial-layout">
-                <div class="editorial-body reveal">
-                    <p>
-                        El RDM Digital Hub no es un sitio web convencional. Es un <strong>manifiesto territorial</strong> que opera en dos capas: una pública para visitantes globales y otra soberana para la gobernanza comunal.
-                    </p>
-                    <p>
-                        Cada módulo —desde la galería asimétrica hasta el panel de indicadores— está diseñado bajo principios de <em>ultra-minimalismo sofisticado</em>, eliminando el ruido visual para priorizar la narrativa y la funcionalidad.
-                    </p>
+        <!-- ============ HERO CONTEXTUAL ============ -->
+        <section id="inicio" class="hero-section">
+            <div class="hero-sky" aria-hidden="true"></div>
+            <div class="hero-content">
+                <p class="eyebrow reveal">Pueblo Mágico · Sierra de Hidalgo · <span id="todLabel">2 700 m s. n. m.</span></p>
+                <h1 class="hero-title reveal">
+                    Real del Monte
+                    <em id="heroAccent">niebla, plata y pastes</em>
+                </h1>
+                <p class="lead-text reveal">
+                    El corazón minero de Hidalgo, donde la herencia cornish se encuentra con la sierra alta.
+                    Explora su patrimonio, su gastronomía y su naturaleza con una guía viva del destino.
+                </p>
+                <div class="hero-cta reveal">
+                    <a href="#descubre" class="btn btn-primary">Comenzar recorrido</a>
+                    <a href="#mapa" class="btn btn-ghost">Ver mapa interactivo</a>
                 </div>
+            </div>
 
-                <aside class="editorial-sidebar reveal">
-                    <div class="sidebar-block">
-                        <h4>Estado del sistema</h4>
-                        <dl class="spec-list">
-                            <div><dt>Telemetría</dt><dd>Activa</dd></div>
-                            <div><dt>Nodos</dt><dd>12 en línea</dd></div>
-                            <div><dt>Capa</dt><dd>Presentación (1/5)</dd></div>
-                        </dl>
-                    </div>
-                    <div class="sidebar-block">
-                        <h4>Arquitectura</h4>
-                        <dl class="spec-list">
-                            <div><dt>Frontend</dt><dd>React + Vite</dd></div>
-                            <div><dt>Backend</dt><dd>API territorial (nodo-cero)</dd></div>
-                            <div><dt>Infra</dt><dd>Gateway + Supabase</dd></div>
-                        </dl>
-                    </div>
-                </aside>
+            <div class="hero-context reveal" id="heroContext">
+                <span class="context-time" id="contextGreeting">Buen día en la montaña</span>
+                <span class="context-detail" id="contextDetail">Consultando condiciones del territorio…</span>
             </div>
         </section>
 
-        <!-- SECCIÓN 2: OFICINA (Galería + Audio + Mapa) -->
-        <section id="seccion-oficina" class="canvas-section">
-            <p class="eyebrow">Oficina de narrativas</p>
-            <h2 class="section-title">
-                Oficina de Narrativas
-                <em>Territoriales</em>
-            </h2>
-            <p class="lead-text" id="oficina-lead">
-                Un recorrido estético por las leyendas, el comercio de alta gama y la geografía inmersiva de la montaña.
+        <!-- ============ DESCUBRE (GALERÍA DE ATRACTIVOS) ============ -->
+        <section id="descubre" class="canvas-section">
+            <p class="eyebrow">Qué visitar</p>
+            <h2 class="section-title">Cinco escenas <em>imprescindibles</em></h2>
+            <p class="lead-text">
+                Patrimonio industrial, memoria cultural, naturaleza de altura y la gastronomía que dio identidad al pueblo.
             </p>
 
-            <!-- GALERÍA ASIMÉTRICA -->
-            <div id="galeria" class="art-gallery">
-                <figure class="art-frame">
+            <div class="art-gallery">
+                <figure class="art-frame" data-poi="mina">
                     <img src="assets/rdm-mina-01.jpg" alt="Bocamina de piedra envuelta en niebla con vías de tren y farol encendido" loading="lazy" decoding="async" width="1024" height="1024">
-                    <figcaption class="art-meta"><h5>Mina de Acosta</h5><span>Patrimonio Industrial</span></figcaption>
+                    <figcaption class="art-meta">
+                        <span class="art-tag tag-patrimonio">Patrimonio Minero</span>
+                        <h5>Mina de Acosta</h5>
+                        <p>Museo de sitio en la histórica bocamina; malacates, socavones y la memoria del trabajo minero.</p>
+                    </figcaption>
                 </figure>
-                <figure class="art-frame">
-                    <img src="assets/rdm-centro-02.jpg" alt="Centro histórico de Real del Monte" loading="lazy" decoding="async" width="1024" height="1024">
-                    <figcaption class="art-meta"><h5>Centro Histórico</h5><span>Arquitectura Colonial</span></figcaption>
+                <figure class="art-frame" data-poi="centro">
+                    <img src="assets/rdm-centro-02.jpg" alt="Centro histórico de Real del Monte con casas de techos rojos" loading="lazy" decoding="async" width="1024" height="1024">
+                    <figcaption class="art-meta">
+                        <span class="art-tag tag-patrimonio">Centro Histórico</span>
+                        <h5>Parroquia y Plaza</h5>
+                        <p>La Parroquia de la Asunción y las calles empedradas con arquitectura de influencia inglesa.</p>
+                    </figcaption>
                 </figure>
-                <figure class="art-frame">
-                    <img src="assets/rdm-panteon-03.jpg" alt="Panteón Inglés de Real del Monte" loading="lazy" decoding="async" width="1024" height="1024">
-                    <figcaption class="art-meta"><h5>Panteón Inglés</h5><span>Memoria Cultural</span></figcaption>
+                <figure class="art-frame" data-poi="panteon">
+                    <img src="assets/rdm-panteon-03.jpg" alt="Panteón Inglés de Real del Monte entre pinos y niebla" loading="lazy" decoding="async" width="1024" height="1024">
+                    <figcaption class="art-meta">
+                        <span class="art-tag tag-patrimonio">Memoria Cultural</span>
+                        <h5>Panteón Inglés</h5>
+                        <p>El único cementerio británico de México; lápidas orientadas a Inglaterra sobre la sierra.</p>
+                    </figcaption>
                 </figure>
-                <figure class="art-frame">
+                <figure class="art-frame" data-poi="penas">
                     <img src="assets/rdm-penas-04.jpg" alt="Formaciones rocosas de las Peñas Cargadas entre bosque y niebla con senderistas" loading="lazy" decoding="async" width="1024" height="1024">
-                    <figcaption class="art-meta"><h5>Peñas Cargadas</h5><span>Geografía Natural</span></figcaption>
+                    <figcaption class="art-meta">
+                        <span class="art-tag tag-naturaleza">Naturaleza</span>
+                        <h5>Peñas Cargadas</h5>
+                        <p>Formaciones rocosas y bosque de altura; senderismo, escalada y miradores entre la niebla.</p>
+                    </figcaption>
                 </figure>
-                <figure class="art-frame">
+                <figure class="art-frame" data-poi="paste">
                     <img src="assets/rdm-paste-05.jpg" alt="Pastes recién horneados sobre mesa de madera en cocina tradicional" loading="lazy" decoding="async" width="1024" height="1024">
-                    <figcaption class="art-meta"><h5>El Paste</h5><span>Gastronomía Cornish-Mexicana</span></figcaption>
+                    <figcaption class="art-meta">
+                        <span class="art-tag tag-gastronomia">Gastronomía</span>
+                        <h5>El Paste</h5>
+                        <p>La empanada cornish que se volvió mexicana; museo del paste y decenas de pastelerías locales.</p>
+                    </figcaption>
                 </figure>
             </div>
+        </section>
 
-            <!-- AUDIO INMERSIVO -->
-            <div id="audio" class="audio-immersive-section">
-                <p class="eyebrow eyebrow-invert">Sonido del territorio</p>
-                <h3 class="audio-heading">Audio-Guías de <em>Lujo</em></h3>
+        <!-- ============ MAPA INTERACTIVO ============ -->
+        <section id="mapa" class="canvas-section section-tight">
+            <p class="eyebrow">Cartografía viva</p>
+            <h2 class="section-title">Mapa <em>interactivo</em></h2>
+            <p class="lead-text">
+                Puntos de interés por categoría. Filtra el territorio según lo que quieras vivir hoy.
+            </p>
 
-                <div class="audio-row">
+            <div class="map-filters" role="group" aria-label="Filtrar puntos de interés por categoría">
+                <button class="filter-chip is-active" data-filter="all" type="button" aria-pressed="true">Todo</button>
+                <button class="filter-chip" data-filter="patrimonio" type="button" aria-pressed="false">Patrimonio Minero</button>
+                <button class="filter-chip" data-filter="gastronomia" type="button" aria-pressed="false">Gastronomía</button>
+                <button class="filter-chip" data-filter="naturaleza" type="button" aria-pressed="false">Naturaleza</button>
+                <button class="filter-chip" data-filter="artesanias" type="button" aria-pressed="false">Artesanías y Platería</button>
+            </div>
+
+            <div class="map-shell">
+                <div id="rdmMap" role="application" aria-label="Mapa de Real del Monte con puntos de interés"></div>
+            </div>
+            <p class="data-disclaimer">Ubicaciones referenciales sobre cartografía abierta (OpenStreetMap). Verifica horarios de cada sitio antes de tu visita.</p>
+        </section>
+
+        <!-- ============ EXPERIENCIAS: PASAPORTE + AUDIO ============ -->
+        <section id="experiencias" class="canvas-section section-dark">
+            <p class="eyebrow eyebrow-invert">Vive el destino</p>
+            <h2 class="section-title title-invert">Pasaporte digital y <em>audio-guías</em></h2>
+            <p class="lead-text lead-invert">
+                Colecciona tus visitas, escucha la historia de cada sitio y llévate un recuerdo del recorrido.
+            </p>
+
+            <div class="experience-grid">
+                <!-- Pasaporte -->
+                <article class="passport-card">
+                    <div class="passport-head">
+                        <h3>Pasaporte del visitante</h3>
+                        <span class="passport-progress"><b id="passportProgress">0</b> / 5 sellos</span>
+                    </div>
+                    <div class="passport-body">
+                        <div class="passport-qr">
+                            <canvas id="passportQr" width="150" height="150" role="img" aria-label="Código QR del pasaporte digital"></canvas>
+                            <span class="qr-caption">Escanea para abrir tu pasaporte</span>
+                        </div>
+                        <ul class="stamp-list" id="stampList">
+                            <li><button type="button" class="stamp-btn" data-stamp="mina"><span class="stamp-mark" aria-hidden="true"></span>Mina de Acosta</button></li>
+                            <li><button type="button" class="stamp-btn" data-stamp="centro"><span class="stamp-mark" aria-hidden="true"></span>Parroquia y Plaza</button></li>
+                            <li><button type="button" class="stamp-btn" data-stamp="panteon"><span class="stamp-mark" aria-hidden="true"></span>Panteón Inglés</button></li>
+                            <li><button type="button" class="stamp-btn" data-stamp="penas"><span class="stamp-mark" aria-hidden="true"></span>Peñas Cargadas</button></li>
+                            <li><button type="button" class="stamp-btn" data-stamp="paste"><span class="stamp-mark" aria-hidden="true"></span>Museo del Paste</button></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn btn-ghost btn-ghost-invert btn-block" id="resetPassport">Reiniciar pasaporte</button>
+                </article>
+
+                <!-- Audio guías -->
+                <div class="audio-column">
                     <article class="audio-strip" data-audio-strip>
                         <div class="audio-strip-head">
-                            <h4>Episodio 01 · La Leyenda del Cerro</h4>
-                            <p>Narrativa inmersiva sobre los orígenes mineros de Real del Monte.</p>
+                            <span class="art-tag tag-patrimonio">Episodio 01</span>
+                            <h4>La leyenda del cerro</h4>
+                            <p>Los orígenes mineros de Real del Monte y la huelga de 1766, la primera de América.</p>
                         </div>
-                        <canvas class="audio-canvas" width="480" height="96" role="img" aria-label="Visualizador de espectro del Episodio 01"></canvas>
-                        <p class="audio-fallback" data-audio-fallback>Vista previa demo — el audio real se publicará próximamente.</p>
-                        <audio controls preload="none" aria-label="Episodio 01: La Leyenda del Cerro">
+                        <canvas class="audio-canvas" width="480" height="72" role="img" aria-label="Visualizador de espectro del Episodio 01"></canvas>
+                        <div class="audio-controls">
+                            <button type="button" class="audio-play" data-audio-play aria-label="Reproducir Episodio 01">▶ Reproducir</button>
+                            <span class="audio-fallback" data-audio-fallback>Vista previa demo</span>
+                        </div>
+                        <audio preload="none" data-title="Episodio 01 · La leyenda del cerro">
                             <source src="audio/ep01-cerro.mp3" type="audio/mpeg">
                         </audio>
                     </article>
 
                     <article class="audio-strip" data-audio-strip>
                         <div class="audio-strip-head">
-                            <h4>Episodio 02 · Rutas del Plata</h4>
-                            <p>Recorrido sonoro por las antiguas vías comerciales.</p>
+                            <span class="art-tag tag-gastronomia">Episodio 02</span>
+                            <h4>Rutas del plata y del paste</h4>
+                            <p>De los mineros de Cornualles a las pastelerías de hoy: una ruta de sabor e historia.</p>
                         </div>
-                        <canvas class="audio-canvas" width="480" height="96" role="img" aria-label="Visualizador de espectro del Episodio 02"></canvas>
-                        <p class="audio-fallback" data-audio-fallback>Vista previa demo — el audio real se publicará próximamente.</p>
-                        <audio controls preload="none" aria-label="Episodio 02: Rutas del Plata">
+                        <canvas class="audio-canvas" width="480" height="72" role="img" aria-label="Visualizador de espectro del Episodio 02"></canvas>
+                        <div class="audio-controls">
+                            <button type="button" class="audio-play" data-audio-play aria-label="Reproducir Episodio 02">▶ Reproducir</button>
+                            <span class="audio-fallback" data-audio-fallback>Vista previa demo</span>
+                        </div>
+                        <audio preload="none" data-title="Episodio 02 · Rutas del plata y del paste">
                             <source src="audio/ep02-plata.mp3" type="audio/mpeg">
                         </audio>
                     </article>
                 </div>
             </div>
-
-            <!-- MAPA MINIMALISTA -->
-            <div id="mapa" class="map-container-fluid">
-                <iframe
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=-98.68,20.12,-98.64,20.16&layer=mapnik&marker=20.14,-98.66"
-                    loading="lazy"
-                    title="Mapa de Real del Monte, Hidalgo">
-                </iframe>
-            </div>
         </section>
 
-        <!-- SECCIÓN 3: INTELIGENCIA (Panel de indicadores) -->
-        <section id="seccion-inteligencia" class="canvas-section">
-            <p class="eyebrow">Inteligencia territorial</p>
-            <h2 class="section-title">
-                Inteligencia
-                <em>Territorial</em>
-            </h2>
+        <!-- ============ COMERCIO LOCAL ============ -->
+        <section id="comercio" class="canvas-section">
+            <p class="eyebrow">Economía local</p>
+            <h2 class="section-title">Comercio y gastronomía <em>certificados</em></h2>
             <p class="lead-text">
-                Pulsos económicos, turísticos y ambientales del municipio. Cifras de referencia representativas para esta capa de presentación.
+                Prestadores locales verificados. Contáctalos directo o traza tu ruta con un toque.
             </p>
 
-            <div class="dashboard-grid">
-                <article class="data-node-card">
-                    <span class="data-label">Visitantes hoy</span>
-                    <span class="big-number" data-value="1247">0</span>
-                    <span class="data-foot data-trend-up">+12% vs. semana anterior</span>
-                </article>
-                <article class="data-node-card">
-                    <span class="data-label">Actividad comercial</span>
-                    <span class="big-number" data-value="89">0</span>
-                    <span class="data-foot">Establecimientos activos</span>
-                </article>
-                <article class="data-node-card">
-                    <span class="data-label">Temperatura</span>
-                    <span class="big-number" data-value="18" data-suffix="°">0</span>
-                    <span class="data-foot">Grados Celsius (promedio)</span>
-                </article>
-                <article class="data-node-card">
-                    <span class="data-label">Calidad del aire</span>
-                    <span class="big-number" data-value="92">0</span>
-                    <span class="data-foot">Índice ICA (excelente)</span>
-                </article>
-            </div>
-            <p class="data-disclaimer">Datos de demostración. En producción, este panel consume la API territorial de <strong>nodo-cero</strong> en tiempo real.</p>
+            <div class="commerce-grid" id="commerceGrid"><!-- inyectado por JS --></div>
+            <p class="data-disclaimer">Directorio de demostración. En producción se sincroniza con el padrón comunal de prestadores acreditados.</p>
         </section>
 
-        <!-- SECCIÓN 4: CONTACTO -->
-        <section id="seccion-contacto" class="canvas-section">
-            <p class="eyebrow">Colaboración</p>
-            <h2 class="section-title">
-                Contacto
-                <em>Soberano</em>
-            </h2>
+        <!-- ============ CONTACTO ============ -->
+        <section id="contacto" class="canvas-section">
+            <p class="eyebrow">Planea tu visita</p>
+            <h2 class="section-title">Contacto y <em>colaboración</em></h2>
             <p class="lead-text">
-                Para colaboraciones institucionales, acceso a la API de datos o gobernanza comunal.
+                Información turística, colaboraciones institucionales y gobernanza comunal del destino.
             </p>
 
             <div class="contact-split">
                 <div class="contact-info">
-                    <h3 class="contact-subhead">Información de la oficina</h3>
+                    <h3 class="contact-subhead">Módulo de turismo</h3>
                     <address class="contact-address">
                         Plaza Principal s/n, Real del Monte,<br>
-                        Hidalgo, México. C.P. 43530
+                        Hidalgo, México · C.P. 42130
                     </address>
                     <dl class="spec-list contact-hours">
                         <div><dt>Lun – Vie</dt><dd>9:00 – 18:00</dd></div>
-                        <div><dt>Sábado</dt><dd>10:00 – 14:00</dd></div>
-                        <div><dt>Correo</dt><dd><a href="mailto:contacto@rdm-hub.mx">contacto@rdm-hub.mx</a></dd></div>
+                        <div><dt>Sáb – Dom</dt><dd>9:00 – 20:00</dd></div>
+                        <div><dt>Correo</dt><dd><a href="mailto:turismo@visitarealdelmonte.online">turismo@visitarealdelmonte.online</a></dd></div>
                     </dl>
+                    <div class="contact-quick">
+                        <a class="btn btn-eco" href="https://wa.me/527711234567" target="_blank" rel="noopener">WhatsApp turismo</a>
+                        <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=20.1386,-98.6577" target="_blank" rel="noopener">Cómo llegar</a>
+                    </div>
                 </div>
 
                 <form class="contact-form-premium" action="/api/contacto" method="POST" novalidate>
@@ -268,7 +320,7 @@
                         <input id="f-nombre" type="text" name="nombre" autocomplete="name" required>
                     </div>
                     <div class="field">
-                        <label for="f-email">Correo institucional</label>
+                        <label for="f-email">Correo</label>
                         <input id="f-email" type="email" name="email" autocomplete="email" required>
                     </div>
                     <div class="field">
@@ -279,18 +331,31 @@
                         <label for="f-mensaje">Mensaje</label>
                         <textarea id="f-mensaje" name="mensaje" rows="4" required></textarea>
                     </div>
-                    <button type="submit" class="submit-btn-premium">Enviar mensaje</button>
+                    <button type="submit" class="btn btn-primary submit-btn-premium">Enviar mensaje</button>
                     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
     </main>
 
+    <!-- ============ REPRODUCTOR FLOTANTE PERSISTENTE ============ -->
+    <div class="floating-player" id="floatingPlayer" hidden aria-live="polite">
+        <button class="fp-toggle" id="fpToggle" type="button" aria-label="Pausar audio">⏸</button>
+        <div class="fp-meta">
+            <span class="fp-title" id="fpTitle">—</span>
+            <div class="fp-progress"><div class="fp-bar" id="fpBar"></div></div>
+        </div>
+        <button class="fp-close" id="fpClose" type="button" aria-label="Cerrar reproductor">✕</button>
+    </div>
+
     <footer class="site-footer">
-        <p class="footer-mark">RDM DIGITAL HUB © 2026</p>
-        <p class="footer-note">Plataforma soberana de gobernanza territorial. Todos los datos son propiedad comunal.</p>
+        <p class="footer-mark">VISITA REAL DEL MONTE</p>
+        <p class="footer-note">Destino Turístico Inteligente · visitarealdelmonte.online · Plataforma soberana de gobernanza territorial © 2026</p>
     </footer>
 
+    <!-- Leaflet + generador de QR (ligero) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="app.js" defer></script>
 </body>
 </html>
