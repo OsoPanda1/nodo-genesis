@@ -15,7 +15,7 @@ Este repositorio es el **nodo génesis** de un sistema operativo territorial fed
 
 El proyecto combina turismo, patrimonio, economía local, participación comunitaria y capacidades territoriales (mapas, gemelo digital, asistente IA) bajo principios de identidad soberana, memoria verificable, explicabilidad y gobernanza humana (HITL).
 
-> **Estado real:** desarrollo activo. La infraestructura (Fase A) está restaurada y orquestada; cada módulo evoluciona de forma incremental y ninguno se declara listo para producción integral sin evidencia verificable.
+> **Estado real:** desarrollo activo. Fases A, B y C completadas y pusheadas (infraestructura orquestada, core con backend real y pruebas, visitor-web consolidado); cada módulo evoluciona de forma incremental y ninguno se declara listo para producción integral sin evidencia verificable.
 
 ---
 
@@ -44,7 +44,7 @@ El stack levanta **seis servicios orquestados** que juntos forman el sistema ope
 | Servicio | Rol | Ruta |
 |---|---|---|
 | `db` | Base de datos federada (PostgreSQL 16) | — |
-| `core` | Motor TAMV (SSR TanStack Start / Bun) — brochure estático actualmente | `/` (proxy) |
+| `core` | Motor TAMV (SSR TanStack Start / Bun) — backend real con contratos zod, eventos y BookPI (Fase B) | `/` (proxy) |
 | `admin-os` | SPA de gestión y operación territorial (Vite) | `/admin` |
 | `visitor-web` | Interfaz pública de turismo, cultura y comunidad (Vite) | `/` |
 | `nodo-cero` | **Sistema Operativo Territorial** — Next.js 16 con API real (97 rutas) | `/api`, `/ws` |
@@ -98,8 +98,8 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 
 | Módulo | Repositorio | Tecnología | Rol real |
 |---|---|---|---|
-| `services/core` | [TAMV-ONLINE-NET/tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | Bun · TanStack Start · SSR | **Brochure estático** (SSR). La API real vive en nodo-cero. Pendiente de convertir en backend real (Fase B). |
-| `apps/visitor-web` | [OsoPanda1/visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | React · Vite · TypeScript | Interfaz pública: turismo, patrimonio, gamificación, gemelo digital 2D/3D. Es la app más madura (~105.8k líneas en `src/`). |
+| `services/core` | [TAMV-ONLINE-NET/tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | Bun · TanStack Start · SSR | **Motor TAMV real** (Fase B): contratos zod (BookPI, Isabella, Guardian), bus de eventos `publishEvent` con DLQ y trazabilidad, BookPI con sello SHA-256 encadenado, Prisma/PostgreSQL, endpoints `createServerFn` y 22 tests Vitest. |
+| `apps/visitor-web` | [OsoPanda1/visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | React · Vite · TypeScript | Interfaz pública: turismo, patrimonio, gamificación, gemelo digital 2D/3D (Fase C). Es la app más madura (~105.8k líneas en `src/`). |
 | `apps/admin-os` | [OsoPanda1/rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | React · Vite · TypeScript | SPA de gestión/operación territorial (Kernel TAMV OS, economía, observabilidad). |
 | `infrastructure/nodo-cero` | [OsoPanda1/nodo-cero](https://github.com/OsoPanda1/nodo-cero) | Next.js 16 · React 19 · TypeScript | **Sistema Operativo Territorial**: 97 rutas API con route-guard, 254 archivos en `lib/`, ~44.8k líneas TS, 48 archivos de test. Es el backend real de facto. |
 
@@ -110,7 +110,7 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 | `nodo-cero` (`lib/` + `app/api/`) | 408 `.ts` | ~44.8k | 48 `*.test.ts` |
 | `visitor-web` (`src/`) | 614 | ~105.8k | Vitest + Playwright |
 | `admin-os` (`src/`) | 224 | ~25.1k | — |
-| `core` (`src/`) | 68 | ~9k | — |
+| `core` (`src/`) | 68 | ~9k | 22 (Vitest) |
 
 > Las cifras son orientativas de la copia local y pueden variar ligeramente por commit.
 
@@ -131,13 +131,29 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - **Seguridad:** el `.env` con credenciales de `admin-os` dejó de trackearse.
 - Todos los repos actualizados y pusheados (`main` / `master`).
 
-### 🔜 Fase B — Core como backend real
+### ✅ Fase B — Core como backend real (completada)
 
-Convertir `services/core` (tamv-core) de brochure estático en el **motor TAMV** real: BookPI, MSR, MVTS 4D, Isabella (módulo de intención/ética) y Guardian (HITL), con contratos y pruebas reproducibles.
+`services/core` (tamv-core) ya no es brochure estático: ahora es el **motor TAMV** con backend verificable:
 
-### 🔜 Fase C — Consolidar visitor-web
+- **Contratos zod de dominio** en `src/lib/contracts/`: BookPI (escritura y entrada sellada), Isabella (request/response) y Guardian (resolución HITL), con 11 tests.
+- **Bus de eventos TAMV** en `src/lib/events/`: envelope estándar (correlationId/causationId/traceId), `publishEvent`, suscripción, historial acotado, DLQ y `runWithTrace` (AsyncLocalStorage), con 5 tests.
+- **BookPI real** en `src/lib/bookpi/`: sello SHA-256 encadenado, verificación de cadena y escritura sellada con índice en memoria, con 6 tests.
+- **Persistencia Prisma/PostgreSQL** en `src/lib/db/` (cliente perezoso, seguro sin `DATABASE_URL`) y `prisma/schema.prisma` (BookpiEntry, GuardianAction, GuardianResolution). Se inyecta `DATABASE_URL` por compose y el Dockerfile genera el cliente Prisma.
+- **Endpoints server reales** con `createServerFn`: health, bookpi, guardian e isabella.
+- **Calidad:** 22 tests Vitest en verde, `tsc --noEmit` limpio, lint limpio en código nuevo y `bun run build` exitoso. Dockerfile con `bunx prisma generate` y `node_modules` en runtime.
+- Commit `600efd1` pusheado a `main`.
 
-Consolidar `apps/visitor-web` como interfaz pública estable: turismo, patrimonio, gamificación y gemelo digital, alineada a los contratos de la API territorial de nodo-cero.
+### ✅ Fase C — Consolidar visitor-web (completada)
+
+`apps/visitor-web` quedó conectada a datos reales:
+
+- **Proxy `/api` en Vite** (`server.proxy` → `http://localhost:8787`, sobreescribible con `VITE_DEV_PROXY_TARGET`): en dev las llamadas `/api/*` llegan al backend Express/nodo-cero y dejan de caer en los mocks.
+- **Fix de base path**: el apiClient ya no duplica prefijo (`/api/v1/api/...` → `/api/...`). Normalización en `apiClient.ts`; clientes de música, gamificación y gastronomía alineados a `/api`.
+- **Supabase real**: `.env` con `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY` del proyecto real (`.env` local, ignorado por git).
+- **Páginas tech/visión fuera del routing público**: ~52 rutas (arquitectura, devhub, tamv-status, api-explorer, security, etc.) ahora viven en `TECH_ROUTES` y solo se habilitan con `VITE_ENABLE_TECH_PAGES=true`.
+- **Gemelo digital conectado a API**: `Mapa.tsx` consume `/api/places` (Express/nodo-cero) con fallback al dataset local.
+- **Calidad:** 63 tests Vitest en verde (14 suites), typecheck y lint limpios, `vite build` exitoso (3617 módulos). Se declaró `@testing-library/dom` que faltaba.
+- Commit `8672e3a` pusheado a `main`.
 
 ### ⏳ Fases posteriores
 
@@ -248,8 +264,8 @@ make restore-prod # restaura un dump (psql)
 ## Ruta de evolución
 
 1. **Fase A — Infraestructura** ✅ Docker correcto, gateway a la API real, Postgres, seguridad básica.
-2. **Fase B — Core real** en `services/core` (motor TAMV / Isabella / Guardian).
-3. **Fase C — Visitor-web consolidado** como interfaz pública estable.
+2. **Fase B — Core real** ✅ motor TAMV (contratos, eventos, BookPI SHA-256, Prisma, endpoints, 22 tests).
+3. **Fase C — Visitor-web consolidado** ✅ Supabase real, proxy `/api`, fix base path, gemelo digital a API, tech pages fuera del routing público.
 4. **Fase D — Admin-os limpio** (Kernel TAMV OS, economía, observabilidad).
 5. **Fase E — Nodo-cero a producción** territorial.
 6. **Fase F — Coherencia del ecosistema.**
@@ -273,9 +289,9 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 
 | Repo | Rama | Último commit (local) |
 |---|---|---|
-| [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `master` | `a2e17fc` |
-| [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `1e819e3` |
-| [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `525e814` |
+| [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `main` | `fd2a9e4` |
+| [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `600efd1` |
+| [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `8672e3a` |
 | [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `2ae4743` |
 | [nodo-cero](https://github.com/OsoPanda1/nodo-cero) | `main` | `d4b5e65` |
 
