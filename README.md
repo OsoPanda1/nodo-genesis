@@ -23,6 +23,7 @@ El proyecto combina turismo, patrimonio, economía local, participación comunit
 
 - [Qué es y qué hace](#qué-es-y-qué-hace)
 - [Arquitectura del stack](#arquitectura-del-stack)
+- [Presentación (primera capa)](#presentación-primera-capa)
 - [Módulos](#módulos)
 - [Avance real del proyecto](#avance-real-del-proyecto)
 - [Inicio rápido](#inicio-rápido)
@@ -59,6 +60,8 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 
 **URL oficial de despliegue:** `https://www.visitarealdelmonte.online` (canónica). El apex `visitarealdelmonte.online` redirige 301 al canónico.
 
+**Primera capa de presentación:** [`presentacion/`](presentacion/) — landing editorial del RDM Digital Hub (ultra-minimalismo sofisticado) que muestra la visión del ecosistema antes de entrar a la plataforma funcional.
+
 ---
 
 ## Arquitectura del stack
@@ -91,6 +94,20 @@ El gateway expone un único punto de entrada y enruta por prefijo:
 - **Persistencia:** volumen `postgres-data`.
 - **Healthchecks** en todos los servicios; el gateway solo arranca cuando sus dependencias están sanas.
 - **Build args Supabase** para las dos SPAs (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`).
+
+---
+
+## Presentación (primera capa)
+
+[`presentacion/`](presentacion/) es la primera capa que ve el visitante: una landing editorial de alta gama (ultra-minimalismo / brutalismo sofisticado) que presenta la visión del ecosistema territorial. Incluye pasaporte de identidad (huésped / comunero), galería asimétrica, audio-guías, mapa geográfico y dashboard de telemetría. Se abre directamente con `index.html` o se sirve como estático.
+
+| Capa | Módulo |
+|---|---|
+| 1. Presentación | `presentacion/` |
+| 2. Interfaz pública | `apps/visitor-web` |
+| 3. Gestión territorial | `apps/admin-os` |
+| 4. Sistema Operativo Territorial (API) | `infrastructure/nodo-cero` |
+| 5. Motor TAMV | `services/core` |
 
 ---
 
@@ -289,7 +306,7 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 
 | Repo | Rama | Último commit (local) |
 |---|---|---|
-| [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `main` | `fd2a9e4` |
+| [nodo-genesis](https://github.com/OsoPanda1/nodo-genesis) (raíz) | `main` | `53e42e1` |
 | [tamv-core](https://github.com/TAMV-ONLINE-NET/tamv-core) | `main` | `600efd1` |
 | [visitarealdelmonte](https://github.com/OsoPanda1/visitarealdelmonte) | `main` | `8672e3a` |
 | [rdm-smart-city-os](https://github.com/OsoPanda1/rdm-smart-city-os) | `main` | `2ae4743` |
@@ -306,6 +323,7 @@ Reporta vulnerabilidades a `security@visitarealdelmonte.online` (no en issues p�
 | Config de entorno | [`rdm-stack/.env.example`](rdm-stack/.env.example) |
 | Scripts de operación | [`rdm-stack/Makefile`](rdm-stack/Makefile) · [`rdm-stack/deploy-prod.sh`](rdm-stack/deploy-prod.sh) |
 | Nodo-cero (API territorial) | [`infrastructure/nodo-cero/README.md`](rdm-stack/infrastructure/nodo-cero/README.md) · [`AGENTS.md`](rdm-stack/infrastructure/nodo-cero/AGENTS.md) |
+| Presentación (primera capa) | [`presentacion/README.md`](presentacion/README.md) |
 | Visitor-web | [`apps/visitor-web/README.md`](rdm-stack/apps/visitor-web/README.md) · [`docs/`](rdm-stack/apps/visitor-web/docs/) |
 | Admin-os | [`apps/admin-os/README.md`](rdm-stack/apps/admin-os/README.md) |
 | Core TAMV | [`services/core/README.md`](rdm-stack/services/core/README.md) |
