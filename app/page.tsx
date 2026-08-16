@@ -4,26 +4,28 @@ import React, { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  Compass,
   Sparkles,
+  Ticket,
+  Compass,
   UtensilsCrossed,
   Palette,
   Ghost,
   BookMarked,
-  Store,
-  ShoppingBag,
   MessagesSquare,
-  Users,
-  Map,
-  Cpu,
-  Mountain,
-  Landmark,
-  Building2,
-  Ticket,
   Heart,
-  ExternalLink,
+  Store,
+  Map,
+  Building2,
+  ShieldCheck,
+  Accessibility,
+  Globe,
 } from "lucide-react";
-import DynamicTourismHero from "@/components/hero/DynamicTourismHero";
+import AtmosphericHero from "@/components/rdm/atmosphere/AtmosphericHero";
+import FloatingNav from "@/components/rdm/navigation/FloatingNav";
+import IntentMenu from "@/components/rdm/navigation/IntentMenu";
+import TerritoryStatusBar from "@/components/rdm/telemetry/TerritoryStatusBar";
+import ExperienceCard, { ExperienceItem } from "@/components/rdm/discovery/ExperienceCard";
+import DigitalPassport from "@/components/rdm/passport/DigitalPassport";
 import TourismSection from "@/components/tourism/TourismSection";
 import GastronomySection from "@/components/gastronomy/GastronomySection";
 import ArtSection from "@/components/art/ArtSection";
@@ -37,51 +39,63 @@ import HonorWallSection from "@/components/honor/HonorWallSection";
 import RegisterSection from "@/components/register/RegisterSection";
 import MapHub from "@/components/map/MapHub";
 import IsabellaChat from "@/components/isabella/IsabellaChat";
-import { StatPill } from "@/components/design-system/StatPill";
-import { MetallicHeading } from "@/components/design-system/MetallicHeading";
-import { CrystalButton } from "@/components/design-system/CrystalButton";
-import { GradientDivider } from "@/components/design-system/GradientDivider";
 
 /* ================================================================== */
-/* Portada institucional del destino — modelo "destino turístico        */
-/* inteligente" (Oficina Virtual, Inteligencia, Gobernanza).           */
-/* El núcleo técnico de nodo-cero vive en /nodo y se enlaza aquí.      */
+/* Portada cinematográfica — 'Real del Monte se interpreta, se         */
+/* escucha, se recorre y se recuerda.'                                 */
+/* Orden: hero temporal → telemetría → intención → mapa vivo →         */
+/* destacado → rutas → sabores → archivo → pasaporte → agenda →        */
+/* Isabella → compromiso territorial. El núcleo técnico vive en /nodo. */
 /* ================================================================== */
 
-const NAV_ITEMS = [
-  { href: "#virtual", label: "Oficina Virtual" },
-  { href: "#rutas", label: "Rutas y Turismo" },
-  { href: "#mapa", label: "Mapa Interactivo" },
-  { href: "#gastronomia", label: "Gastronomía" },
-  { href: "#cultura", label: "Cultura e Historia" },
-  { href: "#economia", label: "Economía Local" },
-  { href: "#comunidad", label: "Comunidad" },
-];
-
-const OFICINA_VIRTUAL = [
+const EXPERIENCIAS: ExperienceItem[] = [
   {
-    title: "Asistente IA Isabella",
-    description: "Tu guía cognitiva del Pueblo Mágico: rutas, historia, pastes y servicios, 24/7.",
-    icon: <Sparkles className="w-5 h-5" />,
-    accent: "#c89a45",
+    id: "acosta",
+    title: "Mina de Acosta",
+    category: "Patrimonio minero",
+    description: "Desciende a la memoria subterránea de la Real de Minas.",
+    image: "/images/mina-acosta.jpg",
+    time: "8 min",
+    aforo: "Aforo medio",
+    accessibility: "Parcial",
+    audio: "sí",
+    tone: "#b76e3f",
   },
   {
-    title: "Rutas turísticas",
-    description: "Minas históricas, ecoturismo y senderos patrimoniales con cartografía interactiva.",
-    icon: <Mountain className="w-5 h-5" />,
-    accent: "#0d4652",
+    id: "panteon",
+    title: "Panteón Inglés",
+    category: "Patrimonio",
+    description: "La calma de una historia que llegó desde Cornwall.",
+    image: "/images/pedro-romero.jpg",
+    time: "12 min",
+    aforo: "Aforo bajo",
+    accessibility: "Accesible",
+    audio: "sí",
+    tone: "#0b5f6c",
   },
   {
-    title: "Mapa interactivo",
-    description: "Gemelo digital 2D/3D del territorio: atractivos, servicios y nodos del pueblo.",
-    icon: <Map className="w-5 h-5" />,
-    accent: "#3f9b78",
+    id: "penas",
+    title: "Peñas Cargadas",
+    category: "Naturaleza",
+    description: "El sendero que se abre a la montaña y a la niebla.",
+    image: "/images/penas-cargadas.jpg",
+    time: "45 min",
+    aforo: "Aforo bajo",
+    accessibility: "Exigente",
+    audio: "sí",
+    tone: "#166534",
   },
   {
-    title: "Calendario del destino",
-    description: "Feria del Paste, Semana Cornish y las fiestas del calendario anual del Real.",
-    icon: <Ticket className="w-5 h-5" />,
-    accent: "#d97832",
+    id: "mirador",
+    title: "Mirador Purísima",
+    category: "Mirador",
+    description: "La luz baja sobre las casas que aprendieron a resistir.",
+    image: "/images/mirador-purisima.jpg",
+    time: "20 min",
+    aforo: "Aforo medio",
+    accessibility: "Accesible",
+    audio: "sí",
+    tone: "#d97706",
   },
 ];
 
@@ -95,196 +109,132 @@ export default function DestinoPortada() {
   };
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <main className="min-h-screen bg-[#f4f6f2] text-[#283038]">
-      {/* ================= BARRA INSTITUCIONAL ================= */}
-      <header className="sticky top-0 z-50 border-b border-[#d5d9d3] bg-[#f4f6f2]/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0d4652] text-white">
-              <Landmark className="h-5 w-5" />
-            </span>
-            <span className="hidden sm:block">
-              <span className="block font-patrimonial text-base font-bold leading-tight text-[#082f3b]">
-                Real del Monte
-              </span>
-              <span className="block font-rdm-mono text-[9px] uppercase tracking-[0.28em] text-[#536b86]">
-                Destino Inteligente
-              </span>
-            </span>
-          </Link>
+    <main className="min-h-screen bg-[#f4f7fb] text-[#1e293b]">
+      <FloatingNav onOpenIsabella={() => openIsabella()} onSearch={() => scrollTo("explora")} />
 
-          <nav className="hidden lg:flex items-center gap-5">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(item.href.slice(1));
-                }}
-                className="text-xs font-semibold text-[#536b86] transition-colors hover:text-[#0d4652]"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+      {/* 01 · HERO TEMPORAL — observatorio del destino */}
+      <AtmosphericHero
+        onOpenIsabella={() => openIsabella()}
+        onExplore={() => scrollTo("explora")}
+      />
 
-          <div className="flex items-center gap-2">
-            <CrystalButton
-              variant="ghost"
-              onClick={() => openIsabella()}
-              className="px-4 py-2 text-xs font-bold"
-            >
-              <Sparkles className="h-4 w-4 text-[#c89a45]" />
-              <span className="hidden sm:inline">Isabella</span>
-            </CrystalButton>
-            <Link href="/nodo">
-              <CrystalButton className="px-4 py-2 text-xs font-bold">
-                <Cpu className="h-4 w-4" />
-                <span className="hidden sm:inline">Nodo Cero</span>
-              </CrystalButton>
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* 02 · TELEMETRÍA ÚTIL */}
+      <div className="rdm-shell relative z-20 -mt-16 px-6">
+        <TerritoryStatusBar />
+      </div>
 
-      {/* ================= HERO DEL DESTINO ================= */}
-      <section className="mx-auto max-w-7xl px-4 pt-4">
-        <DynamicTourismHero
-          onOpenIsabella={() => openIsabella()}
-          onReplayIntro={() => scrollTo("rutas")}
+      {/* 03 · EXPLORA SEGÚN TU DESEO */}
+      <section id="explora" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <IntentMenu
           onNavigate={(view) => {
-            if (view === "tourism") scrollTo("rutas");
-            else scrollTo(view);
+            if (view === "map") scrollTo("mapa");
+            else openIsabella(`Quiero explorar: ${view}`);
           }}
         />
       </section>
 
-      {/* ================= GUÍA RÁPIDA ================= */}
-      <section className="mx-auto max-w-7xl px-6 -mt-8 relative z-20">
-        <div className="rounded-[2rem] border border-white/70 bg-white/82 p-5 shadow-[0_24px_80px_rgba(13,70,82,0.14)] backdrop-blur-2xl">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div className="space-y-1">
-              <p className="font-rdm-mono text-[10px] uppercase tracking-[0.28em] text-[#c89a45]">Oficina Turística Virtual</p>
-              <h2 className="font-patrimonial text-2xl font-bold text-[#082f3b]">¿Qué quieres vivir hoy en el Real?</h2>
-              <p className="max-w-2xl text-sm leading-relaxed text-[#536b86]">
-                Servicios, rutas, inteligencia del destino y gobernanza del Pueblo Mágico en una sola puerta de entrada.
-              </p>
-            </div>
-            <CrystalButton variant="ghost" onClick={() => openIsabella("Necesito una guía personalizada del pueblo")} className="px-5 py-3 text-xs font-bold">
-              <Sparkles className="w-4 h-4 text-[#0d4652]" />
-              <span>Necesito guía personalizada</span>
-            </CrystalButton>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {OFICINA_VIRTUAL.map((card) => (
-              <button
-                key={card.title}
-                onClick={() => openIsabella(card.description)}
-                className="group rounded-2xl border border-[#c9d0d4]/70 bg-[#fbfcfa]/88 p-4 text-left shadow-sm transition-all hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(13,70,82,0.12)]"
-              >
-                <span className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl text-white shadow-sm" style={{ background: card.accent }}>
-                  {card.icon}
-                </span>
-                <span className="block font-patrimonial text-base font-bold text-[#082f3b]">{card.title}</span>
-                <span className="mt-1 block text-xs leading-relaxed text-[#536b86]">{card.description}</span>
-                <span className="mt-3 inline-flex items-center gap-1 font-rdm-mono text-[10px] font-bold uppercase tracking-widest" style={{ color: card.accent }}>
-                  Preguntar a Isabella <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= INDICADORES DEL DESTINO ================= */}
-      <section className="mx-auto max-w-7xl px-6 -mt-14 relative z-10">
-        <div className="crystal-card p-5">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatPill value="500" label="Años de historia" sub="De la Real de Minas a 2026" color="#3f9b78" />
-            <StatPill value="5" label="Rutas turísticas" sub="minas, gastronomía y ecoturismo" color="#0d4652" />
-            <StatPill value="8" label="Fiestas y tradiciones" sub="del calendario anual del pueblo" color="#d97832" />
-            <StatPill value="35" label="Nodos YUN activos" sub="infraestructura soberana del Nodo Cero" color="#c89a45" />
-          </div>
-        </div>
-      </section>
-
-      {/* ================= RUTAS Y TURISMO ================= */}
-      <section id="rutas" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* 04 · MAPA VIVO */}
+      <section id="mapa" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div className="space-y-1">
-            <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-              Turismo, ecoturismo y rutas del Real
-            </MetallicHeading>
-            <p className="text-xs text-slate-600 font-mono">
-              Feria del Paste, Semana Cornish, rutas mineras y de naturaleza, y los dichos que guardan la memoria del pueblo.
-            </p>
-          </div>
-          <Link href="/nodo?view=tourism">
-            <span className="px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-700 hover:text-[#082f3b] text-xs font-mono font-semibold transition-all flex items-center gap-2">
-              <span>Explorar turismo</span>
-              <ArrowRight className="w-4 h-4" />
-            </span>
-          </Link>
-        </div>
-        <TourismSection />
-      </section>
-
-      {/* ================= MAPA INTERACTIVO ================= */}
-      <section id="mapa" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-1">
-            <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-              Mapa interactivo del destino
-            </MetallicHeading>
-            <p className="text-xs text-slate-600 font-mono">
-              Gemelo digital 2D/3D del territorio: atractivos, servicios y nodos del pueblo.
+            <p className="rdm-meta text-[#0b5f6c]">Mapa vivo del territorio</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              Capas, rutas y descubrimiento
+            </h2>
+            <p className="max-w-xl text-sm text-[#475569]">
+              Patrimonio, gastronomía, naturaleza y accesibilidad sobre la cartografía soberana del pueblo.
             </p>
           </div>
           <Link href="/nodo?view=map">
-            <span className="px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-700 hover:text-[#082f3b] text-xs font-mono font-semibold transition-all flex items-center gap-2">
-              <span>Mapa 2D/3D</span>
-              <ArrowRight className="w-4 h-4" />
+            <span className="rdm-button-secondary">
+              <Map className="h-4 w-4" />
+              Mapa 2D/3D <ArrowRight className="h-4 w-4" />
             </span>
           </Link>
         </div>
         <MapHub />
       </section>
 
-      {/* ================= GASTRONOMÍA ================= */}
-      <section id="gastronomia" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* 05 · EXPERIENCIAS DESTACADAS */}
+      <section className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div className="space-y-1">
-            <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-              Gastronomía del Monte
-            </MetallicHeading>
-            <p className="text-xs text-slate-600 font-mono">
-              Pastes de papa y frijol, mixiotes, pan de pulque y café de altura: la cocina minera en la mesa.
-            </p>
+            <p className="rdm-meta text-[#b76e3f]">Experiencias del territorio</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              Lugares que se interpretan
+            </h2>
           </div>
-          <Link href="/nodo?view=gastronomy">
-            <span className="px-4 py-2 rounded-xl bg-orange-500/20 border border-orange-500/40 text-orange-700 hover:text-[#082f3b] text-xs font-mono font-semibold transition-all flex items-center gap-2">
-              <span>Ver gastronomía</span>
-              <ArrowRight className="w-4 h-4" />
+          <Link href="/nodo?view=tourism">
+            <span className="rdm-button-secondary">
+              Ver todas <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {EXPERIENCIAS.map((item) => (
+            <ExperienceCard
+              key={item.id}
+              item={item}
+              onExplore={(it) => openIsabella(`Cuéntame sobre ${it.title}`)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 06 · RUTAS DE MEMORIA */}
+      <section id="rutas" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div className="space-y-1">
+            <p className="rdm-meta text-[#0b5f6c]">Rutas de memoria</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              Recorridos de 1, 3 y 6 horas
+            </h2>
+          </div>
+          <Link href="/nodo?view=tourism">
+            <span className="rdm-button-secondary">
+              <Compass className="h-4 w-4" />
+              Explorar rutas <ArrowRight className="h-4 w-4" />
+            </span>
+          </Link>
+        </div>
+        <TourismSection />
+      </section>
+
+      {/* 07 · SABORES Y OFICIOS */}
+      <section id="sabores" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div className="space-y-1">
+            <p className="rdm-meta text-[#d97706]">Sabores y oficios locales</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              Comercios con identidad
+            </h2>
+          </div>
+          <Link href="/nodo?view=marketplace">
+            <span className="rdm-button-secondary">
+              <UtensilsCrossed className="h-4 w-4" />
+              Marketplace <ArrowRight className="h-4 w-4" />
             </span>
           </Link>
         </div>
         <GastronomySection />
+        <div className="mt-8">
+          <BusinessPortal />
+        </div>
       </section>
 
-      {/* ================= CULTURA E HISTORIA ================= */}
-      <section id="cultura" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* 08 · ARCHIVO VIVO */}
+      <section id="archivo" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div className="space-y-1">
-            <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-              Cultura, historia y memoria
-            </MetallicHeading>
-            <p className="text-xs text-slate-600 font-mono">
+            <p className="rdm-meta text-[#166534]">Archivo vivo del Real</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              La memoria no está detrás de un vidrio
+            </h2>
+            <p className="max-w-xl text-sm text-[#475569]">
               Arte y artesanos, leyendas, archivo histórico y galería compartida del pueblo.
             </p>
           </div>
@@ -292,212 +242,227 @@ export default function DestinoPortada() {
 
         <ArtSection />
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#082f3b]">
-              <Ghost className="h-4 w-4 text-indigo-600" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+              <Ghost className="h-4 w-4 text-[#0b5f6c]" />
               Historia, mitos y leyendas
             </h4>
             <LegendsSection />
-            <Link href="/nodo?view=legends">
-              <span className="mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-indigo-500/20 border border-indigo-500/40 text-indigo-700 text-xs font-mono font-semibold">
-                Ver leyendas <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
           </div>
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#082f3b]">
-              <BookMarked className="h-4 w-4 text-amber-700" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+              <BookMarked className="h-4 w-4 text-[#b76e3f]" />
               Archivo Histórico del Real
             </h4>
             <ArchiveView />
-            <Link href="/nodo?view=archive">
-              <span className="mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-700/20 border border-amber-700/40 text-amber-900 text-xs font-mono font-semibold">
-                Ver archivo <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </Link>
           </div>
         </div>
 
-        <div className="space-y-3">
-          <h4 className="flex items-center gap-2 text-sm font-semibold text-[#082f3b]">
-            <Palette className="h-4 w-4 text-emerald-600" />
+        <div className="mt-8 space-y-3">
+          <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+            <Palette className="h-4 w-4 text-[#166534]" />
             Galería compartida
           </h4>
           <GallerySection />
-          <Link href="/nodo?view=gallery">
-            <span className="mt-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-700 text-xs font-mono font-semibold">
-              Ver galería <ArrowRight className="w-3.5 h-3.5" />
-            </span>
-          </Link>
         </div>
       </section>
 
-      {/* ================= ECONOMÍA LOCAL ================= */}
-      <section id="economia" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* 09 · PASAPORTE RDM */}
+      <section id="pasaporte" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <DigitalPassport
+          onNavigate={(view) => {
+            if (view === "pasaporte") openIsabella("Muéstrame mi pasaporte RDM");
+          }}
+        />
+      </section>
+
+      {/* 10 · AGENDA */}
+      <section id="agenda" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div className="space-y-1">
-            <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-              Economía local con sello RDM
-            </MetallicHeading>
-            <p className="text-xs text-slate-600 font-mono">
-              Negocios verificados del pueblo, pastes y platería ley .925 con experiencias territoriales.
-            </p>
+            <p className="rdm-meta text-[#b76e3f]">Agenda del destino</p>
+            <h2 className="rdm-display-md font-display text-[#10243d]">
+              Qué ocurre hoy
+            </h2>
           </div>
-          <Link href="/nodo?view=marketplace">
-            <span className="px-4 py-2 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-700 hover:text-[#082f3b] text-xs font-mono font-semibold transition-all flex items-center gap-2">
-              <span>Ir al marketplace</span>
-              <ArrowRight className="w-4 h-4" />
+          <Link href="/nodo?view=tourism">
+            <span className="rdm-button-secondary">
+              <Ticket className="h-4 w-4" />
+              Ver agenda <ArrowRight className="h-4 w-4" />
             </span>
           </Link>
         </div>
-        <BusinessPortal />
         <PhygitalMarketplace />
       </section>
 
-      {/* ================= COMUNIDAD ================= */}
-      <section id="comunidad" className="mx-auto max-w-7xl scroll-mt-20 px-6 space-y-6 pt-20">
-        <div className="space-y-1">
-          <MetallicHeading as="h3" className="text-2xl sm:text-3xl">
-            Comunidad del Real
-          </MetallicHeading>
-          <p className="text-xs text-slate-600 font-mono">
-            Foro, muro de honor y registro de vecinos, negocios y artesanos.
-          </p>
+      {/* 11 · COMUNIDAD */}
+      <section id="comunidad" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <div className="mb-6 space-y-1">
+          <p className="rdm-meta text-[#0b5f6c]">Comunidad del Real</p>
+          <h2 className="rdm-display-md font-display text-[#10243d]">
+            El pueblo que se cuenta
+          </h2>
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#082f3b]">
-              <MessagesSquare className="h-4 w-4 text-sky-600" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+              <MessagesSquare className="h-4 w-4 text-[#0b5f6c]" />
               Foro del Real
             </h4>
             <ForumSection />
           </div>
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#082f3b]">
-              <Heart className="h-4 w-4 text-yellow-600" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+              <Heart className="h-4 w-4 text-[#d97706]" />
               Muro de honor
             </h4>
             <HonorWallSection />
           </div>
         </div>
-        <RegisterSection />
+        <div className="mt-8">
+          <RegisterSection />
+        </div>
       </section>
 
-      {/* ================= IDENTIDAD ================= */}
-      <section className="mx-auto max-w-7xl px-6 pt-20">
-        <div className="crystal-card p-8 md:p-12 text-center">
-          <div className="crystal-badge mx-auto mb-5">
-            <Sparkles className="w-3.5 h-3.5 text-[#d97832]" />
-            <span>Autoría e identidad</span>
+      {/* 12 · COMPROMISO TERRITORIAL */}
+      <section className="rdm-section rdm-shell px-6">
+        <div className="rdm-glass overflow-hidden rounded-[2rem]">
+          <div className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
+            <div className="space-y-4">
+              <p className="rdm-meta text-[#0b5f6c]">Compromiso territorial</p>
+              <h2 className="rdm-display-md font-display text-[#10243d]">
+                Soberanía de los datos del pueblo
+              </h2>
+              <p className="text-sm leading-relaxed text-[#475569]">
+                Los datos son locales, trazables y con consentimiento. Las estimaciones de
+                aforo y movilidad se declaran como estimaciones responsables.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <span className="rdm-chip"><ShieldCheck className="h-3.5 w-3.5 text-[#166534]" /> Datos soberanos</span>
+                <span className="rdm-chip"><Accessibility className="h-3.5 w-3.5 text-[#0b5f6c]" /> Accesibilidad integrada</span>
+                <span className="rdm-chip"><Globe className="h-3.5 w-3.5 text-[#b76e3f]" /> ES · EN</span>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center gap-4">
+              <Link href="/nodo?view=crown-gateway">
+                <span className="rdm-button-secondary w-full justify-start">
+                  <Building2 className="h-4 w-4" />
+                  CROWN Gateway — IA federada <ArrowRight className="ml-auto h-4 w-4" />
+                </span>
+              </Link>
+              <Link href="/nodo?view=city">
+                <span className="rdm-button-secondary w-full justify-start">
+                  <Store className="h-4 w-4" />
+                  Centro de operaciones del destino <ArrowRight className="ml-auto h-4 w-4" />
+                </span>
+              </Link>
+              <Link href="/nodo">
+                <span className="rdm-button-primary w-full justify-start">
+                  Núcleo tecnológico del Nodo Cero <ArrowRight className="ml-auto h-4 w-4" />
+                </span>
+              </Link>
+            </div>
           </div>
-          <p className="font-editorial text-2xl sm:text-3xl font-medium text-[#082f3b]">
-            Una plataforma creada y arquitectada por
-          </p>
-          <p className="rdm-metallic-text font-editorial text-4xl sm:text-6xl font-semibold tracking-tight mt-3">
+        </div>
+      </section>
+
+      {/* Identidad */}
+      <section className="rdm-section rdm-shell px-6">
+        <div className="text-center">
+          <p className="rdm-meta text-[#b76e3f]">Autoría e identidad</p>
+          <p className="rdm-display-lg font-display text-[#10243d] mt-3">
             Anubis Villaseñor
           </p>
-          <p className="font-rdm-mono text-xs tracking-[0.28em] uppercase text-[#536b86] mt-4">
+          <p className="mt-2 text-xs uppercase tracking-[0.28em] text-[#475569]">
             Sistemas territoriales · Inteligencia cognitiva · Gobernanza digital · Experiencias inmersivas
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+            <button onClick={() => openIsabella()} className="rdm-button-primary">
+              <Sparkles className="h-4 w-4" />
+              Hablar con Isabella
+            </button>
             <Link href="/nodo?view=about">
-              <CrystalButton className="px-7 py-3.5 text-sm font-bold">
-                <span>Conocer la plataforma</span>
-                <ArrowRight className="w-4 h-4" />
-              </CrystalButton>
+              <span className="rdm-button-secondary">Conocer la plataforma</span>
             </Link>
-            <CrystalButton variant="ghost" onClick={() => openIsabella()} className="px-7 py-3.5 text-sm font-semibold">
-              <Sparkles className="w-4 h-4 text-[#0d4652]" />
-              <span>Hablar con Isabella</span>
-            </CrystalButton>
           </div>
-          <GradientDivider className="mt-8" />
-          <p className="font-rdm-mono text-[10px] tracking-widest text-[#536b86]">
-            NODO CERO · RDM DIGITAL · REAL DEL MONTE, HIDALGO
-          </p>
         </div>
       </section>
 
-      {/* ================= PIE INSTITUCIONAL ================= */}
-      <footer className="mt-20 border-t border-[#d5d9d3] bg-[#eef0ea]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4">
+      {/* Pie institucional */}
+      <footer className="border-t border-[#e2e8f0] bg-[#10243d] text-white">
+        <div className="rdm-shell grid gap-10 px-6 py-14 md:grid-cols-4">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0d4652] text-white">
-                <Landmark className="h-4 w-4" />
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b5f6c] text-white">
+                <Compass className="h-4 w-4" />
               </span>
-              <span className="font-patrimonial text-base font-bold text-[#082f3b]">Real del Monte</span>
+              <span className="font-display text-base font-bold">Real del Monte</span>
             </div>
-            <p className="text-xs leading-relaxed text-[#536b86]">
-              Destino turístico inteligente del Pueblo Mágico de Hidalgo: patrimonio, cultura, economía phygital y gobernanza soberana.
+            <p className="text-xs leading-relaxed text-[#cbd5e1]">
+              Destino turístico inteligente del Pueblo Mágico de Hidalgo: patrimonio,
+              cultura, economía phygital y gobernanza soberana.
             </p>
           </div>
-
           <div className="space-y-2">
-            <p className="font-rdm-mono text-[10px] uppercase tracking-[0.28em] text-[#536b86]">Oficina Virtual</p>
-            {OFICINA_VIRTUAL.map((c) => (
-              <a
-                key={c.title}
-                href="#virtual"
-                onClick={(e) => {
-                  e.preventDefault();
-                  openIsabella(c.description);
-                }}
-                className="block text-xs text-[#536b86] transition-colors hover:text-[#0d4652]"
-              >
-                {c.title}
-              </a>
-            ))}
+            <p className="rdm-meta text-[#f6b752]">Oficina Virtual</p>
+            <button onClick={() => openIsabella()} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Asistente IA Isabella
+            </button>
+            <a href="#rutas" onClick={(e) => { e.preventDefault(); scrollTo("rutas"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Rutas y turismo
+            </a>
+            <a href="#mapa" onClick={(e) => { e.preventDefault(); scrollTo("mapa"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Mapa interactivo
+            </a>
+            <a href="#pasaporte" onClick={(e) => { e.preventDefault(); scrollTo("pasaporte"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Pasaporte RDM
+            </a>
           </div>
-
           <div className="space-y-2">
-            <p className="font-rdm-mono text-[10px] uppercase tracking-[0.28em] text-[#536b86]">Explora</p>
-            {NAV_ITEMS.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(n.href.slice(1));
-                }}
-                className="block text-xs text-[#536b86] transition-colors hover:text-[#0d4652]"
-              >
-                {n.label}
-              </a>
-            ))}
+            <p className="rdm-meta text-[#f6b752]">Explora</p>
+            <a href="#sabores" onClick={(e) => { e.preventDefault(); scrollTo("sabores"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Sabores y oficios
+            </a>
+            <a href="#archivo" onClick={(e) => { e.preventDefault(); scrollTo("archivo"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Archivo vivo
+            </a>
+            <a href="#agenda" onClick={(e) => { e.preventDefault(); scrollTo("agenda"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Agenda
+            </a>
+            <a href="#comunidad" onClick={(e) => { e.preventDefault(); scrollTo("comunidad"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+              Comunidad
+            </a>
           </div>
-
           <div className="space-y-2">
-            <p className="font-rdm-mono text-[10px] uppercase tracking-[0.28em] text-[#536b86]">Gobernanza y tecnología</p>
-            <Link href="/nodo?view=crown-gateway" className="block text-xs text-[#536b86] transition-colors hover:text-[#0d4652]">
+            <p className="rdm-meta text-[#f6b752]">Gobernanza y tecnología</p>
+            <Link href="/nodo?view=crown-gateway" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               CROWN Gateway — IA federada
             </Link>
-            <Link href="/nodo?view=city" className="block text-xs text-[#536b86] transition-colors hover:text-[#0d4652]">
+            <Link href="/nodo?view=city" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               Ciudad IOC
             </Link>
-            <Link href="/nodo?view=twins" className="block text-xs text-[#536b86] transition-colors hover:text-[#0d4652]">
+            <Link href="/nodo?view=twins" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               Gemelo territorial DTDL
             </Link>
-            <Link href="/nodo" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#0d4652] hover:underline">
-              <Cpu className="h-3.5 w-3.5" />
-              Núcleo tecnológico del Nodo Cero
+            <Link href="/nodo" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#f6b752] hover:underline">
+              Núcleo tecnológico <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>
-        <div className="border-t border-[#d5d9d3]">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-6 py-5">
-            <p className="font-rdm-mono text-[10px] tracking-widest text-[#536b86]">
-              RDM DIGITAL HUB · NODO CERO · TAMV ONLINE NETWORK
+        <div className="border-t border-white/10">
+          <div className="rdm-shell flex flex-wrap items-center justify-between gap-3 px-6 py-5">
+            <p className="rdm-meta text-[#94a3b8]">
+              RDM Digital Hub · Nodo Cero · TAMV Online Network
             </p>
-            <p className="font-rdm-mono text-[10px] tracking-widest text-[#536b86]">
-              REAL DEL MONTE, HIDALGO, MÉXICO
+            <p className="rdm-meta text-[#94a3b8]">
+              Real del Monte, Hidalgo, México
             </p>
           </div>
         </div>
       </footer>
 
-      {/* Asistente Isabella AI flotante */}
+      {/* Isabella AI flotante */}
       <IsabellaChat
         isOpen={isabellaOpen}
         onClose={() => setIsabellaOpen(false)}

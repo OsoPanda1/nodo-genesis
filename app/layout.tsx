@@ -1,7 +1,22 @@
 import type { Metadata, Viewport } from 'next';
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { ModeProvider } from '@/lib/ui';
 import './globals.css';
+
+/* Tipografía de lujo editorial: serif expresiva (display) + sans de
+   precisión (UI). Fallbacks locales en globals.css para builds offline. */
+const display = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const ui = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-ui',
+  display: 'swap',
+});
 
 /* Dominio canónico del despliegue: https://www.visitarealdelmonte.online.
    visitarealdelmonte.online (apex) responde 308 (permanent redirect) al
@@ -88,9 +103,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning className="bg-[#f4f6f2]">
+    <html lang="es" suppressHydrationWarning className={`bg-[#f4f6f2] ${display.variable} ${ui.variable}`}>
       <body
-        className="min-h-screen bg-[#f4f6f2] text-[#283038]"
+        className="min-h-screen bg-[#f4f6f2] text-[#283038] font-ui"
       >
         <ModeProvider>
           {children}
