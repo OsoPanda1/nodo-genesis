@@ -1057,28 +1057,41 @@
 /* RDM DESIGN SYSTEM v3 — Cinematográfico territorial                  */
 /* 'Cristal mineral · Niebla de montaña · Plata antigua ·              */
 /*  Inteligencia territorial'                                          */
-/* Tokens: perla, navy, petróleo, ocre como veta, cobre, encino.       */
+/* Paleta canónica RDM: blancos perlados, negros profundos, azul       */
+/* eléctrico, azul petróleo, platinos y naranjas.                      */
 /* Tipografía: serif expresiva (display) + sans de precisión (UI).     */
 /* ================================================================== */
 
 @layer base {
   :root {
-    /* Perla y plata */
+    /* Blancos perlados y platinos */
     --rdm-pearl-50: #fbfcfe;
     --rdm-pearl-100: #f4f7fb;
+    --rdm-pearl: #f7f8f5;
+    --rdm-pearl-deep: #ecefea;
+    --rdm-platinum: #c9d0d4;
+    --rdm-platinum-bright: #eef2f2;
     --rdm-silver-200: #e2e8f0;
     --rdm-silver-300: #cbd5e1;
     --rdm-mist-400: #94a3b8;
     --rdm-slate-600: #475569;
     --rdm-slate-800: #1e293b;
 
-    /* Profundidad petrolera */
+    /* Negros profundos y profundidad petrolera */
+    --rdm-deep-black: #101418;
     --rdm-navy: #10243d;
     --rdm-navy-deep: #071525;
+    --rdm-petroleum: #0d4652;
+    --rdm-petroleum-deep: #082f3b;
     --rdm-petrol: #0b5f6c;
     --rdm-petrol-light: #147d8c;
 
-    /* Vetas minerales */
+    /* Azul eléctrico — datos vivos, capas e inteligencia */
+    --rdm-electric-blue: #2e9cff;
+
+    /* Vetas naranjas — CTA, progreso y conversión */
+    --rdm-orange: #d97832;
+    --rdm-orange-deep: #a9481e;
     --rdm-miner-ochre: #d97706;
     --rdm-amber-light: #f6b752;
     --rdm-copper: #b76e3f;
@@ -1096,8 +1109,14 @@
     /* Sombras y halos */
     --rdm-shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.1);
     --rdm-shadow-deep: 0 28px 100px rgba(2, 11, 23, 0.34);
+    --rdm-glow-electric:
+      0 0 0 1px rgba(46, 156, 255, 0.12), 0 0 72px rgba(46, 156, 255, 0.16);
     --rdm-glow-mineral:
       0 0 0 1px rgba(246, 183, 82, 0.14), 0 0 72px rgba(20, 125, 140, 0.16);
+
+    /* Gradiente core — platino → eléctrico → petróleo → naranja */
+    --rdm-gradient-core:
+      linear-gradient(115deg, #c9d0d4 0%, #2e9cff 26%, #0d4652 52%, #d97832 100%);
 
     /* Tipografía */
     --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
@@ -1278,7 +1297,7 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 22%, transparent);
 }
 
-.rdm-signal--ok { color: var(--rdm-encino); }
+.rdm-signal--ok { color: var(--rdm-electric-blue); }
 .rdm-signal--warn { color: var(--rdm-miner-ochre); }
 .rdm-signal--risk { color: var(--rdm-danger); }
 
@@ -1298,10 +1317,10 @@
 
 .rdm-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(20, 125, 140, 0.36);
+  border-color: rgba(46, 156, 255, 0.4);
   box-shadow:
     var(--rdm-shadow-soft),
-    var(--rdm-glow-mineral);
+    var(--rdm-glow-electric);
 }
 
 /* Hero atmosférico — observatorio temporal */

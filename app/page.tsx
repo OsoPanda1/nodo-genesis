@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Accessibility,
   Globe,
+  Landmark,
 } from "lucide-react";
 import AtmosphericHero from "@/components/rdm/atmosphere/AtmosphericHero";
 import FloatingNav from "@/components/rdm/navigation/FloatingNav";
@@ -26,6 +27,7 @@ import IntentMenu from "@/components/rdm/navigation/IntentMenu";
 import TerritoryStatusBar from "@/components/rdm/telemetry/TerritoryStatusBar";
 import ExperienceCard, { ExperienceItem } from "@/components/rdm/discovery/ExperienceCard";
 import DigitalPassport from "@/components/rdm/passport/DigitalPassport";
+import SectionHeader from "@/components/rdm/layout/SectionHeader";
 import TourismSection from "@/components/tourism/TourismSection";
 import GastronomySection from "@/components/gastronomy/GastronomySection";
 import ArtSection from "@/components/art/ArtSection";
@@ -45,7 +47,8 @@ import IsabellaChat from "@/components/isabella/IsabellaChat";
 /* escucha, se recorre y se recuerda.'                                 */
 /* Orden: hero temporal → telemetría → intención → mapa vivo →         */
 /* destacado → rutas → sabores → archivo → pasaporte → agenda →        */
-/* Isabella → compromiso territorial. El núcleo técnico vive en /nodo. */
+/* comunidad → compromiso territorial → identidad → pie.               */
+/* Núcleo técnico vive en /nodo con deep-links.                        */
 /* ================================================================== */
 
 const EXPERIENCIAS: ExperienceItem[] = [
@@ -71,7 +74,7 @@ const EXPERIENCIAS: ExperienceItem[] = [
     aforo: "Aforo bajo",
     accessibility: "Accesible",
     audio: "sí",
-    tone: "#0b5f6c",
+    tone: "#0d4652",
   },
   {
     id: "penas",
@@ -95,7 +98,7 @@ const EXPERIENCIAS: ExperienceItem[] = [
     aforo: "Aforo medio",
     accessibility: "Accesible",
     audio: "sí",
-    tone: "#d97706",
+    tone: "#d97832",
   },
 ];
 
@@ -122,13 +125,18 @@ export default function DestinoPortada() {
         onExplore={() => scrollTo("explora")}
       />
 
-      {/* 02 · TELEMETRÍA ÚTIL */}
+      {/* 02 · TELEMETRÍA ÚTIL — sobre el hero */}
       <div className="rdm-shell relative z-20 -mt-16 px-6">
         <TerritoryStatusBar />
       </div>
 
       {/* 03 · EXPLORA SEGÚN TU DESEO */}
       <section id="explora" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <SectionHeader
+          meta="Explora según tu deseo"
+          title="¿Qué quieres vivir hoy?"
+          description="Elige por intención: historia, caminata, comida, naturaleza o memoria sonora."
+        />
         <IntentMenu
           onNavigate={(view) => {
             if (view === "map") scrollTo("mapa");
@@ -139,41 +147,35 @@ export default function DestinoPortada() {
 
       {/* 04 · MAPA VIVO */}
       <section id="mapa" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#0b5f6c]">Mapa vivo del territorio</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              Capas, rutas y descubrimiento
-            </h2>
-            <p className="max-w-xl text-sm text-[#475569]">
-              Patrimonio, gastronomía, naturaleza y accesibilidad sobre la cartografía soberana del pueblo.
-            </p>
-          </div>
-          <Link href="/nodo?view=map">
-            <span className="rdm-button-secondary">
-              <Map className="h-4 w-4" />
-              Mapa 2D/3D <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader
+          meta="Mapa vivo del territorio"
+          title="Capas, rutas y descubrimiento"
+          description="Patrimonio, gastronomía, naturaleza y accesibilidad sobre la cartografía soberana del pueblo."
+          action={
+            <Link href="/nodo?view=map">
+              <span className="rdm-button-secondary">
+                <Map className="h-4 w-4" />
+                Mapa 2D/3D <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          }
+        />
         <MapHub />
       </section>
 
       {/* 05 · EXPERIENCIAS DESTACADAS */}
       <section className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#b76e3f]">Experiencias del territorio</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              Lugares que se interpretan
-            </h2>
-          </div>
-          <Link href="/nodo?view=tourism">
-            <span className="rdm-button-secondary">
-              Ver todas <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader
+          meta="Experiencias del territorio"
+          title="Lugares que se interpretan"
+          action={
+            <Link href="/nodo?view=tourism">
+              <span className="rdm-button-secondary">
+                Ver todas <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          }
+        />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {EXPERIENCIAS.map((item) => (
             <ExperienceCard
@@ -187,65 +189,63 @@ export default function DestinoPortada() {
 
       {/* 06 · RUTAS DE MEMORIA */}
       <section id="rutas" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#0b5f6c]">Rutas de memoria</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              Recorridos de 1, 3 y 6 horas
-            </h2>
-          </div>
-          <Link href="/nodo?view=tourism">
-            <span className="rdm-button-secondary">
-              <Compass className="h-4 w-4" />
-              Explorar rutas <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader
+          meta="Rutas de memoria"
+          title="Recorridos de 1, 3 y 6 horas"
+          action={
+            <Link href="/nodo?view=tourism">
+              <span className="rdm-button-secondary">
+                <Compass className="h-4 w-4" />
+                Explorar rutas <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          }
+        />
         <TourismSection />
       </section>
 
       {/* 07 · SABORES Y OFICIOS */}
       <section id="sabores" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#d97706]">Sabores y oficios locales</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              Comercios con identidad
-            </h2>
+        <SectionHeader
+          meta="Sabores y oficios locales"
+          title="Comercios con identidad"
+          action={
+            <Link href="/nodo?view=marketplace">
+              <span className="rdm-button-secondary">
+                <UtensilsCrossed className="h-4 w-4" />
+                Marketplace <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          }
+        />
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div>
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[#d97832]">
+              <UtensilsCrossed className="h-4 w-4" /> Gastronomía del Monte
+            </h3>
+            <GastronomySection />
           </div>
-          <Link href="/nodo?view=marketplace">
-            <span className="rdm-button-secondary">
-              <UtensilsCrossed className="h-4 w-4" />
-              Marketplace <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
-        <GastronomySection />
-        <div className="mt-8">
-          <BusinessPortal />
+          <div>
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[#0d4652]">
+              <Store className="h-4 w-4" /> Negocios con sello RDM
+            </h3>
+            <BusinessPortal />
+          </div>
         </div>
       </section>
 
       {/* 08 · ARCHIVO VIVO */}
       <section id="archivo" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#166534]">Archivo vivo del Real</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              La memoria no está detrás de un vidrio
-            </h2>
-            <p className="max-w-xl text-sm text-[#475569]">
-              Arte y artesanos, leyendas, archivo histórico y galería compartida del pueblo.
-            </p>
-          </div>
-        </div>
-
+        <SectionHeader
+          meta="Archivo vivo del Real"
+          title="La memoria no está detrás de un vidrio"
+          description="Arte y artesanos, leyendas, archivo histórico y galería compartida del pueblo."
+        />
         <ArtSection />
-
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="space-y-3">
             <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <Ghost className="h-4 w-4 text-[#0b5f6c]" />
+              <Ghost className="h-4 w-4 text-[#0d4652]" />
               Historia, mitos y leyendas
             </h4>
             <LegendsSection />
@@ -258,7 +258,6 @@ export default function DestinoPortada() {
             <ArchiveView />
           </div>
         </div>
-
         <div className="mt-8 space-y-3">
           <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
             <Palette className="h-4 w-4 text-[#166534]" />
@@ -270,6 +269,11 @@ export default function DestinoPortada() {
 
       {/* 09 · PASAPORTE RDM */}
       <section id="pasaporte" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <SectionHeader
+          meta="Pasaporte RDM"
+          title="Tu visita como bitácora minera"
+          description="Sellos, fragmentos de mapa y audios que reúnes al recorrer el pueblo."
+        />
         <DigitalPassport
           onNavigate={(view) => {
             if (view === "pasaporte") openIsabella("Muéstrame mi pasaporte RDM");
@@ -279,42 +283,39 @@ export default function DestinoPortada() {
 
       {/* 10 · AGENDA */}
       <section id="agenda" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div className="space-y-1">
-            <p className="rdm-meta text-[#b76e3f]">Agenda del destino</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
-              Qué ocurre hoy
-            </h2>
-          </div>
-          <Link href="/nodo?view=tourism">
-            <span className="rdm-button-secondary">
-              <Ticket className="h-4 w-4" />
-              Ver agenda <ArrowRight className="h-4 w-4" />
-            </span>
-          </Link>
-        </div>
+        <SectionHeader
+          meta="Agenda del destino"
+          title="Qué ocurre hoy"
+          action={
+            <Link href="/nodo?view=tourism">
+              <span className="rdm-button-secondary">
+                <Ticket className="h-4 w-4" />
+                Ver agenda <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          }
+        />
         <PhygitalMarketplace />
       </section>
 
       {/* 11 · COMUNIDAD */}
       <section id="comunidad" className="rdm-section rdm-shell scroll-mt-24 px-6">
-        <div className="mb-6 space-y-1">
-          <p className="rdm-meta text-[#0b5f6c]">Comunidad del Real</p>
-          <h2 className="rdm-display-md font-display text-[#10243d]">
-            El pueblo que se cuenta
-          </h2>
-        </div>
+        <SectionHeader
+          meta="Comunidad del Real"
+          title="El pueblo que se cuenta"
+          description="Foro, muro de honor y registro de vecinos, negocios y artesanos."
+        />
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="space-y-3">
             <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <MessagesSquare className="h-4 w-4 text-[#0b5f6c]" />
+              <MessagesSquare className="h-4 w-4 text-[#0d4652]" />
               Foro del Real
             </h4>
             <ForumSection />
           </div>
           <div className="space-y-3">
             <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <Heart className="h-4 w-4 text-[#d97706]" />
+              <Heart className="h-4 w-4 text-[#d97832]" />
               Muro de honor
             </h4>
             <HonorWallSection />
@@ -330,7 +331,7 @@ export default function DestinoPortada() {
         <div className="rdm-glass overflow-hidden rounded-[2rem]">
           <div className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
             <div className="space-y-4">
-              <p className="rdm-meta text-[#0b5f6c]">Compromiso territorial</p>
+              <p className="rdm-meta text-[#0d4652]">Compromiso territorial</p>
               <h2 className="rdm-display-md font-display text-[#10243d]">
                 Soberanía de los datos del pueblo
               </h2>
@@ -340,8 +341,8 @@ export default function DestinoPortada() {
               </p>
               <div className="flex flex-wrap gap-3">
                 <span className="rdm-chip"><ShieldCheck className="h-3.5 w-3.5 text-[#166534]" /> Datos soberanos</span>
-                <span className="rdm-chip"><Accessibility className="h-3.5 w-3.5 text-[#0b5f6c]" /> Accesibilidad integrada</span>
-                <span className="rdm-chip"><Globe className="h-3.5 w-3.5 text-[#b76e3f]" /> ES · EN</span>
+                <span className="rdm-chip"><Accessibility className="h-3.5 w-3.5 text-[#0d4652]" /> Accesibilidad integrada</span>
+                <span className="rdm-chip"><Globe className="h-3.5 w-3.5 text-[#d97832]" /> ES · EN</span>
               </div>
             </div>
             <div className="flex flex-col justify-center gap-4">
@@ -367,7 +368,7 @@ export default function DestinoPortada() {
         </div>
       </section>
 
-      {/* Identidad */}
+      {/* 13 · IDENTIDAD */}
       <section className="rdm-section rdm-shell px-6">
         <div className="text-center">
           <p className="rdm-meta text-[#b76e3f]">Autoría e identidad</p>
@@ -390,12 +391,12 @@ export default function DestinoPortada() {
       </section>
 
       {/* Pie institucional */}
-      <footer className="border-t border-[#e2e8f0] bg-[#10243d] text-white">
+      <footer className="border-t border-[#cbd5e1] bg-[#10243d] text-white">
         <div className="rdm-shell grid gap-10 px-6 py-14 md:grid-cols-4">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0b5f6c] text-white">
-                <Compass className="h-4 w-4" />
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0d4652] text-white">
+                <Landmark className="h-4 w-4" />
               </span>
               <span className="font-display text-base font-bold">Real del Monte</span>
             </div>

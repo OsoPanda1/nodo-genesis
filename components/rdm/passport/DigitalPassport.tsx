@@ -28,7 +28,7 @@ export default function DigitalPassport({
   ];
 
   return (
-    <div className="rdm-card overflow-hidden">
+    <div className="rdm-card overflow-hidden border-[#cbd5e1]/80">
       <div className="grid gap-0 md:grid-cols-[1.2fr_1fr]">
         {/* Bitácora */}
         <div className="space-y-6 p-8 md:p-10">
@@ -62,9 +62,9 @@ export default function DigitalPassport({
         {/* Próxima veta */}
         <div className="flex flex-col justify-between gap-6 border-t border-[#e2e8f0] bg-[#f4f7fb]/70 p-8 md:border-l md:border-t-0 md:p-10">
           <div className="space-y-4">
-            <p className="rdm-meta text-[#0b5f6c]">Próxima veta por descubrir</p>
+            <p className="rdm-meta text-[#0d4652]">Próxima veta por descubrir</p>
             <div className="flex items-start gap-3">
-              <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0b5f6c] text-white">
+              <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0d4652] text-white">
                 <MapPin className="h-4 w-4" />
               </span>
               <div>

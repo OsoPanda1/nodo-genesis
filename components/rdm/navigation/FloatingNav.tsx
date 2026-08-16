@@ -51,7 +51,9 @@ export default function FloatingNav({
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio — Real del Monte">
           <span
             className={`flex h-9 w-9 items-center justify-center rounded-xl ${
-              scrolled ? "bg-[#10243d] text-white" : "bg-white/15 text-white border border-white/20 backdrop-blur"
+              scrolled
+                ? "bg-[#10243d] text-white shadow-[0_6px_18px_rgba(16,36,61,0.25)]"
+                : "border border-white/25 bg-white/15 text-white backdrop-blur"
             }`}
           >
             <Landmark className="h-5 w-5" />
@@ -85,7 +87,7 @@ export default function FloatingNav({
                 document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
               }}
               className={`text-xs font-semibold transition-colors ${
-                scrolled ? "text-[#475569] hover:text-[#0b5f6c]" : "text-[#e2e8f0]/85 hover:text-white"
+                scrolled ? "text-[#475569] hover:text-[#0d4652]" : "text-[#e2e8f0]/85 hover:text-white"
               }`}
             >
               {item.label}
@@ -99,7 +101,7 @@ export default function FloatingNav({
               onClick={onSearch}
               aria-label="Buscar"
               className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
-                scrolled ? "text-[#0b5f6c] hover:bg-[#e2e8f0]" : "text-white/80 hover:bg-white/10"
+                scrolled ? "text-[#0d4652] hover:bg-[#e2e8f0]" : "text-white/80 hover:bg-white/10"
               }`}
             >
               <Search className="h-4 w-4" />
@@ -108,7 +110,7 @@ export default function FloatingNav({
           <button
             onClick={onOpenIsabella}
             className={`rdm-chip ${
-              scrolled ? "" : "!bg-[#10243d]/55 !border-white/20 !text-white"
+              scrolled ? "border-[#2e9cff]/30" : "!bg-[#10243d]/55 !border-white/20 !text-white"
             }`}
           >
             <Sparkles className="h-3.5 w-3.5 text-[#f6b752]" />
@@ -118,7 +120,7 @@ export default function FloatingNav({
             href="/nodo"
             className={`rdm-chip ${scrolled ? "" : "!bg-[#10243d]/55 !border-white/20 !text-white"}`}
           >
-            <Cpu className="h-3.5 w-3.5 text-[#94a3b8]" />
+            <Cpu className="h-3.5 w-3.5 text-[#2e9cff]" />
             <span className="hidden sm:inline">Nodo</span>
           </Link>
 
@@ -156,6 +158,13 @@ export default function FloatingNav({
                 {item.label}
               </a>
             ))}
+            <a
+              href="/nodo"
+              className="mt-1 flex min-h-12 items-center gap-2 rounded-xl bg-[#10243d] px-4 text-sm font-semibold text-white"
+            >
+              <Cpu className="h-4 w-4 text-[#2e9cff]" />
+              Núcleo tecnológico del Nodo
+            </a>
           </div>
         </nav>
       )}

@@ -32,7 +32,7 @@ const SIGNALS: TerritorySignal[] = [
     label: "Clima",
     value: "12°C · Niebla ligera",
     level: "ok",
-    icon: <Thermometer className="h-4 w-4" />,
+    icon: <Thermometer className="h-4 w-4 text-[#2e9cff]" />,
     note: "Abrigo recomendado",
   },
   {
@@ -40,7 +40,7 @@ const SIGNALS: TerritorySignal[] = [
     label: "Centro histórico",
     value: "Ocupación media",
     level: "warn",
-    icon: <Users className="h-4 w-4" />,
+    icon: <Users className="h-4 w-4 text-[#d97832]" />,
     note: "Estimación del día",
   },
   {
@@ -48,7 +48,7 @@ const SIGNALS: TerritorySignal[] = [
     label: "Estacionamiento",
     value: "36 espacios estimados",
     level: "ok",
-    icon: <Car className="h-4 w-4" />,
+    icon: <Car className="h-4 w-4 text-[#2e9cff]" />,
     note: "Plaza principal",
   },
   {
@@ -56,16 +56,20 @@ const SIGNALS: TerritorySignal[] = [
     label: "Accesibilidad",
     value: "Parcial en rutas mineras",
     level: "warn",
-    icon: <Accessibility className="h-4 w-4" />,
+    icon: <Accessibility className="h-4 w-4 text-[#d97832]" />,
     note: "Ruta alternativa disponible",
   },
 ];
 
 export default function TerritoryStatusBar() {
   return (
-    <div className="rdm-telemetry rdm-glass" role="region" aria-label="Ahora en Real del Monte">
+    <div
+      className="rdm-telemetry rdm-glass border-[#cbd5e1]/80"
+      role="region"
+      aria-label="Ahora en Real del Monte"
+    >
       <div className="flex items-center gap-2">
-        <span className="rdm-meta text-[#0b5f6c]">Ahora en Real del Monte</span>
+        <span className="rdm-meta text-[#0d4652]">Ahora en Real del Monte</span>
       </div>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
         {SIGNALS.map((s) => (
@@ -82,7 +86,7 @@ export default function TerritoryStatusBar() {
           </div>
         ))}
       </div>
-      <div className="ml-auto flex items-center gap-2 text-[#0b5f6c]">
+      <div className="ml-auto flex items-center gap-2 text-[#0d4652]">
         <Footprints className="h-4 w-4" />
         <span className="text-xs font-semibold">
           Panteón Inglés → Mina de Acosta

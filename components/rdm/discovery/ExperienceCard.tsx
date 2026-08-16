@@ -38,7 +38,7 @@ export default function ExperienceCard({
   const [saved, setSaved] = useState(false);
 
   return (
-    <article className="rdm-card group flex flex-col">
+    <article className="rdm-card group flex flex-col border-[#cbd5e1]/80">
       <div className="relative aspect-[4/5] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -55,7 +55,7 @@ export default function ExperienceCard({
           {item.category}
         </span>
         {item.time && (
-          <span className="absolute right-3 top-3 rdm-chip">
+          <span className="absolute right-3 top-3 rdm-chip border-[#cbd5e1]/40 bg-[#10243d]/60 text-white backdrop-blur">
             <Clock className="h-3 w-3" /> {item.time}
           </span>
         )}
@@ -96,7 +96,7 @@ export default function ExperienceCard({
           onClick={() => setSaved((v) => !v)}
           aria-pressed={saved}
           className={`flex items-center gap-1.5 text-xs font-semibold transition-colors ${
-            saved ? "text-[#b76e3f]" : "text-[#475569] hover:text-[#0b5f6c]"
+            saved ? "text-[#b76e3f]" : "text-[#475569] hover:text-[#0d4652]"
           }`}
         >
           <Bookmark className={`h-4 w-4 ${saved ? "fill-current" : ""}`} />
@@ -104,7 +104,7 @@ export default function ExperienceCard({
         </button>
         <button
           onClick={() => onExplore?.(item)}
-          className="flex items-center gap-1.5 text-xs font-bold text-[#0b5f6c] transition-colors hover:text-[#10243d]"
+          className="flex items-center gap-1.5 text-xs font-bold text-[#0d4652] transition-colors hover:text-[#2e9cff]"
         >
           Explorar <ArrowRight className="h-3.5 w-3.5" />
         </button>
