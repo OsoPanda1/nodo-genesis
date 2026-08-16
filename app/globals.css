@@ -1300,6 +1300,7 @@
 .rdm-signal--ok { color: var(--rdm-electric-blue); }
 .rdm-signal--warn { color: var(--rdm-miner-ochre); }
 .rdm-signal--risk { color: var(--rdm-danger); }
+.rdm-signal--pending { color: var(--rdm-platinum); }
 
 /* Tarjeta de experiencia — fragmento de lugar */
 .rdm-card {

@@ -58,10 +58,6 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Patrimonio minero",
     description: "Desciende a la memoria subterránea de la Real de Minas.",
     image: "/images/mina-acosta.jpg",
-    time: "8 min",
-    aforo: "Aforo medio",
-    accessibility: "Parcial",
-    audio: "sí",
     tone: "#b76e3f",
   },
   {
@@ -70,10 +66,6 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Patrimonio",
     description: "La calma de una historia que llegó desde Cornwall.",
     image: "/images/pedro-romero.jpg",
-    time: "12 min",
-    aforo: "Aforo bajo",
-    accessibility: "Accesible",
-    audio: "sí",
     tone: "#0d4652",
   },
   {
@@ -82,10 +74,6 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Naturaleza",
     description: "El sendero que se abre a la montaña y a la niebla.",
     image: "/images/penas-cargadas.jpg",
-    time: "45 min",
-    aforo: "Aforo bajo",
-    accessibility: "Exigente",
-    audio: "sí",
     tone: "#166534",
   },
   {
@@ -94,10 +82,6 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Mirador",
     description: "La luz baja sobre las casas que aprendieron a resistir.",
     image: "/images/mirador-purisima.jpg",
-    time: "20 min",
-    aforo: "Aforo medio",
-    accessibility: "Accesible",
-    audio: "sí",
     tone: "#d97832",
   },
 ];
@@ -116,7 +100,7 @@ export default function DestinoPortada() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f4f7fb] text-[#1e293b]">
+    <main className="min-h-screen bg-[#f7f8f5] text-[#10243d]">
       <FloatingNav onOpenIsabella={() => openIsabella()} onSearch={() => scrollTo("explora")} />
 
       {/* 01 · HERO TEMPORAL — observatorio del destino */}
@@ -326,35 +310,42 @@ export default function DestinoPortada() {
         </div>
       </section>
 
-      {/* 12 · COMPROMISO TERRITORIAL */}
+      {/* 12 · COMPROMISO TERRITORIAL — fondo petróleo profundo */}
       <section className="rdm-section rdm-shell px-6">
-        <div className="rdm-glass overflow-hidden rounded-[2rem]">
+        <div className="overflow-hidden rounded-[2rem] bg-[#071525] text-white">
           <div className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
             <div className="space-y-4">
-              <p className="rdm-meta text-[#0d4652]">Compromiso territorial</p>
-              <h2 className="rdm-display-md font-display text-[#10243d]">
+              <p className="rdm-meta text-[#2e9cff]">Compromiso territorial</p>
+              <h2 className="rdm-display-md font-display text-white">
                 Soberanía de los datos del pueblo
               </h2>
-              <p className="text-sm leading-relaxed text-[#475569]">
-                Los datos son locales, trazables y con consentimiento. Las estimaciones de
-                aforo y movilidad se declaran como estimaciones responsables.
+              <p className="text-sm leading-relaxed text-[#cbd5e1]">
+                Los datos son locales, trazables y con consentimiento. La instrumentación del
+                territorio (clima, aforo, movilidad) está en integración y se publicará con
+                estimaciones responsables y declaradas.
               </p>
               <div className="flex flex-wrap gap-3">
-                <span className="rdm-chip"><ShieldCheck className="h-3.5 w-3.5 text-[#166534]" /> Datos soberanos</span>
-                <span className="rdm-chip"><Accessibility className="h-3.5 w-3.5 text-[#0d4652]" /> Accesibilidad integrada</span>
-                <span className="rdm-chip"><Globe className="h-3.5 w-3.5 text-[#d97832]" /> ES · EN</span>
+                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                  <ShieldCheck className="h-3.5 w-3.5 text-[#2e9cff]" /> Datos soberanos
+                </span>
+                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                  <Accessibility className="h-3.5 w-3.5 text-[#2e9cff]" /> Accesibilidad integrada
+                </span>
+                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                  <Globe className="h-3.5 w-3.5 text-[#d97832]" /> ES · EN
+                </span>
               </div>
             </div>
             <div className="flex flex-col justify-center gap-4">
               <Link href="/nodo?view=crown-gateway">
-                <span className="rdm-button-secondary w-full justify-start">
-                  <Building2 className="h-4 w-4" />
+                <span className="rdm-button-secondary w-full justify-start !bg-white/5 !text-white !border-[#2e9cff]/40 hover:!border-[#2e9cff]">
+                  <Building2 className="h-4 w-4 text-[#2e9cff]" />
                   CROWN Gateway — IA federada <ArrowRight className="ml-auto h-4 w-4" />
                 </span>
               </Link>
               <Link href="/nodo?view=city">
-                <span className="rdm-button-secondary w-full justify-start">
-                  <Store className="h-4 w-4" />
+                <span className="rdm-button-secondary w-full justify-start !bg-white/5 !text-white !border-[#2e9cff]/40 hover:!border-[#2e9cff]">
+                  <Store className="h-4 w-4 text-[#2e9cff]" />
                   Centro de operaciones del destino <ArrowRight className="ml-auto h-4 w-4" />
                 </span>
               </Link>
@@ -406,7 +397,7 @@ export default function DestinoPortada() {
             </p>
           </div>
           <div className="space-y-2">
-            <p className="rdm-meta text-[#f6b752]">Oficina Virtual</p>
+            <p className="rdm-meta text-[#d97832]">Oficina Virtual</p>
             <button onClick={() => openIsabella()} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               Asistente IA Isabella
             </button>
@@ -421,7 +412,7 @@ export default function DestinoPortada() {
             </a>
           </div>
           <div className="space-y-2">
-            <p className="rdm-meta text-[#f6b752]">Explora</p>
+            <p className="rdm-meta text-[#d97832]">Explora</p>
             <a href="#sabores" onClick={(e) => { e.preventDefault(); scrollTo("sabores"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               Sabores y oficios
             </a>
@@ -436,7 +427,7 @@ export default function DestinoPortada() {
             </a>
           </div>
           <div className="space-y-2">
-            <p className="rdm-meta text-[#f6b752]">Gobernanza y tecnología</p>
+            <p className="rdm-meta text-[#d97832]">Gobernanza y tecnología</p>
             <Link href="/nodo?view=crown-gateway" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               CROWN Gateway — IA federada
             </Link>
@@ -446,7 +437,7 @@ export default function DestinoPortada() {
             <Link href="/nodo?view=twins" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
               Gemelo territorial DTDL
             </Link>
-            <Link href="/nodo" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#f6b752] hover:underline">
+            <Link href="/nodo" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#d97832] hover:underline">
               Núcleo tecnológico <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

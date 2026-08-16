@@ -1,18 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Bookmark,
-  ArrowRight,
-  Clock,
-  Accessibility,
-  Volume2,
-  Signal,
-} from "lucide-react";
+import { Bookmark, ArrowRight } from "lucide-react";
 
 /* ================================================================== */
 /* Tarjeta de experiencia — fragmento de lugar, no rectángulo genérico.*/
-/* Muestra aforo, accesibilidad y audio con iconos (no solo color).   */
+/* Sin datos inventados: aforo, tiempos y accesibilidad se integran    */
+/* cuando exista instrumentación real. La tarjeta muestra lugar,       */
+/* categoría y descripción editorial.                                  */
 /* ================================================================== */
 
 export interface ExperienceItem {
@@ -21,10 +16,6 @@ export interface ExperienceItem {
   category: string;
   description: string;
   image: string;
-  time?: string;
-  aforo?: string;
-  accessibility?: string;
-  audio?: string;
   tone: string; // color de la veta (category)
 }
 
@@ -54,11 +45,6 @@ export default function ExperienceCard({
         >
           {item.category}
         </span>
-        {item.time && (
-          <span className="absolute right-3 top-3 rdm-chip border-[#cbd5e1]/40 bg-[#10243d]/60 text-white backdrop-blur">
-            <Clock className="h-3 w-3" /> {item.time}
-          </span>
-        )}
         <div className="absolute inset-x-0 bottom-0 p-4">
           <h3 className="font-display text-xl font-bold text-white drop-shadow">
             {item.title}
@@ -67,28 +53,6 @@ export default function ExperienceCard({
             {item.description}
           </p>
         </div>
-      </div>
-
-      {/* Datos vivos del lugar */}
-      <div className="flex flex-wrap items-center gap-3 px-4 py-3">
-        {item.aforo && (
-          <span className="rdm-signal rdm-signal--warn" title={item.aforo}>
-            <Signal className="h-3.5 w-3.5" />
-            {item.aforo}
-          </span>
-        )}
-        {item.accessibility && (
-          <span className="rdm-signal rdm-signal--ok" title={item.accessibility}>
-            <Accessibility className="h-3.5 w-3.5" />
-            {item.accessibility}
-          </span>
-        )}
-        {item.audio && (
-          <span className="rdm-signal rdm-signal--ok" title="Audio disponible">
-            <Volume2 className="h-3.5 w-3.5" />
-            Audio
-          </span>
-        )}
       </div>
 
       <div className="mt-auto flex items-center justify-between border-t border-[#e2e8f0] px-4 py-3">

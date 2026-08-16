@@ -113,7 +113,7 @@ export default function FloatingNav({
               scrolled ? "border-[#2e9cff]/30" : "!bg-[#10243d]/55 !border-white/20 !text-white"
             }`}
           >
-            <Sparkles className="h-3.5 w-3.5 text-[#f6b752]" />
+            <Sparkles className="h-3.5 w-3.5 text-[#d97832]" />
             <span className="hidden sm:inline">Isabella</span>
           </button>
           <Link

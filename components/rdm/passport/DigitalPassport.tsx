@@ -5,7 +5,9 @@ import { ArrowRight, MapPin } from "lucide-react";
 
 /* ================================================================== */
 /* Pasaporte RDM — bitácora minera contemporánea. Sellos inspirados    */
-/* en monedas y placas, progreso como veta. Sin gamificación infantil. */
+/* en monedas y placas, progreso como veta. Los sellos se activan con  */
+/* datos reales de recorrido: sin visitas registradas, el estado es    */
+/* honesto y vacío.                                                    */
 /* ================================================================== */
 
 export interface PassportStampItem {
@@ -20,10 +22,10 @@ export default function DigitalPassport({
   onNavigate: (view: string) => void;
 }) {
   const stamps: PassportStampItem[] = [
-    { id: "acosta", label: "Mina de Acosta", active: true },
-    { id: "panteon", label: "Panteón Inglés", active: true },
-    { id: "paste", label: "Paste tradicional", active: true },
-    { id: "penas", label: "Peñas Cargadas", active: true },
+    { id: "acosta", label: "Mina de Acosta", active: false },
+    { id: "panteon", label: "Panteón Inglés", active: false },
+    { id: "paste", label: "Paste tradicional", active: false },
+    { id: "penas", label: "Peñas Cargadas", active: false },
     { id: "museo", label: "Museo de Medicina Laboral", active: false },
   ];
 
@@ -35,10 +37,11 @@ export default function DigitalPassport({
           <div className="space-y-1">
             <p className="rdm-meta text-[#b76e3f]">Pasaporte RDM</p>
             <h2 className="rdm-display-md font-display text-[#10243d]">
-              Tu visita tiene 4 memorias activas
+              Tu bitácora se activa con tu recorrido
             </h2>
             <p className="text-sm text-[#475569]">
-              Sellos, fragmentos de mapa y audios que reúnes al recorrer el pueblo.
+              Los sellos se marcan con datos reales al visitar cada lugar. Aún sin recorridos
+              registrados.
             </p>
           </div>
 
@@ -49,7 +52,7 @@ export default function DigitalPassport({
                   className={`rdm-stamp ${s.active ? "rdm-stamp--active" : ""}`}
                   aria-label={s.label}
                 >
-                  {s.active ? "·" : "·"}
+                  ·
                 </span>
                 <span className="max-w-24 text-center text-[10px] font-semibold leading-tight text-[#475569]">
                   {s.label}
@@ -69,9 +72,11 @@ export default function DigitalPassport({
               </span>
               <div>
                 <p className="font-display text-lg font-bold text-[#10243d]">
-                  Museo de Medicina Laboral
+                  Mina de Acosta
                 </p>
-                <p className="text-xs text-[#475569]">a 11 min caminando</p>
+                <p className="text-xs text-[#475569]">
+                  El sello se marca al registrarte en el lugar · registro real próximamente
+                </p>
               </div>
             </div>
           </div>

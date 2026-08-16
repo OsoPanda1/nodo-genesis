@@ -1,30 +1,14 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  Compass,
-  Sparkles,
-  ArrowRight,
-  CloudFog,
-  Thermometer,
-  MapPin,
-  Waves,
-  Cpu,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Compass, Sparkles, ArrowRight, Radio } from "lucide-react";
 
 /* ================================================================== */
 /* Hero atmosférico — observatorio temporal de Real del Monte.         */
-/* Negro profundo + niebla en capas + azul eléctrico en datos vivos.   */
-/* El fondo, el copy y la temperatura se derivan de la hora local,     */
-/* con cascada de rendimiento: imagen → gradiente atmosférico.         */
+/* Negro profundo + niebla en capas + azul eléctrico. El fondo y el    */
+/* copy se derivan de la hora local. Sin datos inventados: la          */
+/* telemetría del destino se anuncia en integración.                   */
 /* ================================================================== */
-
-interface TelemetryChip {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  sub: string;
-}
 
 const DAY_MOMENTS = [
   { start: 5, end: 11, key: "amanecer", label: "Amanecer", copy: "La montaña despierta entre historias.", tint: "from-[#1c3a55] via-[#0a1a2e] to-[#071525]", halo: "#2e9cff" },
@@ -41,6 +25,8 @@ function currentMoment() {
   }) ?? DAY_MOMENTS[0];
 }
 
+const FUTURE_SIGNALS = ["Clima", "Aforo", "Movilidad", "Accesibilidad"] as const;
+
 export default function AtmosphericHero({
   onOpenIsabella,
   onExplore,
@@ -55,36 +41,6 @@ export default function AtmosphericHero({
     const t = setInterval(() => setMoment(currentMoment()), 60_000);
     return () => clearInterval(t);
   }, []);
-
-  const telemetry: TelemetryChip[] = useMemo(
-    () => [
-      {
-        icon: <Thermometer className="h-4 w-4" />,
-        label: "Temperatura",
-        value: "12°C",
-        sub: "Abrigo recomendado",
-      },
-      {
-        icon: <CloudFog className="h-4 w-4" />,
-        label: "Niebla",
-        value: "Ligera",
-        sub: "Visibilidad media",
-      },
-      {
-        icon: <Waves className="h-4 w-4" />,
-        label: "Centro histórico",
-        value: "Ocupación media",
-        sub: "Estimación del día",
-      },
-      {
-        icon: <MapPin className="h-4 w-4" />,
-        label: "Mejor ruta a pie",
-        value: "Panteón Inglés → Mina de Acosta",
-        sub: "2.4 km · 38 min",
-      },
-    ],
-    []
-  );
 
   return (
     <section className="rdm-hero bg-[#071525] text-white" aria-label="Real del Monte, ahora">
@@ -115,9 +71,9 @@ export default function AtmosphericHero({
       <div className="relative z-10 rdm-shell px-6 pb-16 pt-44">
         <div className="max-w-3xl space-y-7">
           <div className="flex items-center gap-3">
-            <span className="rdm-meta text-[#f6b752]">{moment.label} en Real del Monte</span>
+            <span className="rdm-meta text-[#c9d0d4]">{moment.label} en Real del Monte</span>
             <span className="hidden items-center gap-1.5 rounded-full border border-[#2e9cff]/40 bg-[#2e9cff]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#7cc4ff] sm:inline-flex">
-              <Cpu className="h-3 w-3" />
+              <Radio className="h-3 w-3" />
               Inteligencia territorial
             </span>
           </div>
@@ -138,27 +94,32 @@ export default function AtmosphericHero({
               onClick={onOpenIsabella}
               className="rdm-button-secondary !bg-[#10243d]/70 !text-white !border-[#2e9cff]/30 backdrop-blur-xl hover:!border-[#2e9cff]/70"
             >
-              <Sparkles className="h-4 w-4 text-[#f6b752]" />
+              <Sparkles className="h-4 w-4 text-[#d97832]" />
               <span>Hablar con Isabella</span>
             </button>
           </div>
         </div>
 
-        {/* Telemetría en vivo — platino sobre negro profundo */}
-        <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {telemetry.map((c) => (
-            <div
-              key={c.label}
-              className="rdm-data-pill rdm-data-pill--dark border-[#2e9cff]/15"
-              title={c.sub}
-            >
-              <span className="text-[#f6b752]">{c.icon}</span>
-              <span className="flex flex-col">
-                <span className="text-[10px] uppercase tracking-wider text-[#94a3b8]">{c.label}</span>
-                <span className="text-sm font-semibold text-white">{c.value}</span>
-              </span>
-            </div>
-          ))}
+        {/* Telemetría del destino — instrumentación en integración, sin datos inventados */}
+        <div className="mt-14 rounded-2xl border border-[#2e9cff]/20 bg-[#071525]/70 px-5 py-4 backdrop-blur-xl">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[#c9d0d4]">
+              <Radio className="h-3.5 w-3.5 text-[#2e9cff]" />
+              Telemetría del destino
+            </span>
+            <span className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              {FUTURE_SIGNALS.map((n) => (
+                <span key={n} className="flex items-center gap-1.5 text-xs text-[#cbd5e1]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#2e9cff]/50" />
+                  {n}
+                  <span className="text-[#64748b]">—</span>
+                </span>
+              ))}
+            </span>
+            <span className="ml-auto text-[11px] text-[#94a3b8]">
+              Instrumentación en integración · datos reales próximamente
+            </span>
+          </div>
         </div>
       </div>
     </section>
