@@ -29,7 +29,7 @@ export default function ExperienceCard({
   const [saved, setSaved] = useState(false);
 
   return (
-    <article className="rdm-card group flex flex-col border-[#cbd5e1]/80">
+    <article className="rdm-card group flex flex-col border-white/10">
       <div className="relative aspect-[4/5] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -38,7 +38,7 @@ export default function ExperienceCard({
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/85 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050c12]/90 via-transparent to-transparent" />
         <span
           className="absolute left-3 top-3 rdm-chip"
           style={{ background: item.tone, color: "#fff", border: "none" }}
@@ -49,18 +49,18 @@ export default function ExperienceCard({
           <h3 className="font-display text-xl font-bold text-white drop-shadow">
             {item.title}
           </h3>
-          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-[#e2e8f0]/85">
+          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-[#c9d0d4]/90">
             {item.description}
           </p>
         </div>
       </div>
 
-      <div className="mt-auto flex items-center justify-between border-t border-[#e2e8f0] px-4 py-3">
+      <div className="mt-auto flex items-center justify-between border-t border-white/10 px-4 py-3">
         <button
           onClick={() => setSaved((v) => !v)}
           aria-pressed={saved}
           className={`flex items-center gap-1.5 text-xs font-semibold transition-colors ${
-            saved ? "text-[#b76e3f]" : "text-[#475569] hover:text-[#0d4652]"
+            saved ? "text-[#d97832]" : "text-[#93a5ad] hover:text-[#eef2f2]"
           }`}
         >
           <Bookmark className={`h-4 w-4 ${saved ? "fill-current" : ""}`} />
@@ -68,7 +68,7 @@ export default function ExperienceCard({
         </button>
         <button
           onClick={() => onExplore?.(item)}
-          className="flex items-center gap-1.5 text-xs font-bold text-[#0d4652] transition-colors hover:text-[#2e9cff]"
+          className="flex items-center gap-1.5 text-xs font-bold text-[#2e9cff] transition-colors hover:text-white"
         >
           Explorar <ArrowRight className="h-3.5 w-3.5" />
         </button>

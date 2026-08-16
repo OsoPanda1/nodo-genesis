@@ -39,7 +39,7 @@ export default function HonorWallSection() {
           <Award className="w-6 h-6 text-amber-400" />
           Muro de Honor del Real
         </h2>
-        <p className="text-xs text-slate-400 font-mono">
+        <p className="text-xs text-[#93a5ad] font-mono">
           Personas y colectivos que forjan el Nodo Cero con su trabajo
         </p>
       </div>
@@ -50,7 +50,7 @@ export default function HonorWallSection() {
             key={id}
             onClick={() => setFilter(id)}
             className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
-              filter === id ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'
+              filter === id ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-[#93a5ad] hover:text-white'
             }`}
           >
             {label}

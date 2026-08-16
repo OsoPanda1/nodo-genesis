@@ -17,26 +17,26 @@
     --surface-glass-soft: rgba(10, 11, 14, 0.78);
     --surface-glass-strong: rgba(13, 15, 20, 0.9);
 
-    /* Paleta oficial */
-    --gold: #c8a356;
-    --gold-light: #d4b26a;
-    --gold-dark: #b8944c;
-    --gold-amber: #facc15;
-    --terracotta: #b85c3c;
-    --navy: #1e3a5f;
+    /* Paleta oficial — unificada al azul eléctrico / naranja RDM */
+    --gold: #2e9cff;
+    --gold-light: #7cc4ff;
+    --gold-dark: #0d7ad8;
+    --gold-amber: #d97832;
+    --terracotta: #d97832;
+    --navy: #0d4652;
     --silver: #9ca3af;
-    --cream: #f5f0e8;
+    --cream: #eef2f2;
     --emerald: #10b981;
     --neblina: #38bdf8;
     --risk-red: #b91c1c;
 
     /* Bordes */
-    --border-soft: rgba(200, 163, 86, 0.18);
-    --border-strong: rgba(200, 163, 86, 0.42);
+    --border-soft: rgba(46, 156, 255, 0.18);
+    --border-strong: rgba(46, 156, 255, 0.42);
     --border-neblina: rgba(56, 189, 248, 0.32);
 
-    /* Glows sobrios (minería, no neón) */
-    --glow-gold: rgba(200, 163, 86, 0.4);
+    /* Glows sobrios (eléctrico, no neón) */
+    --glow-gold: rgba(46, 156, 255, 0.4);
     --glow-emerald: rgba(16, 185, 129, 0.35);
     --glow-neblina: rgba(56, 189, 248, 0.3);
 
@@ -74,15 +74,15 @@
   }
 
   body {
-    /* Identidad perlada global: blanco perlado + neblina de plata.
-       Los dashboards técnicos (Plano 4) reintroducen el fondo oscuro
-       localmente vía la clase .plano-tecnico. */
+    /* Tema único: manto petrolero profundo en todo el sitio.
+       Perlados y platinos viven en el texto y las superficies glass;
+       no existe fondo claro discontinuo. */
     background:
-      radial-gradient(1200px 800px at 12% -8%, rgba(83, 107, 134, 0.14), transparent 55%),
-      radial-gradient(1000px 720px at 92% 4%, rgba(13, 70, 82, 0.1), transparent 52%),
-      linear-gradient(180deg, #fbfcfa 0%, #f4f6f2 46%, #eef1ec 100%);
+      radial-gradient(1200px 800px at 12% -8%, rgba(46, 156, 255, 0.07), transparent 55%),
+      radial-gradient(1000px 720px at 92% 4%, rgba(13, 70, 82, 0.18), transparent 52%),
+      linear-gradient(180deg, #081119 0%, #0a141c 46%, #060d12 100%);
     background-attachment: fixed;
-    color: var(--rdm-graphite, #283038);
+    color: var(--rdm-text, #e8edef);
     font-family: var(--font-dm-sans), system-ui, -apple-system, "Segoe UI",
       Roboto, sans-serif;
     overflow-x: hidden;
@@ -96,8 +96,8 @@
   }
 
   ::selection {
-    background: rgba(13, 70, 82, 0.16);
-    color: var(--rdm-petroleum-deep, #082f3b);
+    background: rgba(46, 156, 255, 0.28);
+    color: #f5f8fa;
   }
 }
 
@@ -140,11 +140,11 @@
 }
 
 .glass-card:hover {
-  border-color: rgba(197, 160, 89, 0.4);
+  border-color: rgba(46, 156, 255, 0.4);
   transform: translateY(-4px) scale(1.01);
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(197, 160, 89, 0.15);
+    0 0 20px rgba(46, 156, 255, 0.15);
 }
 
 .text-glow {
@@ -164,7 +164,7 @@
   border-color: var(--border-strong);
   box-shadow:
     0 0 28px var(--glow-gold),
-    inset 0 0 22px rgba(212, 178, 106, 0.05);
+    inset 0 0 22px rgba(46, 156, 255, 0.05);
   transform: translateY(-3px) scale(1.01);
 }
 
@@ -1106,6 +1106,18 @@
     --rdm-glass-dark: rgba(7, 21, 37, 0.56);
     --rdm-glass-border: rgba(255, 255, 255, 0.42);
 
+    /* Tema único — manto petrolero profundo (sin fondos claros) */
+    --rdm-bg: #081119;
+    --rdm-bg-deep: #050c12;
+    --rdm-surface: rgba(17, 38, 51, 0.5);
+    --rdm-surface-raised: rgba(22, 47, 63, 0.55);
+    --rdm-text: #e8edef;
+    --rdm-text-soft: #c9d0d4;
+    --rdm-muted: #93a5ad;
+    --rdm-muted-deep: #647a84;
+    --rdm-line: rgba(201, 208, 212, 0.14);
+    --rdm-line-electric: rgba(46, 156, 255, 0.35);
+
     /* Sombras y halos */
     --rdm-shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.1);
     --rdm-shadow-deep: 0 28px 100px rgba(2, 11, 23, 0.34);
@@ -1158,15 +1170,15 @@
   gap: clamp(1rem, 2vw, 2rem);
 }
 
-/* Cristal con disciplina — material de interfaz */
+/* Cristal con disciplina — material de interfaz (siempre oscuro) */
 .rdm-glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.34));
-  border: 1px solid rgba(255, 255, 255, 0.52);
+  background: linear-gradient(135deg, rgba(19, 41, 56, 0.66), rgba(8, 19, 27, 0.52));
+  border: 1px solid rgba(201, 208, 212, 0.14);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.76),
-    0 18px 52px rgba(15, 23, 42, 0.12);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 52px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
 }
 
 .rdm-glass--dark {
@@ -1179,20 +1191,20 @@
   -webkit-backdrop-filter: blur(18px) saturate(135%);
 }
 
-/* Botón primario — veta ocre como conversión */
+/* Botón primario — naranja como conversión */
 .rdm-button-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 3rem;
   padding: 0.875rem 1.2rem;
-  border: 1px solid rgba(246, 183, 82, 0.56);
+  border: 1px solid rgba(217, 120, 50, 0.55);
   border-radius: var(--rdm-radius-pill);
-  color: #1b1308;
-  background: linear-gradient(135deg, #f8cc78 0%, var(--rdm-miner-ochre) 100%);
+  color: #fff;
+  background: linear-gradient(135deg, #e08741 0%, var(--rdm-orange-deep) 100%);
   box-shadow:
-    0 10px 24px rgba(217, 119, 6, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    0 10px 24px rgba(217, 120, 50, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
   font: 700 0.875rem/1 var(--font-ui);
   letter-spacing: 0.01em;
   transition:
@@ -1204,12 +1216,12 @@
 .rdm-button-primary:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 16px 34px rgba(217, 119, 6, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    0 16px 34px rgba(217, 120, 50, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 
 .rdm-button-primary:focus-visible {
-  outline: 3px solid var(--rdm-petrol-light);
+  outline: 3px solid var(--rdm-electric-blue);
   outline-offset: 4px;
 }
 
@@ -1219,11 +1231,11 @@
   justify-content: center;
   min-height: 3rem;
   padding: 0.875rem 1.2rem;
-  border: 1px solid rgba(20, 125, 140, 0.4);
+  border: 1px solid rgba(46, 156, 255, 0.38);
   border-radius: var(--rdm-radius-pill);
-  color: var(--rdm-petrol);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(14px) saturate(140%);
+  color: var(--rdm-electric-blue);
+  background: rgba(10, 26, 38, 0.55);
+  backdrop-filter: blur(14px) saturate(135%);
   font: 600 0.875rem/1 var(--font-ui);
   transition:
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -1234,12 +1246,12 @@
 
 .rdm-button-secondary:hover {
   transform: translateY(-2px);
-  border-color: rgba(20, 125, 140, 0.72);
-  box-shadow: var(--rdm-shadow-soft);
+  border-color: rgba(46, 156, 255, 0.7);
+  box-shadow: 0 0 0 1px rgba(46, 156, 255, 0.14), 0 12px 34px rgba(0, 0, 0, 0.3);
 }
 
 .rdm-button-secondary:focus-visible {
-  outline: 3px solid var(--rdm-petrol-light);
+  outline: 3px solid var(--rdm-electric-blue);
   outline-offset: 4px;
 }
 
@@ -1250,9 +1262,9 @@
   gap: 0.4rem;
   padding: 0.3rem 0.7rem;
   border-radius: var(--rdm-radius-pill);
-  border: 1px solid var(--rdm-silver-200);
-  background: rgba(255, 255, 255, 0.66);
-  color: var(--rdm-slate-600);
+  border: 1px solid rgba(201, 208, 212, 0.16);
+  background: rgba(14, 30, 41, 0.6);
+  color: var(--rdm-text-soft);
   font: 600 0.72rem/1 var(--font-ui);
   letter-spacing: 0.02em;
 }
@@ -1264,19 +1276,19 @@
   gap: 0.5rem;
   padding: 0.55rem 0.9rem;
   border-radius: var(--rdm-radius-sm);
-  border: 1px solid rgba(226, 232, 240, 0.4);
-  background: var(--rdm-glass-light);
-  backdrop-filter: blur(14px) saturate(140%);
-  color: var(--rdm-slate-800);
+  border: 1px solid rgba(46, 156, 255, 0.18);
+  background: var(--rdm-surface);
+  backdrop-filter: blur(14px) saturate(135%);
+  color: var(--rdm-text-soft);
   font: 600 0.78rem/1 var(--font-ui);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .rdm-data-pill--dark {
-  border-color: rgba(226, 232, 240, 0.16);
+  border-color: rgba(46, 156, 255, 0.22);
   background: var(--rdm-glass-dark);
-  color: var(--rdm-pearl-50);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--rdm-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Señal de estado (verde/ocre/rojo) — nunca solo color */
@@ -1302,14 +1314,14 @@
 .rdm-signal--risk { color: var(--rdm-danger); }
 .rdm-signal--pending { color: var(--rdm-platinum); }
 
-/* Tarjeta de experiencia — fragmento de lugar */
+/* Tarjeta de experiencia — fragmento de lugar (superficie petrolera) */
 .rdm-card {
   position: relative;
   overflow: hidden;
   border-radius: var(--rdm-radius-md);
-  border: 1px solid var(--rdm-silver-200);
-  background: var(--rdm-pearl-50);
-  box-shadow: var(--rdm-shadow-soft);
+  border: 1px solid rgba(201, 208, 212, 0.14);
+  background: linear-gradient(160deg, rgba(20, 44, 60, 0.55), rgba(9, 20, 29, 0.72));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transition:
     transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 180ms ease,
@@ -1318,9 +1330,9 @@
 
 .rdm-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(46, 156, 255, 0.4);
+  border-color: rgba(46, 156, 255, 0.42);
   box-shadow:
-    var(--rdm-shadow-soft),
+    0 24px 64px rgba(0, 0, 0, 0.4),
     var(--rdm-glow-electric);
 }
 
@@ -1365,11 +1377,11 @@
 }
 
 .rdm-nav--scrolled {
-  background: rgba(251, 252, 254, 0.86);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  background: rgba(8, 17, 25, 0.86);
+  border-bottom: 1px solid rgba(46, 156, 255, 0.24);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
 /* Texto de lujo editorial */
@@ -1413,7 +1425,7 @@
   padding: 1rem 1.4rem;
 }
 
-/* Sello del pasaporte */
+/* Sello del pasaporte — platino y eléctrico */
 .rdm-stamp {
   position: relative;
   display: inline-flex;
@@ -1422,9 +1434,9 @@
   border-radius: 50%;
   width: 84px;
   height: 84px;
-  border: 2px dashed rgba(183, 110, 63, 0.7);
-  background: radial-gradient(circle at 32% 28%, rgba(246, 183, 82, 0.22), transparent 62%);
-  color: var(--rdm-copper);
+  border: 2px dashed rgba(201, 208, 212, 0.5);
+  background: radial-gradient(circle at 32% 28%, rgba(46, 156, 255, 0.14), transparent 62%);
+  color: var(--rdm-text-soft);
   font: 800 0.62rem/1.1 var(--font-display);
   text-align: center;
   letter-spacing: 0.08em;
@@ -1433,11 +1445,11 @@
 
 .rdm-stamp--active {
   border-style: solid;
-  border-color: var(--rdm-copper);
-  color: var(--rdm-pearl-50);
+  border-color: var(--rdm-electric-blue);
+  color: #fff;
   background:
-    radial-gradient(circle at 30% 26%, rgba(183, 110, 63, 0.5), rgba(7, 21, 37, 0.82) 68%);
-  box-shadow: 0 0 0 5px rgba(183, 110, 63, 0.14), var(--rdm-glow-mineral);
+    radial-gradient(circle at 30% 26%, rgba(46, 156, 255, 0.5), rgba(7, 21, 37, 0.9) 68%);
+  box-shadow: 0 0 0 5px rgba(46, 156, 255, 0.16), var(--rdm-glow-electric);
 }
 
 /* Orbe Isabella — presencia, no caja */
@@ -1485,17 +1497,17 @@
   gap: 0.4rem;
   padding: 0.4rem 0.75rem;
   border-radius: var(--rdm-radius-pill);
-  border: 1px solid var(--rdm-silver-200);
-  background: rgba(251, 252, 254, 0.86);
-  color: var(--rdm-slate-600);
+  border: 1px solid rgba(201, 208, 212, 0.18);
+  background: rgba(14, 30, 41, 0.6);
+  color: var(--rdm-text-soft);
   font: 600 0.72rem/1 var(--font-ui);
   cursor: pointer;
   transition: all 180ms ease;
 }
 
 .rdm-layer-tag--active {
-  border-color: rgba(20, 125, 140, 0.7);
-  color: var(--rdm-petrol);
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0 6px 18px rgba(20, 125, 140, 0.14);
+  border-color: rgba(46, 156, 255, 0.65);
+  color: #fff;
+  background: rgba(46, 156, 255, 0.16);
+  box-shadow: 0 0 0 1px rgba(46, 156, 255, 0.2), 0 6px 18px rgba(0, 0, 0, 0.3);
 }

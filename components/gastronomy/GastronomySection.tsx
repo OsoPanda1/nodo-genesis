@@ -33,7 +33,7 @@ export default function GastronomySection() {
             <UtensilsCrossed className="w-6 h-6 text-rose-400" />
             Gastronomía del Monte
           </h2>
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-[#93a5ad] font-mono">
             Pastes, cocina de montaña, pan de pulque y café de altura
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function GastronomySection() {
               key={id}
               onClick={() => setFilter(id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                filter === id ? 'bg-rose-500 text-slate-950 font-bold shadow-md' : 'text-slate-400 hover:text-white'
+                filter === id ? 'bg-rose-500 text-slate-950 font-bold shadow-md' : 'text-[#93a5ad] hover:text-white'
               }`}
             >
               {label}
@@ -83,7 +83,7 @@ export default function GastronomySection() {
                 <Star className="w-3 h-3 text-amber-400 shrink-0" />
                 <span className="truncate">{item.specialty}</span>
               </div>
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#93a5ad]">
                 <span className="flex items-center gap-1">
                   <MapPin className="w-3 h-3 text-rose-400" />
                   {item.location}

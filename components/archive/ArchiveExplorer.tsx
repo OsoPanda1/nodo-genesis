@@ -59,17 +59,17 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
 
   return (
     <div className="space-y-10">
-      <div className="rounded-3xl border border-[#f2cc76]/30 bg-gradient-to-br from-[#0d4652] via-[#0a3a45] to-[#082f3b] p-8 sm:p-12 text-white relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#f2cc76]/10 blur-2xl" />
+      <div className="rounded-3xl border border-[#d97832]/30 bg-gradient-to-br from-[#0d4652] via-[#0a3a45] to-[#082f3b] p-8 sm:p-12 text-white relative overflow-hidden">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[#d97832]/10 blur-2xl" />
         <div className="pointer-events-none absolute -left-10 bottom-0 h-40 w-40 rounded-full bg-[#2e9cff]/10 blur-2xl" />
         <div className="relative max-w-2xl space-y-4">
-          <div className="flex items-center gap-2 text-[#f2cc76]">
+          <div className="flex items-center gap-2 text-[#d97832]">
             <Landmark className="h-5 w-5" />
             <span className="text-xs font-mono font-bold uppercase tracking-[0.25em]">Archivo Histórico RDM Digital</span>
           </div>
           <h2 className="font-patrimonial text-3xl sm:text-4xl font-bold leading-tight">
             La memoria del Real del Monte,
-            <span className="text-[#f2cc76]"> conservada y compartida</span>.
+            <span className="text-[#d97832]"> conservada y compartida</span>.
           </h2>
           <p className="text-sm leading-relaxed text-white/75 max-w-xl">
             Documentos, fotografías y testimonios que cuentan cómo este pueblo de minas se convirtió en
@@ -88,13 +88,13 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
       <ArchiveSearch onSearch={runSearch} total={results === null ? undefined : total} />
 
       {loading && (
-        <div className="flex items-center justify-center gap-3 py-10 text-[#0d4652]">
+        <div className="flex items-center justify-center gap-3 py-10 text-[#2e9cff]">
           <Loader2 className="h-5 w-5 animate-spin" /> <span className="text-xs font-mono uppercase tracking-widest">Buscando en la memoria del pueblo…</span>
         </div>
       )}
 
       {error && (
-        <div className="rounded-2xl border border-rose-300 bg-rose-50 px-5 py-4 text-sm text-rose-700">{error}</div>
+        <div className="rounded-2xl border border-rose-400/30 bg-rose-500/10 px-5 py-4 text-sm text-rose-300">{error}</div>
       )}
 
       {!loading && !error && (
@@ -103,8 +103,8 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
             <>
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-[#c89a45]" />
-                  <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Piezas destacadas</h3>
+                  <Sparkles className="h-4 w-4 text-[#d97832]" />
+                  <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Piezas destacadas</h3>
                 </div>
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                   {displayed.map(item => (
@@ -112,14 +112,14 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
                   ))}
                 </div>
                 {featured.length === 0 && (
-                  <p className="text-sm text-[#536b86]">El catálogo se está poblando. Las primeras piezas llegarán pronto.</p>
+                  <p className="text-sm text-[#c9d0d4]">El catálogo se está poblando. Las primeras piezas llegarán pronto.</p>
                 )}
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Library className="h-4 w-4 text-[#c89a45]" />
-                  <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Colecciones del acervo</h3>
+                  <Library className="h-4 w-4 text-[#d97832]" />
+                  <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Colecciones del acervo</h3>
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {collections.map(col => (
@@ -127,17 +127,17 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
                       key={col.id}
                       type="button"
                       onClick={() => runSearch({ q: '', assetType: '', yearFrom: '', yearTo: '', collection: col.slug })}
-                      className="group flex items-center gap-4 rounded-2xl border border-[#c9d0d4]/60 bg-white/75 p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(13,70,82,0.14)]"
+                      className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(13,70,82,0.14)]"
                     >
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0d4652] to-[#082f3b] text-[#f2cc76]">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0d4652] to-[#082f3b] text-[#d97832]">
                         <FolderOpen className="h-5 w-5" />
                       </div>
                       <div className="min-w-0">
-                        <h4 className="font-patrimonial text-lg font-bold leading-tight text-[#082f3b] group-hover:text-[#0d4652] transition-colors">
+                        <h4 className="font-patrimonial text-lg font-bold leading-tight text-[#eef2f2] group-hover:text-[#2e9cff] transition-colors">
                           {col.title}
                         </h4>
-                        <p className="mt-0.5 line-clamp-2 text-xs text-[#536b86]">{col.description}</p>
-                        <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#c89a45]">
+                        <p className="mt-0.5 line-clamp-2 text-xs text-[#c9d0d4]">{col.description}</p>
+                        <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#d97832]">
                           Explorar <ExternalLink className="h-3 w-3" />
                         </span>
                       </div>
@@ -147,13 +147,13 @@ export function ArchiveExplorer({ collections, featured }: ArchiveExplorerProps)
               </div>
             </>
           ) : results.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-[#c9d0d4] bg-white/50 px-8 py-14 text-center">
-              <p className="font-patrimonial text-xl text-[#0d4652]">No encontramos piezas con esos filtros</p>
-              <p className="mt-2 text-xs font-mono text-[#8a97a4]">Prueba otros términos o amplía el rango de años.</p>
+            <div className="rounded-3xl border border-dashed border-white/15 bg-white/[0.04] px-8 py-14 text-center">
+              <p className="font-patrimonial text-xl text-[#2e9cff]">No encontramos piezas con esos filtros</p>
+              <p className="mt-2 text-xs font-mono text-[#93a5ad]">Prueba otros términos o amplía el rango de años.</p>
             </div>
           ) : (
             <div className="space-y-4">
-              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Resultados del catálogo</h3>
+              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Resultados del catálogo</h3>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {results.map(item => (
                   <ArchiveItemCard key={item.id} item={item} onSelect={setSelected} />

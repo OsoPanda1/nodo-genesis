@@ -36,7 +36,7 @@ export function ArchiveView() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center gap-3 text-[#0d4652]">
+      <div className="flex min-h-[50vh] items-center justify-center gap-3 text-[#2e9cff]">
         <Loader2 className="h-6 w-6 animate-spin" />
         <span className="text-xs font-mono uppercase tracking-widest">Abriendo el Archivo Histórico…</span>
       </div>
@@ -46,11 +46,11 @@ export function ArchiveView() {
   if (error) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="rounded-3xl border border-rose-200 bg-rose-50 px-8 py-10 text-center">
-          <p className="font-patrimonial text-xl text-rose-800">{error}</p>
+        <div className="rounded-3xl border border-rose-400/30 bg-rose-500/10 px-8 py-10 text-center">
+          <p className="font-patrimonial text-xl text-rose-200">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 rounded-xl bg-[#0d4652] px-5 py-2.5 text-xs font-bold text-[#f2cc76]"
+            className="mt-4 rounded-xl bg-[#0d4652] px-5 py-2.5 text-xs font-bold text-white"
           >
             Reintentar
           </button>

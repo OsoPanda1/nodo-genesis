@@ -26,7 +26,7 @@ export default function GallerySection() {
           <Images className="w-6 h-6 text-emerald-400" />
           Galería Compartida del Nodo
         </h2>
-        <p className="text-xs text-slate-400 font-mono">
+        <p className="text-xs text-[#93a5ad] font-mono">
           Fotografías y videos donados por la comunidad con licencia libre RDM
         </p>
       </div>
@@ -37,7 +37,7 @@ export default function GallerySection() {
             key={id}
             onClick={() => setFilter(id)}
             className={`px-3 py-1.5 rounded-xl text-[11px] font-mono font-bold transition-all ${
-              filter === id ? 'bg-emerald-500 text-slate-950 shadow-md' : 'text-slate-400 hover:text-white'
+              filter === id ? 'bg-emerald-500 text-slate-950 shadow-md' : 'text-[#93a5ad] hover:text-white'
             }`}
           >
             {label}

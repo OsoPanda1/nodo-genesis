@@ -181,7 +181,7 @@ function EmptyState({
         {icon}
       </div>
       <h3 className="mt-5 text-base font-bold text-white">{title}</h3>
-      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-400">
+      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#93a5ad]">
         {description}
       </p>
     </div>
@@ -378,14 +378,14 @@ export default function TourismSection() {
           </label>
 
           <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2.5 transition focus-within:border-cyan-400/50 focus-within:ring-4 focus-within:ring-cyan-400/10">
-            <Search className="h-4 w-4 shrink-0 text-slate-500" />
+            <Search className="h-4 w-4 shrink-0 text-[#93a5ad]" />
 
             <input
               id="tourism-search"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Buscar una experiencia..."
-              className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+              className="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-[#93a5ad]"
             />
 
             {query && (
@@ -393,7 +393,7 @@ export default function TourismSection() {
                 type="button"
                 aria-label="Limpiar búsqueda"
                 onClick={() => setQuery("")}
-                className="rounded-lg p-1 text-slate-500 transition hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-1 text-[#93a5ad] transition hover:bg-white/10 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -425,7 +425,7 @@ export default function TourismSection() {
               className={`group relative flex shrink-0 items-center gap-2 rounded-2xl border px-4 py-3 text-xs font-bold transition-all ${
                 isActive
                   ? "border-rose-400/50 bg-gradient-to-br from-rose-400 to-rose-500 text-slate-950 shadow-lg shadow-rose-950/40"
-                  : "border-white/10 bg-white/[0.035] text-slate-400 hover:border-white/20 hover:bg-white/[0.07] hover:text-white"
+                  : "border-white/10 bg-white/[0.035] text-[#93a5ad] hover:border-white/20 hover:bg-white/[0.07] hover:text-white"
               }`}
             >
               {tab.icon}
@@ -446,13 +446,13 @@ export default function TourismSection() {
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-300">
               {currentTab.label}
             </p>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-[#93a5ad]">
               {currentTab.description}
             </p>
           </div>
 
           {query && (
-            <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-slate-400">
+            <p className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-[#93a5ad]">
               Resultados para{" "}
               <span className="font-semibold text-white">“{query}”</span>
             </p>
@@ -504,7 +504,7 @@ export default function TourismSection() {
                       {place.name}
                     </h3>
 
-                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-400">
+                    <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#93a5ad]">
                       {place.description}
                     </p>
 
@@ -591,7 +591,7 @@ export default function TourismSection() {
                       </p>
                     )}
 
-                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-400">
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#93a5ad]">
                       {event.description}
                     </p>
 
@@ -675,7 +675,7 @@ export default function TourismSection() {
                         </span>
                       </div>
 
-                      <p className="mt-4 text-sm leading-6 text-slate-400">
+                      <p className="mt-4 text-sm leading-6 text-[#93a5ad]">
                         {route.description}
                       </p>
 
@@ -748,7 +748,7 @@ export default function TourismSection() {
                     {story.meaning}
                   </p>
 
-                  <footer className="mt-6 border-t border-white/10 pt-4 text-xs text-slate-500">
+                  <footer className="mt-6 border-t border-white/10 pt-4 text-xs text-[#93a5ad]">
                     Tradición oral: {story.origin}
                   </footer>
                 </article>
@@ -771,12 +771,12 @@ export default function TourismSection() {
                   </p>
 
                   {story.meaning && (
-                    <p className="mt-4 border-l-2 border-cyan-300/40 pl-4 text-sm italic leading-6 text-slate-400">
+                    <p className="mt-4 border-l-2 border-cyan-300/40 pl-4 text-sm italic leading-6 text-[#93a5ad]">
                       {story.meaning}
                     </p>
                   )}
 
-                  <footer className="mt-6 border-t border-white/10 pt-4 text-xs text-slate-500">
+                  <footer className="mt-6 border-t border-white/10 pt-4 text-xs text-[#93a5ad]">
                     Origen: {story.origin}
                   </footer>
                 </article>
@@ -815,7 +815,7 @@ export default function TourismSection() {
                     </h3>
                   </div>
 
-                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                  <p className="mt-3 text-sm leading-6 text-[#93a5ad]">
                     {event.description}
                   </p>
                 </div>
@@ -850,7 +850,7 @@ export default function TourismSection() {
                 type="button"
                 aria-label="Cerrar detalle"
                 onClick={() => setSelectedPlace(null)}
-                className="absolute right-4 top-4 rounded-full border border-white/20 bg-slate-950/60 p-2 text-white backdrop-blur transition hover:bg-white hover:text-slate-950"
+                className="absolute right-4 top-4 rounded-full border border-white/20 bg-slate-950/60 p-2 text-white backdrop-blur transition hover:bg-white/10 hover:text-white"
               >
                 <X className="h-4 w-4" />
               </button>

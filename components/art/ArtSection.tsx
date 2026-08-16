@@ -24,7 +24,7 @@ export default function ArtSection() {
           <Palette className="w-6 h-6 text-amber-400" />
           Arte y artesanos del Real
         </h2>
-        <p className="text-xs text-slate-400 font-mono">
+        <p className="text-xs text-[#93a5ad] font-mono">
           Orfebrería, murales, cerámica, textiles y fotografía de la comarca minera.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function ArtSection() {
                 <h3 className="text-base font-bold text-white group-hover:text-amber-200 transition-colors">
                   {artist.name}
                 </h3>
-                <div className="flex items-center gap-1 text-[11px] font-mono text-slate-400">
+                <div className="flex items-center gap-1 text-[11px] font-mono text-[#93a5ad]">
                   <MapPin className="w-3 h-3 text-amber-400" />
                   <span className="truncate max-w-[160px]">{artist.location}</span>
                 </div>
@@ -96,7 +96,7 @@ export default function ArtSection() {
               </h3>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+            <div className="flex items-center justify-between text-[11px] font-mono text-[#93a5ad] uppercase tracking-wider">
               <span className="flex items-center gap-1 text-amber-300">
                 {disciplineIcons[selectedArtist.discipline]}
                 {selectedArtist.discipline}

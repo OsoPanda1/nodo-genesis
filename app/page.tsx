@@ -43,11 +43,9 @@ import MapHub from "@/components/map/MapHub";
 import IsabellaChat from "@/components/isabella/IsabellaChat";
 
 /* ================================================================== */
-/* Portada cinematográfica — 'Real del Monte se interpreta, se         */
-/* escucha, se recorre y se recuerda.'                                 */
-/* Orden: hero temporal → telemetría → intención → mapa vivo →         */
-/* destacado → rutas → sabores → archivo → pasaporte → agenda →        */
-/* comunidad → compromiso territorial → identidad → pie.               */
+/* Portada cinematográfica — tema único de manto petrolero profundo.   */
+/* Fondo negro-petróleo en todo el sitio, texto platino perla, datos   */
+/* vivos en azul eléctrico y CTA en naranja. Sin discontinuidad.       */
 /* Núcleo técnico vive en /nodo con deep-links.                        */
 /* ================================================================== */
 
@@ -58,7 +56,7 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Patrimonio minero",
     description: "Desciende a la memoria subterránea de la Real de Minas.",
     image: "/images/mina-acosta.jpg",
-    tone: "#b76e3f",
+    tone: "#d97832",
   },
   {
     id: "panteon",
@@ -74,7 +72,7 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Naturaleza",
     description: "El sendero que se abre a la montaña y a la niebla.",
     image: "/images/penas-cargadas.jpg",
-    tone: "#166534",
+    tone: "#2e9cff",
   },
   {
     id: "mirador",
@@ -82,7 +80,7 @@ const EXPERIENCIAS: ExperienceItem[] = [
     category: "Mirador",
     description: "La luz baja sobre las casas que aprendieron a resistir.",
     image: "/images/mirador-purisima.jpg",
-    tone: "#d97832",
+    tone: "#93a5ad",
   },
 ];
 
@@ -100,7 +98,7 @@ export default function DestinoPortada() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f8f5] text-[#10243d]">
+    <main className="min-h-screen bg-[#081119] text-[#e8edef]">
       <FloatingNav onOpenIsabella={() => openIsabella()} onSearch={() => scrollTo("explora")} />
 
       {/* 01 · HERO TEMPORAL — observatorio del destino */}
@@ -175,7 +173,7 @@ export default function DestinoPortada() {
       <section id="rutas" className="rdm-section rdm-shell scroll-mt-24 px-6">
         <SectionHeader
           meta="Rutas de memoria"
-          title="Recorridos de 1, 3 y 6 horas"
+          title="Recorridos del territorio"
           action={
             <Link href="/nodo?view=tourism">
               <span className="rdm-button-secondary">
@@ -210,7 +208,7 @@ export default function DestinoPortada() {
             <GastronomySection />
           </div>
           <div>
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[#0d4652]">
+            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[#2e9cff]">
               <Store className="h-4 w-4" /> Negocios con sello RDM
             </h3>
             <BusinessPortal />
@@ -228,23 +226,23 @@ export default function DestinoPortada() {
         <ArtSection />
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <Ghost className="h-4 w-4 text-[#0d4652]" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#eef2f2]">
+              <Ghost className="h-4 w-4 text-[#2e9cff]" />
               Historia, mitos y leyendas
             </h4>
             <LegendsSection />
           </div>
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <BookMarked className="h-4 w-4 text-[#b76e3f]" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#eef2f2]">
+              <BookMarked className="h-4 w-4 text-[#d97832]" />
               Archivo Histórico del Real
             </h4>
             <ArchiveView />
           </div>
         </div>
         <div className="mt-8 space-y-3">
-          <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-            <Palette className="h-4 w-4 text-[#166534]" />
+          <h4 className="flex items-center gap-2 text-sm font-semibold text-[#eef2f2]">
+            <Palette className="h-4 w-4 text-[#93a5ad]" />
             Galería compartida
           </h4>
           <GallerySection />
@@ -291,14 +289,14 @@ export default function DestinoPortada() {
         />
         <div className="grid gap-6 lg:grid-cols-2">
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
-              <MessagesSquare className="h-4 w-4 text-[#0d4652]" />
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#eef2f2]">
+              <MessagesSquare className="h-4 w-4 text-[#2e9cff]" />
               Foro del Real
             </h4>
             <ForumSection />
           </div>
           <div className="space-y-3">
-            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#10243d]">
+            <h4 className="flex items-center gap-2 text-sm font-semibold text-[#eef2f2]">
               <Heart className="h-4 w-4 text-[#d97832]" />
               Muro de honor
             </h4>
@@ -310,42 +308,42 @@ export default function DestinoPortada() {
         </div>
       </section>
 
-      {/* 12 · COMPROMISO TERRITORIAL — fondo petróleo profundo */}
+      {/* 12 · COMPROMISO TERRITORIAL */}
       <section className="rdm-section rdm-shell px-6">
-        <div className="overflow-hidden rounded-[2rem] bg-[#071525] text-white">
+        <div className="rdm-glass overflow-hidden rounded-[2rem]">
           <div className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
             <div className="space-y-4">
               <p className="rdm-meta text-[#2e9cff]">Compromiso territorial</p>
               <h2 className="rdm-display-md font-display text-white">
                 Soberanía de los datos del pueblo
               </h2>
-              <p className="text-sm leading-relaxed text-[#cbd5e1]">
+              <p className="text-sm leading-relaxed text-[#93a5ad]">
                 Los datos son locales, trazables y con consentimiento. La instrumentación del
                 territorio (clima, aforo, movilidad) está en integración y se publicará con
                 estimaciones responsables y declaradas.
               </p>
               <div className="flex flex-wrap gap-3">
-                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                <span className="rdm-chip">
                   <ShieldCheck className="h-3.5 w-3.5 text-[#2e9cff]" /> Datos soberanos
                 </span>
-                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                <span className="rdm-chip">
                   <Accessibility className="h-3.5 w-3.5 text-[#2e9cff]" /> Accesibilidad integrada
                 </span>
-                <span className="rdm-chip border-white/10 bg-white/5 text-[#c9d0d4]">
+                <span className="rdm-chip">
                   <Globe className="h-3.5 w-3.5 text-[#d97832]" /> ES · EN
                 </span>
               </div>
             </div>
             <div className="flex flex-col justify-center gap-4">
               <Link href="/nodo?view=crown-gateway">
-                <span className="rdm-button-secondary w-full justify-start !bg-white/5 !text-white !border-[#2e9cff]/40 hover:!border-[#2e9cff]">
-                  <Building2 className="h-4 w-4 text-[#2e9cff]" />
+                <span className="rdm-button-secondary w-full justify-start">
+                  <Building2 className="h-4 w-4" />
                   CROWN Gateway — IA federada <ArrowRight className="ml-auto h-4 w-4" />
                 </span>
               </Link>
               <Link href="/nodo?view=city">
-                <span className="rdm-button-secondary w-full justify-start !bg-white/5 !text-white !border-[#2e9cff]/40 hover:!border-[#2e9cff]">
-                  <Store className="h-4 w-4 text-[#2e9cff]" />
+                <span className="rdm-button-secondary w-full justify-start">
+                  <Store className="h-4 w-4" />
                   Centro de operaciones del destino <ArrowRight className="ml-auto h-4 w-4" />
                 </span>
               </Link>
@@ -362,11 +360,11 @@ export default function DestinoPortada() {
       {/* 13 · IDENTIDAD */}
       <section className="rdm-section rdm-shell px-6">
         <div className="text-center">
-          <p className="rdm-meta text-[#b76e3f]">Autoría e identidad</p>
-          <p className="rdm-display-lg font-display text-[#10243d] mt-3">
+          <p className="rdm-meta text-[#d97832]">Autoría e identidad</p>
+          <p className="rdm-display-lg font-display text-[#eef2f2] mt-3">
             Anubis Villaseñor
           </p>
-          <p className="mt-2 text-xs uppercase tracking-[0.28em] text-[#475569]">
+          <p className="mt-2 text-xs uppercase tracking-[0.28em] text-[#647a84]">
             Sistemas territoriales · Inteligencia cognitiva · Gobernanza digital · Experiencias inmersivas
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
@@ -382,59 +380,59 @@ export default function DestinoPortada() {
       </section>
 
       {/* Pie institucional */}
-      <footer className="border-t border-[#cbd5e1] bg-[#10243d] text-white">
+      <footer className="border-t border-white/10 bg-[#050c12]">
         <div className="rdm-shell grid gap-10 px-6 py-14 md:grid-cols-4">
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0d4652] text-white">
                 <Landmark className="h-4 w-4" />
               </span>
-              <span className="font-display text-base font-bold">Real del Monte</span>
+              <span className="font-display text-base font-bold text-[#eef2f2]">Real del Monte</span>
             </div>
-            <p className="text-xs leading-relaxed text-[#cbd5e1]">
+            <p className="text-xs leading-relaxed text-[#93a5ad]">
               Destino turístico inteligente del Pueblo Mágico de Hidalgo: patrimonio,
               cultura, economía phygital y gobernanza soberana.
             </p>
           </div>
           <div className="space-y-2">
             <p className="rdm-meta text-[#d97832]">Oficina Virtual</p>
-            <button onClick={() => openIsabella()} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <button onClick={() => openIsabella()} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Asistente IA Isabella
             </button>
-            <a href="#rutas" onClick={(e) => { e.preventDefault(); scrollTo("rutas"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#rutas" onClick={(e) => { e.preventDefault(); scrollTo("rutas"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Rutas y turismo
             </a>
-            <a href="#mapa" onClick={(e) => { e.preventDefault(); scrollTo("mapa"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#mapa" onClick={(e) => { e.preventDefault(); scrollTo("mapa"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Mapa interactivo
             </a>
-            <a href="#pasaporte" onClick={(e) => { e.preventDefault(); scrollTo("pasaporte"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#pasaporte" onClick={(e) => { e.preventDefault(); scrollTo("pasaporte"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Pasaporte RDM
             </a>
           </div>
           <div className="space-y-2">
             <p className="rdm-meta text-[#d97832]">Explora</p>
-            <a href="#sabores" onClick={(e) => { e.preventDefault(); scrollTo("sabores"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#sabores" onClick={(e) => { e.preventDefault(); scrollTo("sabores"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Sabores y oficios
             </a>
-            <a href="#archivo" onClick={(e) => { e.preventDefault(); scrollTo("archivo"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#archivo" onClick={(e) => { e.preventDefault(); scrollTo("archivo"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Archivo vivo
             </a>
-            <a href="#agenda" onClick={(e) => { e.preventDefault(); scrollTo("agenda"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#agenda" onClick={(e) => { e.preventDefault(); scrollTo("agenda"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Agenda
             </a>
-            <a href="#comunidad" onClick={(e) => { e.preventDefault(); scrollTo("comunidad"); }} className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <a href="#comunidad" onClick={(e) => { e.preventDefault(); scrollTo("comunidad"); }} className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Comunidad
             </a>
           </div>
           <div className="space-y-2">
             <p className="rdm-meta text-[#d97832]">Gobernanza y tecnología</p>
-            <Link href="/nodo?view=crown-gateway" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <Link href="/nodo?view=crown-gateway" className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               CROWN Gateway — IA federada
             </Link>
-            <Link href="/nodo?view=city" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <Link href="/nodo?view=city" className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Ciudad IOC
             </Link>
-            <Link href="/nodo?view=twins" className="block text-xs text-[#cbd5e1] transition-colors hover:text-white">
+            <Link href="/nodo?view=twins" className="block text-xs text-[#c9d0d4] transition-colors hover:text-white">
               Gemelo territorial DTDL
             </Link>
             <Link href="/nodo" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#d97832] hover:underline">
@@ -444,10 +442,10 @@ export default function DestinoPortada() {
         </div>
         <div className="border-t border-white/10">
           <div className="rdm-shell flex flex-wrap items-center justify-between gap-3 px-6 py-5">
-            <p className="rdm-meta text-[#94a3b8]">
+            <p className="rdm-meta text-[#647a84]">
               RDM Digital Hub · Nodo Cero · TAMV Online Network
             </p>
-            <p className="rdm-meta text-[#94a3b8]">
+            <p className="rdm-meta text-[#647a84]">
               Real del Monte, Hidalgo, México
             </p>
           </div>

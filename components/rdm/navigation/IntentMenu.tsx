@@ -44,16 +44,16 @@ export default function IntentMenu({
             onClick={() => onNavigate(d.view)}
             className="rdm-card group flex flex-col items-start gap-3 p-5 text-left"
           >
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0d4652]/10 text-[#0d4652] transition-colors group-hover:bg-[#0d4652] group-hover:text-white">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#2e9cff]/12 text-[#2e9cff] transition-colors group-hover:bg-[#2e9cff] group-hover:text-white">
               {d.icon}
             </span>
             <span>
-              <span className="block font-display text-base font-bold text-[#10243d]">
+              <span className="block font-display text-base font-bold text-[#eef2f2]">
                 {d.label}
               </span>
-              <span className="mt-0.5 block text-xs text-[#475569]">{d.hint}</span>
+              <span className="mt-0.5 block text-xs text-[#93a5ad]">{d.hint}</span>
             </span>
-            <ArrowRight className="mt-auto h-4 w-4 text-[#94a3b8] transition-transform group-hover:translate-x-1 group-hover:text-[#2e9cff]" />
+            <ArrowRight className="mt-auto h-4 w-4 text-[#647a84] transition-transform group-hover:translate-x-1 group-hover:text-[#2e9cff]" />
           </button>
         ))}
       </div>

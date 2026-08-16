@@ -31,7 +31,7 @@ export default function LegendsSection() {
           <Ghost className="w-6 h-6 text-purple-400" />
           Mitos y Leyendas del Monte
         </h2>
-        <p className="text-xs text-slate-400 font-mono">
+        <p className="text-xs text-[#93a5ad] font-mono">
           La niebla del Real guarda historias de minas, aparecidos y tesoros perdidos
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function LegendsSection() {
                 Relato {selected + 1} de {RDM_LEGENDS.length}
               </div>
               <h3 className="text-xl font-black text-white">{legend.title}</h3>
-              <div className="text-[11px] font-mono text-slate-400">{legend.moral}</div>
+              <div className="text-[11px] font-mono text-[#93a5ad]">{legend.moral}</div>
             </div>
           </div>
 
@@ -77,13 +77,13 @@ export default function LegendsSection() {
             <BookOpen className="w-4 h-4" />
             <span className="text-[10px] font-mono uppercase tracking-widest">El cuentacuentos del Real</span>
           </div>
-          <div className="text-xs text-slate-400 font-mono mb-3">Categoría: {legend.category}</div>
+          <div className="text-xs text-[#93a5ad] font-mono mb-3">Categoría: {legend.category}</div>
           <div className="text-sm text-slate-200 leading-relaxed font-light flex-1 relative">
             <Quote className="w-5 h-5 text-purple-500/50 mb-2" />
             {legend.story}
           </div>
           <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-            <span className="text-[10px] font-mono text-slate-500">Transmisión oral · Nodo Cero</span>
+            <span className="text-[10px] font-mono text-[#647a84]">Transmisión oral · Nodo Cero</span>
             <span className="text-[10px] font-mono text-purple-400">3.2 min de lectura</span>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function LegendsSection() {
               </div>
               <div className="p-4 space-y-2">
                 <p className="text-sm text-amber-200 font-medium italic leading-snug">{dicho.text}</p>
-                <p className="text-xs text-slate-400 font-mono leading-relaxed">{dicho.meaning}</p>
+                <p className="text-xs text-[#93a5ad] font-mono leading-relaxed">{dicho.meaning}</p>
               </div>
             </div>
           ))}

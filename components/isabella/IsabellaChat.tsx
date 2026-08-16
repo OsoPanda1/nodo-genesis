@@ -109,7 +109,7 @@ function TracePanel({ decision, traceId }: { decision?: IsabellaDecision; traceI
           </div>
 
           <div>
-            <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">Motores cognitivos</div>
+            <div className="text-[9px] font-mono text-[#93a5ad] uppercase tracking-widest mb-1.5">Motores cognitivos</div>
             <div className="flex flex-wrap gap-1">
               {engineOrder.map(engine => (
                 <span
@@ -128,12 +128,12 @@ function TracePanel({ decision, traceId }: { decision?: IsabellaDecision; traceI
 
           {decision.toolCalls.length > 0 && (
             <div>
-              <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">Herramientas ejecutadas</div>
+              <div className="text-[9px] font-mono text-[#93a5ad] uppercase tracking-widest mb-1.5">Herramientas ejecutadas</div>
               <div className="space-y-1">
                 {decision.toolCalls.map((call: IsabellaToolCall) => (
                   <div key={call.id} className="flex items-center justify-between text-[10px] font-mono">
                     <span className="flex items-center gap-1.5 text-slate-300">
-                      <Wrench className="w-3 h-3 text-amber-400" />
+                      <Wrench className="w-3 h-3 text-[#d97832]" />
                       {call.tool}
                     </span>
                     <span className={call.status === 'success' ? 'text-emerald-400' : 'text-rose-400'}>
@@ -147,7 +147,7 @@ function TracePanel({ decision, traceId }: { decision?: IsabellaDecision; traceI
 
           {decision.sources && decision.sources.length > 0 && (
             <div>
-              <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1.5">Fuentes del territorio</div>
+              <div className="text-[9px] font-mono text-[#93a5ad] uppercase tracking-widest mb-1.5">Fuentes del territorio</div>
               <div className="space-y-1">
                 {decision.sources.slice(0, 3).map((source, idx) => (
                   <p key={idx} className="text-[10px] font-mono text-slate-300 flex items-start gap-1.5">
@@ -159,7 +159,7 @@ function TracePanel({ decision, traceId }: { decision?: IsabellaDecision; traceI
             </div>
           )}
 
-          <div className="text-[9px] font-mono text-slate-500 flex items-center gap-1.5 pt-1 border-t border-white/5">
+          <div className="text-[9px] font-mono text-[#93a5ad] flex items-center gap-1.5 pt-1 border-t border-white/5">
             <Fingerprint className="w-3 h-3 text-purple-400" />
             trace_id: {traceId ?? 'n/d'}
           </div>
@@ -314,7 +314,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-transparent pointer-events-none" />
         <div className="relative flex items-center gap-3">
           <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 via-purple-500 to-amber-400 p-0.5 shadow-lg shadow-cyan-500/20">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 via-purple-500 to-[#d97832] p-0.5 shadow-lg shadow-cyan-500/20">
               <div className="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
                 <Bot className="w-5 h-5 text-cyan-300" />
               </div>
@@ -343,7 +343,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
           )}
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg hover:bg-white/10 text-[#93a5ad] hover:text-white transition-colors"
             aria-label="Cerrar chat de Isabella"
           >
             <X className="w-4 h-4" />
@@ -382,7 +382,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
                     ? 'bg-purple-900/40 text-purple-100 border border-purple-500/30 rounded-tr-none'
                     : msg.isError
                       ? 'bg-rose-950/30 text-rose-100 border border-rose-500/30 rounded-tl-none'
-                      : 'glass-panel text-slate-200 border border-cyan-500/30 rounded-tl-none shadow-md'
+                      : 'bg-white/[0.05] text-[#c9d0d4] border border-cyan-500/30 rounded-tl-none shadow-md'
                 }`}
               >
                 {banner && (
@@ -394,7 +394,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
                 {msg.sender === 'isabella' && msg.decision && (
                   <TracePanel decision={msg.decision} traceId={msg.traceId} />
                 )}
-                <div className={`text-[9px] font-mono mt-1.5 text-right ${msg.sender === 'user' ? 'text-purple-300' : 'text-slate-400'}`}>
+                <div className={`text-[9px] font-mono mt-1.5 text-right ${msg.sender === 'user' ? 'text-purple-300' : 'text-[#93a5ad]'}`}>
                   {msg.timestamp}
                 </div>
               </div>
@@ -418,7 +418,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
       </div>
 
       {/* Franja de estado cognitivo */}
-      <div className="px-4 py-1.5 bg-slate-950/90 border-t border-white/5 flex items-center justify-between text-[9px] font-mono text-slate-400">
+      <div className="px-4 py-1.5 bg-slate-950/90 border-t border-white/5 flex items-center justify-between text-[9px] font-mono text-[#93a5ad]">
         <span className="flex items-center gap-1">
           <BrainCircuit className="w-3 h-3 text-cyan-400" />
           Ciclo: Perceive → Remember → Decide → Act → Audit
@@ -452,7 +452,7 @@ export default function IsabellaChat({ isOpen, onClose, initialPrompt }: Isabell
           onKeyDown={e => e.key === 'Enter' && handleSend()}
           placeholder="Escribe tu consulta a Isabella AI..."
           disabled={loading}
-          className="flex-1 bg-slate-900 border border-slate-800 focus:border-cyan-500 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors disabled:opacity-60"
+          className="flex-1 bg-slate-900 border border-slate-800 focus:border-cyan-500 rounded-xl px-3.5 py-2 text-xs text-white placeholder:text-[#93a5ad] focus:outline-none transition-colors disabled:opacity-60"
         />
         <button
           onClick={() => handleSend()}

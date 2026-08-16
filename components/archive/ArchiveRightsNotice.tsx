@@ -22,18 +22,18 @@ export function ArchiveRightsNotice({ rightsStatus, license, donorName }: Archiv
   const ok = meta.tone === 'ok';
 
   return (
-    <div className={`rounded-2xl border p-4 text-xs ${ok ? 'border-emerald-300/70 bg-emerald-50/70' : 'border-amber-300/70 bg-amber-50/70'}`}>
-      <div className="flex items-center gap-2 font-bold text-[#082f3b]">
-        {ok ? <ShieldCheck className="h-4 w-4 text-emerald-600" /> : <ShieldAlert className="h-4 w-4 text-amber-600" />}
+    <div className={`rounded-2xl border p-4 text-xs ${ok ? 'border-emerald-400/30 bg-emerald-500/10' : 'border-amber-400/30 bg-amber-500/10'}`}>
+      <div className="flex items-center gap-2 font-bold text-[#eef2f2]">
+        {ok ? <ShieldCheck className="h-4 w-4 text-emerald-400" /> : <ShieldAlert className="h-4 w-4 text-amber-400" />}
         {meta.label}
       </div>
-      <p className="mt-1.5 leading-relaxed text-[#536b86]">
+      <p className="mt-1.5 leading-relaxed text-[#c9d0d4]">
         {license ? `Licencia: ${license}. ` : ''}
         {donorName ? `Donación: ${donorName}. ` : ''}
         El uso debe respetar la atribución y las condiciones de la pieza. Si dudas sobre los derechos,
         consulta con el consejo del Archivo antes de reutilizar.
       </p>
-      <div className="mt-2 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#8a97a4]">
+      <div className="mt-2 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#93a5ad]">
         <Landmark className="h-3 w-3" /> Archivo Histórico RDM Digital
       </div>
     </div>

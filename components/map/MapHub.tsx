@@ -57,18 +57,18 @@ export default function MapHub() {
             Núcleo de Experiencia Visual
           </span>
         </div>
-        <h2 className="font-patrimonial text-3xl font-bold text-[#0e1b2a] md:text-4xl">
+        <h2 className="font-patrimonial text-3xl font-bold text-white md:text-4xl">
           Gemelo Digital 2D/3D
           <span className="text-[#c8a356]"> · Cartografía Phygital</span>
         </h2>
-        <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
+        <p className="max-w-2xl text-sm leading-relaxed text-[#93a5ad]">
           Tres lecturas del mismo territorio: terreno 3D con iluminación espacial, mapa soberano
           accesible y cartografía en vivo. Todos con los datos reales de RDM_POIS.
         </p>
       </header>
 
       {/* Selector de modo */}
-      <div className="flex w-fit items-center gap-1 rounded-2xl border border-[rgba(14,27,42,0.1)] bg-white/70 p-1 shadow-[0_8px_30px_rgba(14,27,42,0.08)] backdrop-blur-md">
+      <div className="flex w-fit items-center gap-1 rounded-2xl border border-white/10 bg-[#0d1c26] p-1 shadow-[0_8px_30px_rgba(14,27,42,0.08)] backdrop-blur-md">
         {MODES.map((m) => (
           <button
             key={m.id}
@@ -76,7 +76,7 @@ export default function MapHub() {
             className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-mono font-bold transition-all ${
               mode === m.id
                 ? "bg-[#0e1b2a] text-[#f5efe0] shadow-md"
-                : "text-slate-500 hover:text-[#0e1b2a]"
+                : "text-[#93a5ad] hover:text-white"
             }`}
           >
             {m.icon}
@@ -99,7 +99,7 @@ export default function MapHub() {
       </MapErrorBoundary>
 
       {/* Leyenda compartida */}
-      <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-slate-500">
+      <div className="flex flex-wrap items-center gap-4 text-[11px] font-mono text-[#93a5ad]">
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-[#c8a356]" /> Minas
         </span>
@@ -115,7 +115,7 @@ export default function MapHub() {
         <span className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-full bg-slate-300" /> Platería
         </span>
-        <span className="ml-auto flex items-center gap-1.5 text-slate-400">
+        <span className="ml-auto flex items-center gap-1.5 text-[#93a5ad]">
           <FileJson className="h-3 w-3" /> {RDM_POIS.length} POIs · fuente: lib/data/rdm-data
         </span>
       </div>

@@ -25,12 +25,12 @@ const PENDING: PendingSignal[] = [
 export default function TerritoryStatusBar() {
   return (
     <div
-      className="rdm-telemetry rdm-glass border-[#cbd5e1]/80"
+      className="rdm-telemetry rdm-glass border-white/10"
       role="region"
       aria-label="Ahora en Real del Monte"
     >
       <div className="flex items-center gap-2">
-        <span className="rdm-meta text-[#0d4652]">Ahora en Real del Monte</span>
+        <span className="rdm-meta text-[#2e9cff]">Ahora en Real del Monte</span>
       </div>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
         {PENDING.map((s) => (
@@ -40,15 +40,15 @@ export default function TerritoryStatusBar() {
               aria-label={`${s.label}: sin datos aún`}
             >
               {s.icon}
-              <span className="font-normal normal-case tracking-normal text-[#475569]">
-                <span className="font-semibold">{s.label}:</span> —
+              <span className="font-normal normal-case tracking-normal text-[#93a5ad]">
+                <span className="font-semibold text-[#c9d0d4]">{s.label}:</span> —
               </span>
             </span>
-            <span className="hidden text-[11px] text-[#94a3b8] xl:inline">· en integración</span>
+            <span className="hidden text-[11px] text-[#647a84] xl:inline">· en integración</span>
           </div>
         ))}
       </div>
-      <div className="ml-auto flex items-center gap-2 text-[#0d4652]">
+      <div className="ml-auto flex items-center gap-2 text-[#c9d0d4]">
         <Radio className="h-4 w-4 text-[#2e9cff]" />
         <span className="text-xs font-semibold">Instrumentación real en curso</span>
       </div>

@@ -136,7 +136,7 @@ export default function PhygitalMarketplace() {
               className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
                 selectedCategory === cat.id
                   ? 'bg-amber-500 text-slate-950 font-bold shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-[#93a5ad] hover:text-white'
               }`}
             >
               {cat.label}
@@ -188,7 +188,7 @@ export default function PhygitalMarketplace() {
             {/* Price & Action Footer */}
             <div className="p-5 pt-0 flex items-center justify-between border-t border-white/5 mt-3">
               <div>
-                <span className="text-[10px] font-mono text-slate-400 uppercase block">Precio Público</span>
+                <span className="text-[10px] font-mono text-[#93a5ad] uppercase block">Precio Público</span>
                 <span className="text-lg font-black text-white">${item.price} MXN</span>
               </div>
 

@@ -30,16 +30,16 @@ export default function DigitalPassport({
   ];
 
   return (
-    <div className="rdm-card overflow-hidden border-[#cbd5e1]/80">
+    <div className="rdm-card overflow-hidden border-white/10">
       <div className="grid gap-0 md:grid-cols-[1.2fr_1fr]">
         {/* Bitácora */}
         <div className="space-y-6 p-8 md:p-10">
           <div className="space-y-1">
-            <p className="rdm-meta text-[#b76e3f]">Pasaporte RDM</p>
-            <h2 className="rdm-display-md font-display text-[#10243d]">
+            <p className="rdm-meta text-[#d97832]">Pasaporte RDM</p>
+            <h2 className="rdm-display-md font-display text-[#eef2f2]">
               Tu bitácora se activa con tu recorrido
             </h2>
-            <p className="text-sm text-[#475569]">
+            <p className="text-sm text-[#93a5ad]">
               Los sellos se marcan con datos reales al visitar cada lugar. Aún sin recorridos
               registrados.
             </p>
@@ -54,7 +54,7 @@ export default function DigitalPassport({
                 >
                   ·
                 </span>
-                <span className="max-w-24 text-center text-[10px] font-semibold leading-tight text-[#475569]">
+                <span className="max-w-24 text-center text-[10px] font-semibold leading-tight text-[#93a5ad]">
                   {s.label}
                 </span>
               </div>
@@ -63,18 +63,18 @@ export default function DigitalPassport({
         </div>
 
         {/* Próxima veta */}
-        <div className="flex flex-col justify-between gap-6 border-t border-[#e2e8f0] bg-[#f4f7fb]/70 p-8 md:border-l md:border-t-0 md:p-10">
+        <div className="flex flex-col justify-between gap-6 border-t border-white/10 bg-[#0d1c26]/60 p-8 md:border-l md:border-t-0 md:p-10">
           <div className="space-y-4">
-            <p className="rdm-meta text-[#0d4652]">Próxima veta por descubrir</p>
+            <p className="rdm-meta text-[#2e9cff]">Próxima veta por descubrir</p>
             <div className="flex items-start gap-3">
-              <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0d4652] text-white">
+              <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#2e9cff] text-white">
                 <MapPin className="h-4 w-4" />
               </span>
               <div>
-                <p className="font-display text-lg font-bold text-[#10243d]">
+                <p className="font-display text-lg font-bold text-[#eef2f2]">
                   Mina de Acosta
                 </p>
-                <p className="text-xs text-[#475569]">
+                <p className="text-xs text-[#93a5ad]">
                   El sello se marca al registrarte en el lugar · registro real próximamente
                 </p>
               </div>

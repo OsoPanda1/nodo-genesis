@@ -41,7 +41,7 @@ export function ArchiveMap({ latitude, longitude, locationName }: ArchiveMapProp
   return (
     <div
       ref={containerRef}
-      className="h-64 w-full rounded-2xl border border-[#c9d0d4]/70 z-0"
+      className="h-64 w-full rounded-2xl border border-white/15 z-0"
       aria-label={`Mapa: ${locationName ?? 'ubicación'}`}
     />
   );

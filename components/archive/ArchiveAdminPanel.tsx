@@ -186,16 +186,16 @@ export function ArchiveAdminPanel() {
   };
 
   const inputCls =
-    'w-full rounded-xl border border-[#c9d0d4] bg-white/90 px-3.5 py-2.5 text-sm text-[#082f3b] placeholder-[#8a97a4] focus:border-[#2e9cff] focus:outline-none transition-all';
-  const labelCls = 'text-[10px] font-mono font-bold uppercase tracking-widest text-[#0d4652]';
+    'w-full rounded-xl border border-white/15 bg-white/[0.05] px-3.5 py-2.5 text-sm text-[#e8edef] placeholder:text-[#647a84] focus:border-[#2e9cff] focus:outline-none transition-all';
+  const labelCls = 'text-[10px] font-mono font-bold uppercase tracking-widest text-[#2e9cff]';
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
-        <div className="rounded-3xl border border-[#c9d0d4]/60 bg-white/75 p-6 space-y-4">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 space-y-4">
           <div className="flex items-center gap-2">
-            <Landmark className="h-4 w-4 text-[#c89a45]" />
-            <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Nueva ficha del acervo</h3>
+            <Landmark className="h-4 w-4 text-[#d97832]" />
+            <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Nueva ficha del acervo</h3>
           </div>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -265,26 +265,26 @@ export function ArchiveAdminPanel() {
             </div>
           </div>
 
-          <button onClick={() => void createItem()} disabled={busy} className="flex items-center gap-2 rounded-xl bg-[#0d4652] px-5 py-3 text-xs font-bold text-[#f2cc76] shadow-md transition-all hover:shadow-lg disabled:opacity-50">
+          <button onClick={() => void createItem()} disabled={busy} className="flex items-center gap-2 rounded-xl bg-[#0d4652] px-5 py-3 text-xs font-bold text-white shadow-md transition-all hover:shadow-lg disabled:opacity-50">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
             Crear ficha como borrador
           </button>
         </div>
 
         {item && (
-          <div className="rounded-3xl border border-[#c9d0d4]/60 bg-white/75 p-6 space-y-4">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <KeyRound className="h-4 w-4 text-[#c89a45]" />
-                <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Expediente activo</h3>
+                <KeyRound className="h-4 w-4 text-[#d97832]" />
+                <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Expediente activo</h3>
               </div>
-              <span className="rounded-full border border-[#0d4652]/40 bg-[#0d4652]/8 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#0d4652]">
+              <span className="rounded-full border border-[#2e9cff]/40 bg-[#2e9cff]/8 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#2e9cff]">
                 {STATUS_LABELS[item.status]} · {item.id.slice(0, 8)}
               </span>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button onClick={() => void attachDemoFile()} disabled={busy} className="flex items-center gap-2 rounded-xl bg-[#f2cc76] px-4 py-2.5 text-xs font-bold text-[#082f3b] hover:shadow-md transition-all disabled:opacity-50">
+              <button onClick={() => void attachDemoFile()} disabled={busy} className="flex items-center gap-2 rounded-xl bg-[#d97832] px-4 py-2.5 text-xs font-bold text-white hover:shadow-md transition-all disabled:opacity-50">
                 <Upload className="h-4 w-4" /> Cargar derivado demo
               </button>
               {item.status === 'draft' && (
@@ -316,19 +316,19 @@ export function ArchiveAdminPanel() {
           </div>
         )}
 
-        <div className="rounded-3xl border border-[#c9d0d4]/60 bg-white/75 p-6 space-y-3">
-          <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Trazo del flujo editorial</h3>
-          <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-[#536b86]">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 space-y-3">
+          <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Trazo del flujo editorial</h3>
+          <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono text-[#c9d0d4]">
             {['Borrador', 'En revisión', 'Aprobado', 'Publicado', 'Retirado'].map((step, i, arr) => (
               <span key={step} className="flex items-center gap-2">
-                <span className={`rounded-full px-3 py-1.5 border ${['Borrador', 'En revisión', 'Aprobado', 'Publicado', 'Retirado'].indexOf(step) <= ['draft','pending_review','approved','published','withdrawn'].indexOf(item?.status ?? 'draft') ? 'bg-[#0d4652] text-[#f2cc76] border-[#0d4652]' : 'bg-white text-[#8a97a4] border-[#c9d0d4]'}`}>
+                <span className={`rounded-full px-3 py-1.5 border ${['Borrador', 'En revisión', 'Aprobado', 'Publicado', 'Retirado'].indexOf(step) <= ['draft','pending_review','approved','published','withdrawn'].indexOf(item?.status ?? 'draft') ? 'bg-[#0d4652] text-white border-[#0d4652]' : 'bg-white/[0.06] text-[#93a5ad] border-white/15'}`}>
                   {step}
                 </span>
                 {i < arr.length - 1 && <span>→</span>}
               </span>
             ))}
           </div>
-          <p className="text-[11px] leading-relaxed text-[#536b86]">
+          <p className="text-[11px] leading-relaxed text-[#c9d0d4]">
             Cada transición exige rol suficiente y razón de cambio. Publicar requiere procedencia,
             derechos aclarados y un derivado visible con hash canónico.
           </p>
@@ -336,27 +336,27 @@ export function ArchiveAdminPanel() {
       </div>
 
       <div className="space-y-6">
-        <div className="rounded-3xl border border-[#c9d0d4]/60 bg-white/75 p-6 space-y-3">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 space-y-3">
           <div className="flex items-center gap-2">
-            <KeyRound className="h-4 w-4 text-[#c89a45]" />
-            <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Rol editorial (demo)</h3>
+            <KeyRound className="h-4 w-4 text-[#d97832]" />
+            <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Rol editorial (demo)</h3>
           </div>
-          <p className="text-[11px] text-[#536b86]">
+          <p className="text-[11px] text-[#c9d0d4]">
             En producción el rol sale de la sesión y el RLS de Supabase. Aquí se declara la cabecera
-            <code className="mx-1 rounded bg-[#0d4652]/8 px-1.5 py-0.5 font-mono text-[#0d4652]">x-archive-role</code>.
+            <code className="mx-1 rounded bg-[#2e9cff]/8 px-1.5 py-0.5 font-mono text-[#2e9cff]">x-archive-role</code>.
           </p>
           <select value={role} onChange={e => setRole(e.target.value as Role)} className={inputCls}>
             {(Object.keys(ROLE_LABELS) as Role[]).map(r => <option key={r} value={r}>{ROLE_LABELS[r]}</option>)}
           </select>
-          <p className="text-[10px] font-mono text-[#8a97a4]">Archivista: crea y sube. Revisora: aprueba y publica. Admin: todo.</p>
+          <p className="text-[10px] font-mono text-[#93a5ad]">Archivista: crea y sube. Revisora: aprueba y publica. Admin: todo.</p>
         </div>
 
-        <div className="rounded-3xl border border-[#c9d0d4]/60 bg-white/75 p-6 space-y-3">
-          <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#0d4652]">Bitácora de sesión</h3>
+        <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 space-y-3">
+          <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#2e9cff]">Bitácora de sesión</h3>
           <ul className="max-h-72 space-y-1.5 overflow-auto pr-1">
-            {log.length === 0 && <li className="text-[11px] text-[#8a97a4]">Sin actividad todavía.</li>}
+            {log.length === 0 && <li className="text-[11px] text-[#93a5ad]">Sin actividad todavía.</li>}
             {log.map((entry, i) => (
-              <li key={i} className="rounded-lg border border-[#c9d0d4]/50 bg-[#f7f8f5] px-3 py-2 text-[11px] text-[#283038]">
+              <li key={i} className="rounded-lg border border-white/10 bg-white/[0.06] px-3 py-2 text-[11px] text-[#eef2f2]">
                 {entry}
               </li>
             ))}

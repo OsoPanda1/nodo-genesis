@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Cpu, Landmark, Search, Sparkles, Menu, X } from "lucide-react";
 
 /* ================================================================== */
-/* Navegación flotante por intención. Cristal oscuro sobre el hero,    */
-/* perla sólida al desplazarse. Menú móvil accesible con pulgar.       */
+/* Navegación flotante por intención. Cristal oscuro sobre el hero y   */
+/* sobre el manto petrolero al desplazarse. Menú móvil accesible.      */
 /* ================================================================== */
 
 export interface NavIntent {
@@ -52,7 +52,7 @@ export default function FloatingNav({
           <span
             className={`flex h-9 w-9 items-center justify-center rounded-xl ${
               scrolled
-                ? "bg-[#10243d] text-white shadow-[0_6px_18px_rgba(16,36,61,0.25)]"
+                ? "bg-[#0d4652] text-white shadow-[0_6px_18px_rgba(13,70,82,0.3)]"
                 : "border border-white/25 bg-white/15 text-white backdrop-blur"
             }`}
           >
@@ -61,14 +61,14 @@ export default function FloatingNav({
           <span className="hidden sm:block">
             <span
               className={`block font-display text-base font-bold leading-tight transition-colors ${
-                scrolled ? "text-[#10243d]" : "text-white"
+                scrolled ? "text-[#eef2f2]" : "text-white"
               }`}
             >
               Real del Monte
             </span>
             <span
               className={`block text-[9px] uppercase tracking-[0.28em] transition-colors ${
-                scrolled ? "text-[#475569]" : "text-[#cbd5e1]"
+                scrolled ? "text-[#c9d0d4]" : "text-[#cbd5e1]"
               }`}
             >
               Destino inteligente
@@ -87,7 +87,7 @@ export default function FloatingNav({
                 document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
               }}
               className={`text-xs font-semibold transition-colors ${
-                scrolled ? "text-[#475569] hover:text-[#0d4652]" : "text-[#e2e8f0]/85 hover:text-white"
+                scrolled ? "text-[#c9d0d4] hover:text-white" : "text-[#e2e8f0]/85 hover:text-white"
               }`}
             >
               {item.label}
@@ -101,7 +101,7 @@ export default function FloatingNav({
               onClick={onSearch}
               aria-label="Buscar"
               className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
-                scrolled ? "text-[#0d4652] hover:bg-[#e2e8f0]" : "text-white/80 hover:bg-white/10"
+                scrolled ? "text-[#c9d0d4] hover:bg-white/10" : "text-white/80 hover:bg-white/10"
               }`}
             >
               <Search className="h-4 w-4" />
@@ -129,7 +129,7 @@ export default function FloatingNav({
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             className={`flex h-10 w-10 items-center justify-center rounded-full lg:hidden ${
-              scrolled ? "text-[#10243d]" : "text-white"
+              scrolled ? "text-[#eef2f2]" : "text-white"
             }`}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -140,7 +140,7 @@ export default function FloatingNav({
       {/* Panel móvil */}
       {mobileOpen && (
         <nav
-          className="lg:hidden mx-4 mb-3 rounded-2xl border border-[#e2e8f0] bg-white/95 p-4 shadow-[var(--rdm-shadow-soft)] backdrop-blur-xl"
+          className="lg:hidden mx-4 mb-3 rounded-2xl border border-white/10 bg-[#0d1c26]/95 p-4 shadow-[var(--rdm-shadow-soft)] backdrop-blur-xl"
           aria-label="Menú móvil"
         >
           <div className="grid gap-1">
@@ -153,14 +153,14 @@ export default function FloatingNav({
                   setMobileOpen(false);
                   document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="flex min-h-12 items-center rounded-xl px-4 text-sm font-semibold text-[#1e293b] transition-colors hover:bg-[#f4f7fb]"
+                className="flex min-h-12 items-center rounded-xl px-4 text-sm font-semibold text-[#c9d0d4] transition-colors hover:bg-white/5"
               >
                 {item.label}
               </a>
             ))}
             <a
               href="/nodo"
-              className="mt-1 flex min-h-12 items-center gap-2 rounded-xl bg-[#10243d] px-4 text-sm font-semibold text-white"
+              className="mt-1 flex min-h-12 items-center gap-2 rounded-xl bg-[#0d4652] px-4 text-sm font-semibold text-white"
             >
               <Cpu className="h-4 w-4 text-[#2e9cff]" />
               Núcleo tecnológico del Nodo

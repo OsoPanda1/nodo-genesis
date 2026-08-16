@@ -27,7 +27,7 @@ export function ArchiveItemCard({ item, onSelect }: ArchiveItemCardProps) {
   return (
     <button
       onClick={() => onSelect(item)}
-      className="group w-full text-left rounded-3xl overflow-hidden border border-[#c9d0d4]/60 bg-white/75 backdrop-blur-sm shadow-[0_10px_30px_rgba(13,70,82,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(13,70,82,0.16)]"
+      className="group w-full text-left rounded-3xl overflow-hidden border border-white/10 bg-white/[0.06] backdrop-blur-sm shadow-[0_10px_30px_rgba(13,70,82,0.06)] transition-all hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(13,70,82,0.16)]"
     >
       <div className="relative h-44 overflow-hidden bg-gradient-to-br from-[#0d4652] to-[#082f3b]">
         {thumbnail && thumbnail.mimeType.startsWith('image/') ? (
@@ -35,12 +35,12 @@ export function ArchiveItemCard({ item, onSelect }: ArchiveItemCardProps) {
           <img src={thumbnail.objectPath} alt={item.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <Landmark className="h-12 w-12 text-[#f2cc76] opacity-80" />
+            <Landmark className="h-12 w-12 text-[#d97832] opacity-80" />
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#082f3b]/85 via-transparent to-transparent" />
         <div className="absolute left-3 top-3 flex gap-2">
-          <span className="rounded-full border border-[#f2cc76]/50 bg-[#082f3b]/85 px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#f2cc76]">
+          <span className="rounded-full border border-[#d97832]/50 bg-[#082f3b]/85 px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#d97832]">
             {ASSET_LABELS[item.assetType] ?? item.assetType}
           </span>
           {item.accessLevel === 'view_only' && (
@@ -62,20 +62,20 @@ export function ArchiveItemCard({ item, onSelect }: ArchiveItemCardProps) {
       </div>
 
       <div className="p-5 space-y-2">
-        <h3 className="font-patrimonial text-lg font-bold leading-snug text-[#082f3b] group-hover:text-[#0d4652] transition-colors line-clamp-2">
+        <h3 className="font-patrimonial text-lg font-bold leading-snug text-[#eef2f2] group-hover:text-[#2e9cff] transition-colors line-clamp-2">
           {item.title}
         </h3>
-        <p className="text-xs leading-relaxed text-[#536b86] line-clamp-3">{item.summary}</p>
-        <div className="flex items-center justify-between pt-2 border-t border-[#c9d0d4]/50">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#c89a45]">
+        <p className="text-xs leading-relaxed text-[#c9d0d4] line-clamp-3">{item.summary}</p>
+        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#d97832]">
             {item.rightsStatus === 'public_domain' ? 'Dominio público' : 'Con derechos'}
           </span>
           {accessCopy ? (
-            <span className="text-[10px] font-mono font-bold text-[#0d4652] uppercase tracking-wider">
+            <span className="text-[10px] font-mono font-bold text-[#2e9cff] uppercase tracking-wider">
               Ver pieza →
             </span>
           ) : (
-            <span className="text-[10px] font-mono text-[#8a97a4]">Solo vista</span>
+            <span className="text-[10px] font-mono text-[#93a5ad]">Solo vista</span>
           )}
         </div>
       </div>

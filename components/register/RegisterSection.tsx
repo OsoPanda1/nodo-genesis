@@ -74,10 +74,10 @@ const PHOTO_SUGGESTIONS = [
 ];
 
 const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#0d4652] focus:ring-4 focus:ring-[#0d4652]/10";
+  "w-full rounded-xl border border-white/15 bg-white/[0.05] px-4 py-3 text-sm text-[#e8edef] outline-none transition placeholder:text-[#647a84] hover:border-white/25 focus:border-[#2e9cff] focus:ring-4 focus:ring-[#2e9cff]/15";
 
 const labelClass =
-  "text-[11px] font-bold uppercase tracking-[0.13em] text-slate-600";
+  "text-[11px] font-bold uppercase tracking-[0.13em] text-[#93a5ad]";
 
 const paymentOptions: Array<{
   id: PayMethod;
@@ -119,7 +119,7 @@ function Field({
           {label}
           {required && <span className="ml-1 text-rose-500">*</span>}
         </label>
-        {hint && <span className="text-[11px] text-slate-400">{hint}</span>}
+        {hint && <span className="text-[11px] text-[#93a5ad]">{hint}</span>}
       </div>
       {children}
     </div>
@@ -131,13 +131,13 @@ function StepIndicator({ step }: { step: BusinessStep }) {
   const isPaymentActive = step === 2;
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-4">
       <div className="flex items-center">
         <div className="flex items-center gap-3">
           <span
             className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-black ${
               isDataActive
-                ? "bg-[#0d4652] text-[#f2cc76]"
+                ? "bg-[#0d4652] text-white"
                 : "bg-emerald-500 text-white"
             }`}
           >
@@ -146,25 +146,25 @@ function StepIndicator({ step }: { step: BusinessStep }) {
           <div>
             <p
               className={`text-xs font-bold ${
-                isDataActive ? "text-[#0d4652]" : "text-slate-700"
+                isDataActive ? "text-[#2e9cff]" : "text-[#c9d0d4]"
               }`}
             >
               Información
             </p>
-            <p className="hidden text-[11px] text-slate-400 sm:block">
+            <p className="hidden text-[11px] text-[#93a5ad] sm:block">
               Perfil y datos del comercio
             </p>
           </div>
         </div>
 
-        <div className="mx-4 h-px flex-1 bg-slate-200" />
+        <div className="mx-4 h-px flex-1 bg-white/15" />
 
         <div className="flex items-center gap-3">
           <span
             className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-black ${
               isPaymentActive
-                ? "bg-[#0d4652] text-[#f2cc76]"
-                : "bg-slate-200 text-slate-500"
+                ? "bg-[#0d4652] text-white"
+                : "bg-white/15 text-[#647a84]"
             }`}
           >
             2
@@ -172,12 +172,12 @@ function StepIndicator({ step }: { step: BusinessStep }) {
           <div>
             <p
               className={`text-xs font-bold ${
-                isPaymentActive ? "text-[#0d4652]" : "text-slate-400"
+                isPaymentActive ? "text-[#2e9cff]" : "text-[#93a5ad]"
               }`}
             >
               Publicación
             </p>
-            <p className="hidden text-[11px] text-slate-400 sm:block">
+            <p className="hidden text-[11px] text-[#93a5ad] sm:block">
               Plan y pago seguro
             </p>
           </div>
@@ -196,16 +196,16 @@ function Notice({
 }) {
   const styles = {
     error: {
-      wrapper: "border-rose-200 bg-rose-50 text-rose-800",
-      icon: "text-rose-500",
+      wrapper: "border-rose-400/30 bg-rose-500/10 text-rose-200",
+      icon: "text-rose-300",
     },
     success: {
-      wrapper: "border-emerald-200 bg-emerald-50 text-emerald-900",
-      icon: "text-emerald-500",
+      wrapper: "border-emerald-400/30 bg-emerald-500/10 text-emerald-200",
+      icon: "text-emerald-300",
     },
     info: {
-      wrapper: "border-[#c8a356]/30 bg-[#fff8ea] text-[#6c5418]",
-      icon: "text-[#b88c36]",
+      wrapper: "border-[#d97832]/30 bg-[#d97832]/10 text-[#d97832]",
+      icon: "text-[#d97832]",
     },
   };
 
@@ -517,8 +517,8 @@ export default function RegisterSection() {
   };
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f8faf9] p-4 shadow-[0_24px_80px_rgba(8,47,59,0.08)] sm:p-6 lg:p-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_right,rgba(200,163,86,0.18),transparent_45%),radial-gradient(circle_at_top_left,rgba(13,70,82,0.10),transparent_42%)]" />
+    <section className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#0d1c26] p-4 shadow-[0_24px_80px_rgba(8,47,59,0.08)] sm:p-6 lg:p-8">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_right,rgba(217,120,50,0.18),transparent_45%),radial-gradient(circle_at_top_left,rgba(46,156,255,0.10),transparent_42%)]" />
 
       <div className="relative">
         <SectionHeader
@@ -527,14 +527,14 @@ export default function RegisterSection() {
           description="Crea una cuenta para participar en la comunidad o registra tu comercio para hacerlo visible en el mapa, catálogo y recomendaciones del Nodo Cero."
         />
 
-        <div className="mx-auto mt-8 flex w-full max-w-md rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm">
+        <div className="mx-auto mt-8 flex w-full max-w-md rounded-2xl border border-white/15 bg-white/[0.04] p-1.5 shadow-sm">
           <button
             type="button"
             onClick={() => changeKind("user")}
             className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-bold transition-all ${
               kind === "user"
-                ? "bg-[#0d4652] text-[#f2cc76] shadow-lg shadow-[#0d4652]/20"
-                : "text-slate-500 hover:bg-slate-50 hover:text-[#0d4652]"
+                ? "bg-[#0d4652] text-white shadow-lg shadow-[#0d4652]/20"
+                : "text-[#647a84] hover:bg-white/[0.06] hover:text-[#2e9cff]"
             }`}
           >
             <UserPlus className="h-4 w-4" />
@@ -546,8 +546,8 @@ export default function RegisterSection() {
             onClick={() => changeKind("business")}
             className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-bold transition-all ${
               kind === "business"
-                ? "bg-[#0d4652] text-[#f2cc76] shadow-lg shadow-[#0d4652]/20"
-                : "text-slate-500 hover:bg-slate-50 hover:text-[#0d4652]"
+                ? "bg-[#0d4652] text-white shadow-lg shadow-[#0d4652]/20"
+                : "text-[#647a84] hover:bg-white/[0.06] hover:text-[#2e9cff]"
             }`}
           >
             <Store className="h-4 w-4" />
@@ -579,7 +579,7 @@ export default function RegisterSection() {
           {kind === "business" ? (
             <div className="grid gap-6 lg:grid-cols-5">
               <div className="lg:col-span-3">
-                <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+                <div className="rounded-[1.75rem] border border-white/15 bg-white/[0.04] p-5 shadow-sm sm:p-7">
                   <StepIndicator step={step} />
 
                   <div className="mt-7">
@@ -763,16 +763,16 @@ function BusinessDetailsForm({
   return (
     <div className="space-y-8">
       <div>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#0d4652]/8 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#0d4652]">
-          <BadgeCheck className="h-3.5 w-3.5 text-[#c8a356]" />
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#2e9cff]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#2e9cff]">
+          <BadgeCheck className="h-3.5 w-3.5 text-[#d97832]" />
           Perfil de negocio
         </span>
 
-        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#082f3b]">
+        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#e8edef]">
           Construye una presencia confiable
         </h3>
 
-        <p className="mt-2 text-sm leading-6 text-slate-500">
+        <p className="mt-2 text-sm leading-6 text-[#647a84]">
           La información que registres será la base de tu ficha pública dentro
           del ecosistema territorial.
         </p>
@@ -780,14 +780,14 @@ function BusinessDetailsForm({
 
       <section className="space-y-5">
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0d4652] text-[#f2cc76]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0d4652] text-white">
             <ShieldCheck className="h-4 w-4" />
           </span>
           <div>
-            <h4 className="text-sm font-bold text-[#082f3b]">
+            <h4 className="text-sm font-bold text-[#e8edef]">
               Responsable de la cuenta
             </h4>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#93a5ad]">
               Datos para validar y administrar tu publicación.
             </p>
           </div>
@@ -829,14 +829,14 @@ function BusinessDetailsForm({
 
       <section className="space-y-5">
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#c8a356]/15 text-[#9a7128]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#d97832]/15 text-[#d97832]">
             <Store className="h-4 w-4" />
           </span>
           <div>
-            <h4 className="text-sm font-bold text-[#082f3b]">
+            <h4 className="text-sm font-bold text-[#e8edef]">
               Información del comercio
             </h4>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#93a5ad]">
               Ayuda a visitantes y vecinos a encontrar lo que ofreces.
             </p>
           </div>
@@ -892,7 +892,7 @@ function BusinessDetailsForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Dirección">
             <div className="relative">
-              <MapPin className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <MapPin className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={address}
@@ -904,7 +904,7 @@ function BusinessDetailsForm({
 
           <Field label="Horario de atención" required>
             <div className="relative">
-              <Clock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Clock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={hours}
@@ -953,8 +953,8 @@ function BusinessDetailsForm({
                   onClick={() => toggleDay(day)}
                   className={`min-w-12 rounded-xl px-3 py-2.5 text-xs font-bold transition ${
                     selected
-                      ? "bg-[#0d4652] text-[#f2cc76] shadow-md shadow-[#0d4652]/15"
-                      : "border border-slate-200 bg-white text-slate-500 hover:border-[#c8a356] hover:text-[#0d4652]"
+                      ? "bg-[#0d4652] text-white shadow-md shadow-[#0d4652]/15"
+                      : "border border-white/15 bg-white/[0.04] text-[#647a84] hover:border-[#2e9cff] hover:text-[#2e9cff]"
                   }`}
                 >
                   {WEEKDAY_LABELS[day]}
@@ -967,7 +967,7 @@ function BusinessDetailsForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Promoción u oferta">
             <div className="relative">
-              <Tag className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Tag className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={offers}
@@ -979,7 +979,7 @@ function BusinessDetailsForm({
 
           <Field label="Contacto para pedidos" required>
             <div className="relative">
-              <Phone className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Phone className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={contactPhone}
@@ -996,32 +996,32 @@ function BusinessDetailsForm({
           onClick={() => setHomeDelivery(!homeDelivery)}
           className={`flex w-full items-center gap-4 rounded-2xl border p-4 text-left transition ${
             homeDelivery
-              ? "border-emerald-300 bg-emerald-50"
-              : "border-slate-200 bg-slate-50 hover:border-slate-300"
+              ? "border-emerald-400/30 bg-emerald-500/10"
+              : "border-white/15 bg-white/[0.04] hover:border-white/25"
           }`}
         >
           <span
             className={`flex h-10 w-10 items-center justify-center rounded-xl ${
               homeDelivery
                 ? "bg-emerald-500 text-white"
-                : "bg-white text-slate-400 shadow-sm"
+                : "bg-white/[0.05] text-[#93a5ad] shadow-sm"
             }`}
           >
             <Truck className="h-5 w-5" />
           </span>
 
           <span className="flex-1">
-            <span className="block text-sm font-bold text-[#082f3b]">
+            <span className="block text-sm font-bold text-[#e8edef]">
               Entrega a domicilio
             </span>
-            <span className="mt-0.5 block text-xs text-slate-500">
+            <span className="mt-0.5 block text-xs text-[#647a84]">
               Indica si puedes atender pedidos fuera de tu ubicación.
             </span>
           </span>
 
           <span
             className={`relative h-7 w-12 rounded-full p-1 transition ${
-              homeDelivery ? "bg-emerald-500" : "bg-slate-300"
+              homeDelivery ? "bg-emerald-500" : "bg-white/30"
             }`}
           >
             <span
@@ -1037,14 +1037,14 @@ function BusinessDetailsForm({
 
       <section className="space-y-5">
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0d4652]/10 text-[#0d4652]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2e9cff]/10 text-[#2e9cff]">
             <ImageIcon className="h-4 w-4" />
           </span>
           <div>
-            <h4 className="text-sm font-bold text-[#082f3b]">
+            <h4 className="text-sm font-bold text-[#e8edef]">
               Imagen y presencia digital
             </h4>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#93a5ad]">
               Una buena ficha visual ayuda a generar confianza.
             </p>
           </div>
@@ -1059,7 +1059,7 @@ function BusinessDetailsForm({
             {photos.map((photo, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-2"
+                className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.04] p-2"
               >
                 <div className="flex h-14 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
                   {photo.trim() ? (
@@ -1073,7 +1073,7 @@ function BusinessDetailsForm({
                       }}
                     />
                   ) : (
-                    <ImageIcon className="h-5 w-5 text-slate-300" />
+                    <ImageIcon className="h-5 w-5 text-[#c9d0d4]" />
                   )}
                 </div>
 
@@ -1098,7 +1098,7 @@ function BusinessDetailsForm({
                     );
                     setPhoto(emptyIndex === -1 ? 0 : emptyIndex, source);
                   }}
-                  className="h-12 w-16 overflow-hidden rounded-xl border border-slate-200 transition hover:-translate-y-0.5 hover:border-[#c8a356] hover:shadow-md"
+                  className="h-12 w-16 overflow-hidden rounded-xl border border-white/15 transition hover:-translate-y-0.5 hover:border-[#2e9cff] hover:shadow-md"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -1115,7 +1115,7 @@ function BusinessDetailsForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Sitio web">
             <div className="relative">
-              <Globe className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Globe className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={website}
@@ -1127,7 +1127,7 @@ function BusinessDetailsForm({
 
           <Field label="WhatsApp">
             <div className="relative">
-              <Phone className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Phone className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={social.whatsapp}
@@ -1146,7 +1146,7 @@ function BusinessDetailsForm({
         <div className="grid gap-4 sm:grid-cols-3">
           <Field label="Facebook">
             <div className="relative">
-              <Facebook className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Facebook className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={social.facebook}
@@ -1163,7 +1163,7 @@ function BusinessDetailsForm({
 
           <Field label="Instagram">
             <div className="relative">
-              <Instagram className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Instagram className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={social.instagram}
@@ -1180,7 +1180,7 @@ function BusinessDetailsForm({
 
           <Field label="TikTok">
             <div className="relative">
-              <Music2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Music2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#93a5ad]" />
               <input
                 className={`${inputClass} pl-11`}
                 value={social.tiktok}
@@ -1200,7 +1200,7 @@ function BusinessDetailsForm({
       <button
         type="button"
         onClick={onContinue}
-        className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0d4652] px-5 py-4 text-sm font-black text-[#f2cc76] shadow-xl shadow-[#0d4652]/20 transition hover:-translate-y-0.5 hover:bg-[#082f3b] hover:shadow-2xl"
+        className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0d4652] px-5 py-4 text-sm font-black text-white shadow-xl shadow-[#0d4652]/20 transition hover:-translate-y-0.5 hover:bg-[#082f3b] hover:shadow-2xl"
       >
         Continuar a publicación y suscripción
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -1231,16 +1231,16 @@ function BusinessPaymentStep({
   return (
     <div className="space-y-7">
       <div>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#c8a356]/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#8a6222]">
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#d97832]/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#d97832]">
           <LockKeyhole className="h-3.5 w-3.5" />
           Activación segura
         </span>
 
-        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#082f3b]">
+        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#e8edef]">
           Elige cómo quieres crecer
         </h3>
 
-        <p className="mt-2 text-sm leading-6 text-slate-500">
+        <p className="mt-2 text-sm leading-6 text-[#647a84]">
           Tu comercio se publica cuando la suscripción ha sido confirmada.
         </p>
       </div>
@@ -1256,7 +1256,7 @@ function BusinessPaymentStep({
       <section>
         <div className="mb-3">
           <p className={labelClass}>Plan de visibilidad</p>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-[#93a5ad]">
             Selecciona la periodicidad que mejor funciona para tu negocio.
           </p>
         </div>
@@ -1275,8 +1275,8 @@ function BusinessPaymentStep({
                 onClick={() => setPlan(id)}
                 className={`relative overflow-hidden rounded-2xl border p-5 text-left transition ${
                   selected
-                    ? "border-[#c8a356] bg-[#fffaf0] ring-4 ring-[#c8a356]/10"
-                    : "border-slate-200 bg-white hover:-translate-y-0.5 hover:border-[#c8a356]/60 hover:shadow-lg"
+                    ? "border-[#d97832] bg-[#d97832]/10 ring-4 ring-[#d97832]/10"
+                    : "border-white/15 bg-white/[0.04] hover:-translate-y-0.5 hover:border-[#d97832]/60 hover:shadow-lg"
                 }`}
               >
                 {isRecommended && (
@@ -1285,18 +1285,18 @@ function BusinessPaymentStep({
                   </span>
                 )}
 
-                <span className="text-xs font-bold uppercase tracking-[0.12em] text-[#0d4652]">
+                <span className="text-xs font-bold uppercase tracking-[0.12em] text-[#2e9cff]">
                   {item.label}
                 </span>
 
                 <div className="mt-3 flex items-end gap-1">
-                  <span className="text-3xl font-black tracking-tight text-[#082f3b]">
+                  <span className="text-3xl font-black tracking-tight text-[#e8edef]">
                     ${item.price}
                   </span>
-                  <span className="mb-1 text-xs text-slate-400">MXN</span>
+                  <span className="mb-1 text-xs text-[#93a5ad]">MXN</span>
                 </div>
 
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-2 text-xs text-[#647a84]">
                   ${monthly} MXN al mes · {item.months}{" "}
                   {item.months === 1 ? "mes" : "meses"} de cobertura
                 </p>
@@ -1304,8 +1304,8 @@ function BusinessPaymentStep({
                 <span
                   className={`mt-5 flex h-5 w-5 items-center justify-center rounded-full border ${
                     selected
-                      ? "border-[#c8a356] bg-[#c8a356] text-white"
-                      : "border-slate-300 bg-white text-transparent"
+                      ? "border-[#d97832] bg-[#d97832] text-white"
+                      : "border-white/15 bg-white/[0.04] text-transparent"
                   }`}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5" />
@@ -1319,7 +1319,7 @@ function BusinessPaymentStep({
       <section>
         <div className="mb-3">
           <p className={labelClass}>Método de pago</p>
-          <p className="mt-1 text-xs text-slate-400">
+          <p className="mt-1 text-xs text-[#93a5ad]">
             Elige la opción más conveniente para completar la activación.
           </p>
         </div>
@@ -1335,19 +1335,19 @@ function BusinessPaymentStep({
                 onClick={() => setMethod(option.id)}
                 className={`rounded-2xl border p-4 text-left transition ${
                   selected
-                    ? "border-[#0d4652] bg-[#0d4652]/5 ring-2 ring-[#0d4652]/10"
-                    : "border-slate-200 bg-white hover:border-slate-300"
+                    ? "border-[#2e9cff] bg-[#2e9cff]/5 ring-2 ring-[#2e9cff]/15"
+                    : "border-white/15 bg-white/[0.04] hover:border-white/25"
                 }`}
               >
                 <WalletCards
                   className={`h-5 w-5 ${
-                    selected ? "text-[#0d4652]" : "text-slate-400"
+                    selected ? "text-[#2e9cff]" : "text-[#93a5ad]"
                   }`}
                 />
-                <p className="mt-3 text-sm font-bold text-[#082f3b]">
+                <p className="mt-3 text-sm font-bold text-[#e8edef]">
                   {option.title}
                 </p>
-                <p className="mt-1 text-[11px] text-slate-400">
+                <p className="mt-1 text-[11px] text-[#93a5ad]">
                   {option.description}
                 </p>
               </button>
@@ -1356,20 +1356,20 @@ function BusinessPaymentStep({
         </div>
       </section>
 
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+      <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-5">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#647a84]">
               Total a pagar
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-[#647a84]">
               Plan {BUSINESS_PLANS[plan].label}
             </p>
           </div>
 
-          <p className="text-3xl font-black text-[#082f3b]">
+          <p className="text-3xl font-black text-[#e8edef]">
             ${planPrice}
-            <span className="ml-1 text-sm font-semibold text-slate-400">
+            <span className="ml-1 text-sm font-semibold text-[#93a5ad]">
               MXN
             </span>
           </p>
@@ -1381,7 +1381,7 @@ function BusinessPaymentStep({
           type="button"
           onClick={onBack}
           disabled={busy}
-          className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm font-bold text-slate-600 transition hover:border-[#0d4652] hover:text-[#0d4652] disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[0.04] px-5 py-4 text-sm font-bold text-[#93a5ad] transition hover:border-[#2e9cff] hover:text-[#2e9cff] disabled:cursor-not-allowed disabled:opacity-60"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver a datos
@@ -1391,7 +1391,7 @@ function BusinessPaymentStep({
           type="button"
           onClick={onPay}
           disabled={busy}
-          className="group flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#c8a356] to-[#b87946] px-5 py-4 text-sm font-black text-[#082f3b] shadow-xl shadow-[#c8a356]/20 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
+          className="group flex flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#d97832] to-[#b87946] px-5 py-4 text-sm font-black text-[#082f3b] shadow-xl shadow-[#d97832]/20 transition hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-60"
         >
           {busy ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -1448,19 +1448,19 @@ function UserForm({
   return (
     <form
       onSubmit={onSubmit}
-      className="space-y-7 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-7 lg:col-span-3"
+      className="space-y-7 rounded-[1.75rem] border border-white/15 bg-white/[0.04] p-5 shadow-sm sm:p-7 lg:col-span-3"
     >
       <div>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#0d4652]/8 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#0d4652]">
-          <UserPlus className="h-3.5 w-3.5 text-[#c8a356]" />
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#2e9cff]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#2e9cff]">
+          <UserPlus className="h-3.5 w-3.5 text-[#d97832]" />
           Identidad territorial
         </span>
 
-        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#082f3b]">
+        <h3 className="mt-3 text-2xl font-black tracking-tight text-[#e8edef]">
           Crea tu cuenta en Nodo Cero
         </h3>
 
-        <p className="mt-2 text-sm leading-6 text-slate-500">
+        <p className="mt-2 text-sm leading-6 text-[#647a84]">
           Conecta tu identidad con experiencias, cultura, beneficios y
           participación dentro de Real del Monte.
         </p>
@@ -1534,25 +1534,25 @@ function UserForm({
         onClick={() => setWantPremium(!wantPremium)}
         className={`w-full rounded-[1.5rem] border p-5 text-left transition ${
           wantPremium
-            ? "border-[#c8a356] bg-[linear-gradient(135deg,#fff9ec,white)] ring-4 ring-[#c8a356]/10"
-            : "border-slate-200 bg-slate-50 hover:border-[#c8a356]/60 hover:bg-[#fffaf2]"
+            ? "border-[#d97832] bg-[linear-gradient(135deg,rgba(217,120,50,0.16),rgba(255,255,255,0.04))] ring-4 ring-[#d97832]/10"
+            : "border-white/15 bg-white/[0.04] hover:border-[#d97832]/60 hover:bg-[#d97832]/10"
         }`}
       >
         <div className="flex items-start justify-between gap-4">
           <span className="flex gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c8a356]/15 text-[#a47727]">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d97832]/15 text-[#d97832]">
               <Crown className="h-5 w-5" />
             </span>
 
             <span>
-              <span className="flex items-center gap-2 text-sm font-black text-[#082f3b]">
+              <span className="flex items-center gap-2 text-sm font-black text-[#e8edef]">
                 Cuenta Premium
-                <span className="rounded-full bg-[#0d4652] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#f2cc76]">
+                <span className="rounded-full bg-[#0d4652] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
                   Opcional
                 </span>
               </span>
 
-              <span className="mt-1 block max-w-md text-xs leading-5 text-slate-500">
+              <span className="mt-1 block max-w-md text-xs leading-5 text-[#647a84]">
                 Activa recompensas, cupones, descuentos y beneficios de la
                 gamificación territorial.
               </span>
@@ -1560,10 +1560,10 @@ function UserForm({
           </span>
 
           <span className="shrink-0 text-right">
-            <span className="block text-xl font-black text-[#082f3b]">
+            <span className="block text-xl font-black text-[#e8edef]">
               $129
             </span>
-            <span className="text-[10px] font-bold uppercase text-slate-400">
+            <span className="text-[10px] font-bold uppercase text-[#93a5ad]">
               MXN / mes
             </span>
           </span>
@@ -1573,7 +1573,7 @@ function UserForm({
           className={`mt-5 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-bold ${
             wantPremium
               ? "bg-emerald-500 text-white"
-              : "bg-white text-slate-500 ring-1 ring-slate-200"
+              : "bg-white/[0.04] text-[#647a84] ring-1 ring-white/15"
           }`}
         >
           <CheckCircle2 className="h-3.5 w-3.5" />
@@ -1584,7 +1584,7 @@ function UserForm({
       </button>
 
       {wantPremium && (
-        <section className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+        <section className="rounded-2xl border border-white/15 bg-white/[0.04] p-5">
           <p className={labelClass}>Método de pago Premium</p>
 
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -1598,14 +1598,14 @@ function UserForm({
                   onClick={() => setMethod(option.id)}
                   className={`rounded-xl border p-3 text-left transition ${
                     selected
-                      ? "border-[#0d4652] bg-white ring-2 ring-[#0d4652]/10"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      ? "border-[#2e9cff] bg-white/[0.04] ring-2 ring-[#2e9cff]/15"
+                      : "border-white/15 bg-white/[0.04] hover:border-white/25"
                   }`}
                 >
-                  <p className="text-xs font-bold text-[#082f3b]">
+                  <p className="text-xs font-bold text-[#e8edef]">
                     {option.title}
                   </p>
-                  <p className="mt-1 text-[10px] text-slate-400">
+                  <p className="mt-1 text-[10px] text-[#93a5ad]">
                     {option.description}
                   </p>
                 </button>
@@ -1618,7 +1618,7 @@ function UserForm({
       <button
         type="submit"
         disabled={busy}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0d4652] px-5 py-4 text-sm font-black text-[#f2cc76] shadow-xl shadow-[#0d4652]/20 transition hover:-translate-y-0.5 hover:bg-[#082f3b] disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0d4652] px-5 py-4 text-sm font-black text-white shadow-xl shadow-[#0d4652]/20 transition hover:-translate-y-0.5 hover:bg-[#082f3b] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {busy ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -1640,7 +1640,7 @@ function RegisterSidebar({ kind }: { kind: RegisterKind }) {
   return (
     <aside className="space-y-5 lg:col-span-2">
       <div className="overflow-hidden rounded-[1.75rem] bg-[#082f3b] p-6 text-white shadow-xl shadow-[#082f3b]/15">
-        <span className="inline-flex items-center gap-2 rounded-full border border-[#f2cc76]/20 bg-[#f2cc76]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#f2cc76]">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#d97832]/20 bg-[#d97832]/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-[#d97832]">
           <Sparkles className="h-3.5 w-3.5" />
           {isBusiness ? "Visibilidad territorial" : "Identidad soberana"}
         </span>
@@ -1651,7 +1651,7 @@ function RegisterSidebar({ kind }: { kind: RegisterKind }) {
             : "Una cuenta para vivir el territorio de otra forma."}
         </h3>
 
-        <p className="mt-3 text-sm leading-6 text-slate-300">
+        <p className="mt-3 text-sm leading-6 text-[#c9d0d4]">
           {isBusiness
             ? "Conecta tu oferta local con visitantes, residentes y las recomendaciones inteligentes de Isabella."
             : "Conecta con experiencias, recompensas, cultura y oportunidades dentro de la Comarca Minera."}
@@ -1703,22 +1703,22 @@ function RegisterSidebar({ kind }: { kind: RegisterKind }) {
         </div>
       </div>
 
-      <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-[1.75rem] border border-white/15 bg-white/[0.04] p-6 shadow-sm">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-300">
             <ShieldCheck className="h-5 w-5" />
           </span>
           <div>
-            <h4 className="text-sm font-black text-[#082f3b]">
+            <h4 className="text-sm font-black text-[#e8edef]">
               Registro protegido
             </h4>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-[#93a5ad]">
               Información cuidada dentro del Nodo.
             </p>
           </div>
         </div>
 
-        <p className="mt-4 text-xs leading-6 text-slate-500">
+        <p className="mt-4 text-xs leading-6 text-[#647a84]">
           Tu registro se integra a la arquitectura de identidad de Nodo Cero
           para gestionar acceso, beneficios y presencia territorial.
         </p>
@@ -1738,13 +1738,13 @@ function SidebarFeature({
 }) {
   return (
     <div className="flex gap-3">
-      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-[#f2cc76]">
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 text-[#d97832]">
         {icon}
       </span>
 
       <div>
         <p className="text-sm font-bold text-white">{title}</p>
-        <p className="mt-0.5 text-xs leading-5 text-slate-300">{text}</p>
+        <p className="mt-0.5 text-xs leading-5 text-[#c9d0d4]">{text}</p>
       </div>
     </div>
   );
