@@ -13,11 +13,11 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || process.env.APP_URL || 'htt
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'RDM Digital Hub — Nodo Cero | Real del Monte, Hidalgo',
-    template: '%s | RDM Digital Hub — Nodo Cero',
+    default: 'Real del Monte — Destino Turístico Inteligente | Pueblo Mágico, Hidalgo',
+    template: '%s | Real del Monte — Destino Turístico Inteligente',
   },
   description:
-    'Sistema Operativo Territorial y plataforma de inteligencia soberana para Real del Monte, Hidalgo, México: gemelo digital 2D/3D, arquitectura heptafederada YUN, Isabella AI, turismo y economía phygital.',
+    'Portal oficial del destino turístico inteligente de Real del Monte, Hidalgo, México: rutas mineras, gastronomía del paste, platería .925, asistente IA Isabella, mapa interactivo, patrimonio y economía local.',
   keywords: [
     'Real del Monte',
     'Pueblo Mágico',
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_MX',
     url: '/',
-    siteName: 'RDM Digital Hub — Nodo Cero',
-    title: 'RDM Digital Hub — Nodo Cero | Real del Monte, Hidalgo',
+    siteName: 'Real del Monte — Destino Turístico Inteligente',
+    title: 'Real del Monte — Destino Turístico Inteligente | Pueblo Mágico, Hidalgo',
     description:
       'Sistema de Inteligencia Territorial soberano para Real del Monte: gemelo digital 2D/3D, rutas turísticas, Festival del Paste, Isabella AI y economía phygital de la plata y el paste.',
     images: [
@@ -58,9 +58,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RDM Digital Hub — Nodo Cero | Real del Monte',
+    title: 'Real del Monte — Destino Turístico Inteligente | Pueblo Mágico',
     description:
-      'Gemelo digital turístico del Pueblo Mágico de Real del Monte, Hidalgo: rutas, minas, pastes, plata y asistencia cognitiva de Isabella AI.',
+      'Portal del destino turístico inteligente de Real del Monte, Hidalgo: rutas, minas, pastes, plata y asistencia cognitiva de Isabella AI.',
     images: ['/images/hidalgo-hero1.png'],
   },
   robots: {
