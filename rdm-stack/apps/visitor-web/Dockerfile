@@ -1,5 +1,4 @@
-# visitarealdelmonte — SPA Vite (servida con nginx en :80)
-# Nota: la API territorial la sirve nodo-cero vía gateway (no este contenedor).
+# RDM Hub — Visitor Web (SPA Vite, servida con nginx en :80)
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./

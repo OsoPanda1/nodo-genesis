@@ -1,4 +1,4 @@
-# Override de producción — RDM Sovereign Stack
+# Override de producción — RDM Digital Hub
 # Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 # Entorno: visitarealdelmonte.online (detrás de Cloudflare)
 

@@ -1,4 +1,4 @@
-# rdm-smart-city-os — SPA Vite (servida con nginx en :3000)
+# RDM Hub — Admin OS (SPA Vite, servida con nginx en :3000)
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./

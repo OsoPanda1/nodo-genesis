@@ -1,14 +1,14 @@
-# RDM Sovereign Stack — Orquestación del Nodo Génesis
+# RDM Digital Hub — Nodo Cero
 # Uso local: docker compose up -d --build
-# El orden de las capas sigue el modelo heptafederado de TAMV.
+# Orquestación unificada del ecosistema digital territorial.
 
-name: rdm-stack
+name: rdm-digital-hub
 
 services:
-  # CAPA 0 · Infraestructura — Base de Datos Federada (PostgreSQL)
+  # CAPA 0 · Infraestructura — Base de Datos (PostgreSQL)
   db:
     image: postgres:16-alpine
-    container_name: rdm-db
+    container_name: rdm-hub-db
     environment:
       POSTGRES_USER: rdm
       POSTGRES_PASSWORD: rdm
@@ -24,12 +24,11 @@ services:
       retries: 5
       start_period: 10s
 
-  # CAPA 1 · Motor — tamv-core (SSR TanStack Start / Bun)
-  # Fase B lo convertirá en backend real (BookPI, MSR, Isabella, Guardian).
+  # CAPA 1 · Motor — Core (SSR TanStack Start / Bun)
   core:
     build:
       context: ./services/core
-    container_name: tamv-core
+    container_name: rdm-hub-core
     environment:
       - NODE_ENV=production
       - HOST=0.0.0.0
@@ -49,14 +48,14 @@ services:
       retries: 5
       start_period: 20s
 
-  # CAPA 3 · Gestión — rdm-smart-city-os (SPA Vite en :3000)
+  # CAPA 3 · Gestión — Admin OS (SPA Vite en :3000)
   admin-os:
     build:
       context: ./apps/admin-os
       args:
         - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
         - VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
-    container_name: rdm-admin-os
+    container_name: rdm-hub-admin
     environment:
       - API_URL=http://core:8000
     ports:
@@ -72,14 +71,14 @@ services:
       retries: 5
       start_period: 10s
 
-  # CAPA 4 · Interfaz Pública — visitarealdelmonte (SPA Vite en :80)
+  # CAPA 4 · Interfaz Pública — Visitor Web (SPA Vite en :80)
   visitor-web:
     build:
       context: ./apps/visitor-web
       args:
         - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
         - VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
-    container_name: rdm-visitor-web
+    container_name: rdm-hub-visitor
     ports:
       - "${VISITOR_PORT:-8080}:80"
     depends_on:
@@ -93,11 +92,11 @@ services:
       retries: 5
       start_period: 10s
 
-  # CAPA 5 · Sistema Operativo Territorial — nodo-cero (Next.js 16, API real)
+  # CAPA 5 · Sistema Operativo Territorial — Nodo Cero (Next.js 16)
   nodo-cero:
     build:
       context: ./infrastructure/nodo-cero
-    container_name: rdm-nodo-cero
+    container_name: rdm-hub-nodo
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -121,7 +120,7 @@ services:
   # CAPA 6 · Gateway — Enrutador de tráfico (nginx)
   gateway:
     image: nginx:alpine
-    container_name: rdm-gateway
+    container_name: rdm-hub-gateway
     ports:
       - "80:80"
     volumes:

@@ -1,4 +1,4 @@
-# nodo-cero — Next.js 16 (App Router) — Sistema Operativo Territorial
+# RDM Hub — Nodo Cero (Next.js 16 App Router, Sistema Operativo Territorial)
 FROM node:22-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./

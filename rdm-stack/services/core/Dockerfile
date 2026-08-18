@@ -1,4 +1,4 @@
-# tamv-core — TanStack Start (SSR) on Bun
+# RDM Hub — Core (TanStack Start SSR on Bun)
 # Imagen pineda para builds reproducibles.
 FROM oven/bun:1.3.14-alpine AS build
 WORKDIR /app
