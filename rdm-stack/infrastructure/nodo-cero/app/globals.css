@@ -1,0 +1,1054 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* ================================================================== */
+/* RDM Digital Hub — Nocturno Minero                                  */
+/* Spec oficial OsoPanda1: dorado minero, terracota, navy, neblina,   */
+/* plata, esmeralda (patrimonio) y rojo (riesgo).                     */
+/* Fuentes: Playfair Display (títulos) + DM Sans (UI)                 */
+/* ================================================================== */
+
+@layer base {
+  :root {
+    /* Fondo y superficies — Nocturno Minero */
+    --bg-deep-0: #020617;
+    --bg-deep-1: #0a0b0e;
+    --bg-deep: radial-gradient(circle at 0% 0%, #0a0b0e, #020617 45%, #000000);
+    --surface-glass-soft: rgba(10, 11, 14, 0.78);
+    --surface-glass-strong: rgba(13, 15, 20, 0.9);
+
+    /* Paleta oficial */
+    --gold: #c8a356;
+    --gold-light: #d4b26a;
+    --gold-dark: #b8944c;
+    --gold-amber: #facc15;
+    --terracotta: #b85c3c;
+    --navy: #1e3a5f;
+    --silver: #9ca3af;
+    --cream: #f5f0e8;
+    --emerald: #10b981;
+    --neblina: #38bdf8;
+    --risk-red: #b91c1c;
+
+    /* Bordes */
+    --border-soft: rgba(200, 163, 86, 0.18);
+    --border-strong: rgba(200, 163, 86, 0.42);
+    --border-neblina: rgba(56, 189, 248, 0.32);
+
+    /* Glows sobrios (minería, no neón) */
+    --glow-gold: rgba(200, 163, 86, 0.4);
+    --glow-emerald: rgba(16, 185, 129, 0.35);
+    --glow-neblina: rgba(56, 189, 248, 0.3);
+
+    /* Tipografía: fallbacks locales para builds reproducibles en Vercel/offline */
+    --font-playfair: Georgia, "Times New Roman", serif;
+    --font-dm-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-editorial: Georgia, "Times New Roman", serif;
+    --font-rdm-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --text-primary: #eef2f7;
+    --text-muted: rgba(156, 163, 175, 0.92);
+
+    /* Canales zombies */
+    --zc-default: #f43f5e;
+    --zc-player: #34d399;
+
+    /* Curvas */
+    --ease-miner: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* ================================================================== */
+    /* Spatial Heritage Engine 2026+ — tokens soberanos del Nodo Cero     */
+    /* ================================================================== */
+    --bg-deep-slate: #0B0D0E;
+    --bg-surface-glass: rgba(18, 22, 25, 0.72);
+    --bg-card-hover: rgba(30, 36, 42, 0.85);
+    --accent-pino: #1E4633;
+    --accent-pino-glow: #285E44;
+    --accent-plata: #E2E8F0;
+    --accent-oro-viejo: #C5A059;
+    --text-primary-slate: #F8FAFC;
+    --text-secondary-slate: #94A3B8;
+    --text-muted-slate: #64748B;
+    --border-glass: rgba(226, 232, 240, 0.12);
+    --border-glass-glow: rgba(197, 160, 89, 0.35);
+    --shadow-spatial: 0 20px 50px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  }
+
+  body {
+    /* Identidad perlada global: blanco perlado + neblina de plata.
+       Los dashboards técnicos (Plano 4) reintroducen el fondo oscuro
+       localmente vía la clase .plano-tecnico. */
+    background:
+      radial-gradient(1200px 800px at 12% -8%, rgba(83, 107, 134, 0.14), transparent 55%),
+      radial-gradient(1000px 720px at 92% 4%, rgba(13, 70, 82, 0.1), transparent 52%),
+      linear-gradient(180deg, #fbfcfa 0%, #f4f6f2 46%, #eef1ec 100%);
+    background-attachment: fixed;
+    color: var(--rdm-graphite, #283038);
+    font-family: var(--font-dm-sans), system-ui, -apple-system, "Segoe UI",
+      Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-patrimonial {
+    font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  }
+
+  ::selection {
+    background: rgba(13, 70, 82, 0.16);
+    color: var(--rdm-petroleum-deep, #082f3b);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Plano técnico — reintroduce el Nocturno Minero localmente           */
+/* (dashboards de gobernanza: ciudad, gemelos, grid, activos, monitor) */
+/* ------------------------------------------------------------------ */
+
+.plano-tecnico {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  border-radius: 28px;
+  border: 1px solid rgba(13, 70, 82, 0.18);
+  box-shadow:
+    0 30px 80px rgba(8, 47, 59, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Superficies y paneles                                               */
+/* ------------------------------------------------------------------ */
+
+.glass-panel {
+  background: rgba(18, 22, 25, 0.75);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid rgba(226, 232, 240, 0.12);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(197, 160, 89, 0.4);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(197, 160, 89, 0.15);
+}
+
+.text-glow {
+  text-shadow: 0 0 25px rgba(248, 250, 252, 0.3);
+}
+
+.glass-panel-interactive {
+  background: var(--surface-glass-strong);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--border-soft);
+  transition: all 0.3s var(--ease-miner);
+}
+
+.glass-panel-interactive:hover {
+  background: rgba(16, 20, 30, 0.95);
+  border-color: var(--border-strong);
+  box-shadow:
+    0 0 28px var(--glow-gold),
+    inset 0 0 22px rgba(212, 178, 106, 0.05);
+  transform: translateY(-3px) scale(1.01);
+}
+
+/* ------------------------------------------------------------------ */
+/* Borde minero (dorado → plata) — sustituye al iridescente cian       */
+/* ------------------------------------------------------------------ */
+
+.miner-border {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.miner-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    #c8a356,
+    #d4b26a,
+    #b8944c,
+    #9ca3af,
+    #c8a356
+  );
+  background-size: 300% 300%;
+  z-index: -1;
+  animation: goldFlow 8s ease infinite;
+}
+
+.crystal-glow-gold {
+  box-shadow: 0 0 32px -6px var(--glow-gold);
+}
+
+.crystal-glow-emerald {
+  box-shadow: 0 0 32px -6px var(--glow-emerald);
+}
+
+.crystal-glow-neblina {
+  box-shadow: 0 0 32px -6px var(--glow-neblina);
+}
+
+/* ------------------------------------------------------------------ */
+/* Animaciones                                                         */
+/* ------------------------------------------------------------------ */
+
+@keyframes goldFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes crystalFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.4deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.45;
+    filter: drop-shadow(0 0 12px var(--glow-gold));
+  }
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 24px var(--glow-emerald));
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-crystal-float {
+  animation: crystalFloat 6.5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4.2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2.6s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spinSlow 32s linear infinite reverse;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scrollbar — rail minero                                             */
+/* ------------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.95);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 163, 86, 0.4);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 178, 106, 0.7);
+}
+
+/* ------------------------------------------------------------------ */
+/* Leaflet — piel territorial                                          */
+/* ------------------------------------------------------------------ */
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background-color: #020617 !important;
+  border-radius: 1rem;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 11, 14, 0.96) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.58) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(10, 11, 14, 0.96) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Zombies RDM Invasion                                                */
+/* ------------------------------------------------------------------ */
+
+@keyframes zrPulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+.zr-spawn {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.zr-spawn-pulse {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 2px solid var(--zc, var(--zc-default));
+  animation: zrPulse 1.6s ease-out infinite;
+}
+
+.zr-spawn-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at 30% 28%,
+    #ffffff,
+    var(--zc, var(--zc-default))
+  );
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 16px var(--zc, var(--zc-default));
+}
+
+.zr-player {
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+
+.zr-player-ring {
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 2px solid rgba(52, 211, 153, 0.6);
+  animation: zrPulse 2.2s ease-out infinite;
+}
+
+.zr-player-core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--zc-player);
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 13px rgba(52, 211, 153, 0.85);
+}
+
+.zr-popup {
+  padding: 0.25rem 0.1rem;
+}
+
+.zr-popup-title {
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #ffffff;
+}
+
+.zr-popup-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: ui-monospace, monospace;
+  margin-top: 0.15rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Arena cinematográfica (GPU-only: transform / opacity / filter)      */
+/* ------------------------------------------------------------------ */
+
+.zr-arena {
+  isolation: isolate;
+}
+
+.zr-arena-bg {
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(16, 185, 129, 0.14), transparent 60%),
+    radial-gradient(90% 80% at 15% 100%, rgba(56, 189, 248, 0.1), transparent 55%),
+    linear-gradient(180deg, #04241c 0%, #07121f 100%);
+}
+
+.zr-arena-grid {
+  background-image:
+    linear-gradient(rgba(52, 211, 153, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 211, 153, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(80% 70% at 50% 50%, black, transparent 85%);
+}
+
+.zr-arena-fog {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(103, 232, 249, 0.07) 45%,
+    transparent
+  );
+  animation: zrFogDrift 9s var(--ease-miner) infinite;
+  will-change: transform;
+}
+
+@keyframes zrFogDrift {
+  0%,
+  100% {
+    transform: translateX(-4%);
+  }
+  50% {
+    transform: translateX(4%);
+  }
+}
+
+.zr-aura {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: zrAuraPulse 3s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes zrAuraPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.14);
+  }
+}
+
+.zr-arena-idle {
+  animation: zrIdleFloat 3.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes zrIdleFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.9);
+  }
+  50% {
+    transform: translateY(-5px) scale(0.9);
+  }
+}
+
+.zr-flash-hurt {
+  animation: zrHurtFlash 0.45s ease-out;
+}
+
+@keyframes zrHurtFlash {
+  0% {
+    opacity: 0.55;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(244, 63, 94, 0.5),
+      transparent 70%
+    );
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.zr-flash-gold {
+  animation: zrGoldFlash 0.5s ease-out;
+}
+
+@keyframes zrGoldFlash {
+  0% {
+    opacity: 0.6;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(251, 191, 36, 0.6),
+      transparent 70%
+    );
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.zr-shake {
+  animation: zrShake 0.38s ease-out;
+}
+
+@keyframes zrShake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    transform: translate3d(-5px, 3px, 0);
+  }
+  40% {
+    transform: translate3d(6px, -4px, 0);
+  }
+  60% {
+    transform: translate3d(-4px, -2px, 0);
+  }
+  80% {
+    transform: translate3d(3px, 2px, 0);
+  }
+}
+
+.zr-dmg-pop {
+  animation: zrDmgPop 0.95s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes zrDmgPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px) scale(0.6);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.15);
+  }
+  30% {
+    transform: translate(-50%, -2px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -34px) scale(0.95);
+  }
+}
+
+.zr-seal-beam {
+  background: linear-gradient(
+    180deg,
+    rgba(52, 211, 153, 0),
+    rgba(52, 211, 153, 0.35) 18%,
+    rgba(52, 211, 153, 0.12) 60%,
+    rgba(52, 211, 153, 0.28) 92%,
+    rgba(52, 211, 153, 0.5)
+  );
+  animation: zrBeamRise 0.7s var(--ease-miner) both;
+}
+
+@keyframes zrBeamRise {
+  0% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+    opacity: 1;
+  }
+}
+
+.zr-sigil {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 55%, rgba(52, 211, 153, 0.18) 60%, transparent 68%),
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      rgba(52, 211, 153, 0.8) 20deg,
+      transparent 40deg,
+      transparent 180deg,
+      rgba(52, 211, 153, 0.8) 200deg,
+      transparent 220deg
+    );
+  box-shadow:
+    0 0 26px rgba(52, 211, 153, 0.55),
+    inset 0 0 26px rgba(52, 211, 153, 0.35);
+  animation: zrSigilSpin 2.4s linear infinite;
+  will-change: transform;
+}
+
+@keyframes zrSigilSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Estado / alertas (semántica RDM)                                    */
+/* ------------------------------------------------------------------ */
+
+.rdm-ok {
+  color: var(--emerald);
+}
+
+.rdm-warn {
+  color: var(--gold-amber);
+}
+
+.rdm-risk {
+  color: var(--risk-red);
+}
+
+.rdm-silver {
+  color: var(--silver);
+}
+
+.rdm-gold {
+  color: var(--gold-light);
+}
+
+/* ================================================================== */
+/* RDM DESIGN SYSTEM v2 — Patrimonio mineral → inteligencia           */
+/* Dirección visual: blanco perlado + cristal + platino/oro +          */
+/* azul petróleo + naranja minero + brillos iridiscentes.              */
+/* ================================================================== */
+
+@layer base {
+  :root {
+    /* Superficies perladas y metales */
+    --rdm-pearl: #f7f8f5;
+    --rdm-pearl-deep: #ecefea;
+    --rdm-ivory: #fffdf5;
+    --rdm-deep-black: #101418;
+    --rdm-graphite: #283038;
+    --rdm-light-navy: #536b86;
+    --rdm-navy: #263e59;
+    --rdm-petroleum: #0d4652;
+    --rdm-petroleum-deep: #082f3b;
+    --rdm-orange: #d97832;
+    --rdm-orange-deep: #a9481e;
+    --rdm-electric-blue: #2e9cff;
+    --rdm-platinum: #c9d0d4;
+    --rdm-platinum-bright: #eef2f2;
+    --rdm-gold: #c89a45;
+    --rdm-gold-bright: #f2cc76;
+    --rdm-gradient-core:
+      linear-gradient(115deg, #c9d0d4 0%, #f2cc76 24%, #2e9cff 48%, #0d4652 73%, #d97832 100%);
+    --rdm-gradient-iridescent:
+      linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.86),
+        rgba(120, 221, 255, 0.28),
+        rgba(233, 186, 255, 0.25),
+        rgba(255, 213, 126, 0.34),
+        rgba(255, 255, 255, 0.82)
+      );
+  }
+
+  .font-editorial {
+    font-family: var(--font-editorial), Georgia, serif;
+  }
+
+  .font-rdm-mono {
+    font-family: var(--font-rdm-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Gradiente metálico animado (platino → oro → azul eléctrico)         */
+/* ------------------------------------------------------------------ */
+
+.rdm-metallic-text {
+  background: var(--rdm-gradient-core);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rdmFlow 9s linear infinite;
+}
+
+@keyframes rdmFlow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 220% 50%;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Crystal Card — piezas de cristal sobre superficie perlada           */
+/* ------------------------------------------------------------------ */
+
+.crystal-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(201, 208, 212, 0.72);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.34));
+  box-shadow:
+    0 18px 50px rgba(13, 70, 82, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(201, 208, 212, 0.35);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  transition:
+    transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 420ms ease,
+    border-color 420ms ease;
+}
+
+.crystal-card::before {
+  content: "";
+  position: absolute;
+  inset: -80%;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--rdm-gradient-iridescent);
+  transform: rotate(18deg) translateX(-35%);
+  transition:
+    opacity 420ms ease,
+    transform 700ms ease;
+}
+
+.crystal-card:hover {
+  transform: translateY(-8px) perspective(900px) rotateX(1deg);
+  border-color: rgba(46, 156, 255, 0.7);
+  box-shadow:
+    0 26px 70px rgba(13, 70, 82, 0.2),
+    0 0 34px rgba(46, 156, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.crystal-card:hover::before {
+  opacity: 0.55;
+  transform: rotate(18deg) translateX(35%);
+}
+
+/* Variante petróleo (paneles técnicos sobre fondo oscuro) */
+.crystal-card-petroleum {
+  border: 1px solid rgba(201, 208, 212, 0.18);
+  background: linear-gradient(135deg, rgba(13, 70, 82, 0.55), rgba(8, 47, 59, 0.4));
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--rdm-pearl);
+}
+
+.crystal-card-petroleum:hover {
+  border-color: rgba(201, 208, 212, 0.5);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.5),
+    0 0 34px rgba(46, 156, 255, 0.16);
+}
+
+/* ------------------------------------------------------------------ */
+/* Crystal Button — vidrio con barrido del gradiente core              */
+/* ------------------------------------------------------------------ */
+
+.crystal-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  color: var(--rdm-white, #ffffff);
+  background: linear-gradient(105deg, var(--rdm-petroleum-deep), var(--rdm-petroleum), var(--rdm-navy));
+  box-shadow:
+    0 10px 28px rgba(8, 47, 59, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  transition:
+    transform 260ms ease,
+    box-shadow 260ms ease,
+    filter 260ms ease;
+  cursor: pointer;
+}
+
+.crystal-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--rdm-gradient-core);
+  opacity: 0;
+  transform: translateX(-110%);
+  transition:
+    opacity 300ms ease,
+    transform 650ms ease;
+}
+
+.crystal-button:hover,
+.crystal-button:focus-visible {
+  transform: translateY(-3px);
+  filter: saturate(1.18);
+  box-shadow:
+    0 14px 34px rgba(8, 47, 59, 0.3),
+    0 0 30px rgba(46, 156, 255, 0.36);
+}
+
+.crystal-button:hover::after,
+.crystal-button:focus-visible::after {
+  opacity: 0.85;
+  transform: translateX(110%);
+}
+
+.crystal-button:active {
+  transform: translateY(-1px);
+}
+
+/* Variantes */
+.crystal-button-ghost {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--rdm-petroleum-deep);
+  border-color: rgba(201, 208, 212, 0.9);
+  box-shadow:
+    0 8px 24px rgba(13, 70, 82, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.crystal-button-ghost:hover,
+.crystal-button-ghost:focus-visible {
+  box-shadow:
+    0 14px 34px rgba(13, 70, 82, 0.18),
+    0 0 30px rgba(46, 156, 255, 0.22);
+  filter: saturate(1.1);
+}
+
+.crystal-button-gold {
+  background: linear-gradient(105deg, var(--rdm-gold), var(--rdm-gold-bright), var(--rdm-gold));
+  color: var(--rdm-deep-black);
+  border-color: rgba(242, 204, 118, 0.9);
+  box-shadow:
+    0 10px 28px rgba(200, 154, 69, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.crystal-button-gold:hover,
+.crystal-button-gold:focus-visible {
+  box-shadow:
+    0 14px 34px rgba(200, 154, 69, 0.4),
+    0 0 34px rgba(242, 204, 118, 0.45);
+}
+
+/* ------------------------------------------------------------------ */
+/* Crystal Badge — sello translúcido                                   */
+/* ------------------------------------------------------------------ */
+
+.crystal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(201, 208, 212, 0.85);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow:
+    0 6px 18px rgba(13, 70, 82, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  padding: 0.35rem 0.8rem;
+  font-family: var(--font-rdm-mono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rdm-petroleum);
+}
+
+/* ------------------------------------------------------------------ */
+/* Stat Pill — cápsula translúcida de métrica                          */
+/* ------------------------------------------------------------------ */
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border: 1px solid rgba(201, 208, 212, 0.7);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.4));
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    0 12px 34px rgba(13, 70, 82, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  padding: 1rem 1.25rem;
+  transition:
+    transform 320ms var(--ease-miner),
+    box-shadow 320ms ease;
+}
+
+.stat-pill:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 44px rgba(13, 70, 82, 0.18),
+    0 0 28px rgba(46, 156, 255, 0.16);
+}
+
+.stat-pill-dot {
+  position: relative;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stat-pill-dot::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+  animation: statPing 2.4s ease-out infinite;
+}
+
+@keyframes statPing {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* RDM Divider — línea ornamental de gradiente en movimiento          */
+/* ------------------------------------------------------------------ */
+
+.rdm-divider {
+  height: 1px;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--rdm-platinum),
+    var(--rdm-gold),
+    var(--rdm-electric-blue),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: rdm-gradient-flow 7s linear infinite;
+}
+
+@keyframes rdm-gradient-flow {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Anillo orbital (indicador de scroll / carga)                        */
+/* ------------------------------------------------------------------ */
+
+.rdm-orbital {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.rdm-orbital::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--rdm-gold);
+  animation: spinSlow 6s linear infinite;
+}
+
+.rdm-orbital::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--rdm-electric-blue);
+  box-shadow: 0 0 12px var(--rdm-electric-blue);
+  animation: spinSlow 6s linear infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* Accesibilidad — respeto a prefers-reduced-motion                    */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

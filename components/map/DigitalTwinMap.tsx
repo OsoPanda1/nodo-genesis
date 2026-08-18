@@ -2,149 +2,161 @@
 
 import React, { useEffect, useState } from 'react';
 import { RDM_POIS, POI } from '@/lib/data/rdm-data';
-import { MapPin, Navigation, Info, Compass, ShieldCheck, Thermometer, Users, Sparkles, Filter } from 'lucide-react';
+import { MapPin, Navigation, Compass, ShieldCheck, Radio, Filter } from 'lucide-react';
+
+/* ================================================================== */
+/* Gemelo 2D Leaflet — cartografía soberana de Real del Monte.         */
+/* Robustez: import dinámico con token anti-carrera (StrictMode),      */
+/* try/catch, invalidateSize tras montar. Sin datos falsos en el HUD.  */
+/* ================================================================== */
 
 interface DigitalTwinMapProps {
   onSelectPOI?: (poi: POI) => void;
 }
 
+const CATEGORY_COLORS: Record<string, string> = {
+  mina: '#2e9cff',
+  gastronomia: '#d97832',
+  cultura: '#c9d0d4',
+  naturaleza: '#0b5f6c',
+  plateria: '#93a5ad',
+};
+
 export default function DigitalTwinMap({ onSelectPOI }: DigitalTwinMapProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedPOI, setSelectedPOI] = useState<POI | null>(RDM_POIS[0]);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const [showRoutes, setShowRoutes] = useState(true);
+  const [mapError, setMapError] = useState(false);
 
   useEffect(() => {
-    // Dynamic load of Leaflet to avoid SSR issues
     if (typeof window === 'undefined') return;
 
     let mapInstance: any = null;
+    let cancelled = false;
 
     const initMap = async () => {
-      const L = (await import('leaflet')).default;
+      try {
+        const L = (await import('leaflet')).default;
+        if (cancelled) return;
 
-      const container = document.getElementById('rdm-leaflet-map');
-      if (!container) return;
+        const container = document.getElementById('rdm-leaflet-map');
+        if (!container) return;
 
-      // Clean existing instance
-      if ((container as any)._leaflet_id) {
-        (container as any)._leaflet_id = null;
-        container.innerHTML = '';
-      }
+        // Limpiar cualquier instancia previa pegada al contenedor
+        if ((container as any)._leaflet_id) {
+          (container as any)._leaflet_id = null;
+          container.innerHTML = '';
+        }
 
-      // Center on Real del Monte (20.1398, -98.6738)
-      mapInstance = L.map('rdm-leaflet-map', {
-        center: [20.1398, -98.6738],
-        zoom: 15,
-        zoomControl: false,
-      });
-
-      // Dark Matter Carto Tile Layer
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap &copy; CARTO &copy; RDM Digital Hub',
-        subdomains: 'abcd',
-        maxZoom: 19,
-      }).addTo(mapInstance);
-
-      // Add Markers
-      const filteredPOIs = selectedCategory === 'all' 
-        ? RDM_POIS 
-        : RDM_POIS.filter(p => p.category === selectedCategory);
-
-      filteredPOIs.forEach(poi => {
-        // Custom Icon SVG
-        const categoryColors: Record<string, string> = {
-          mina: '#06b6d4',
-          gastronomia: '#f59e0b',
-          cultura: '#a855f7',
-          naturaleza: '#10b981',
-          plateria: '#e2e8f0',
-        };
-
-        const color = categoryColors[poi.category] || '#38bdf8';
-
-        const customIcon = L.divIcon({
-          className: 'custom-map-pin',
-          html: `
-            <div style="
-              background: ${color};
-              width: 32px;
-              height: 32px;
-              border-radius: 50%;
-              border: 2px solid white;
-              box-shadow: 0 0 15px ${color};
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              cursor: pointer;
-              transition: transform 0.2s;
-            ">
-              <div style="width: 10px; height: 10px; background: white; border-radius: 50%;"></div>
-            </div>
-          `,
-          iconSize: [32, 32],
-          iconAnchor: [16, 16],
+        mapInstance = L.map('rdm-leaflet-map', {
+          center: [20.1398, -98.6738],
+          zoom: 15,
+          zoomControl: false,
         });
 
-        const marker = L.marker([poi.lat, poi.lng], { icon: customIcon }).addTo(mapInstance);
-
-        marker.on('click', () => {
-          setSelectedPOI(poi);
-          if (onSelectPOI) onSelectPOI(poi);
-        });
-      });
-
-      // Draw Phygital Heritage Route Line between Mina Acosta -> Portal -> Panteón
-      if (showRoutes) {
-        const routePoints: [number, number][] = [
-          [20.1415, -98.6722], // Mina Acosta
-          [20.1405, -98.6732], // Platería
-          [20.1398, -98.6738], // Pastes Portal
-          [20.1395, -98.6742], // Parroquia
-          [20.1397, -98.6769], // Panteón Inglés
-        ];
-
-        L.polyline(routePoints, {
-          color: '#00f0ff',
-          weight: 4,
-          opacity: 0.8,
-          dashArray: '8, 12',
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; OpenStreetMap &copy; CARTO &copy; RDM Digital Hub',
+          subdomains: 'abcd',
+          maxZoom: 19,
         }).addTo(mapInstance);
-      }
 
-      setMapLoaded(true);
+        const filteredPOIs =
+          selectedCategory === 'all'
+            ? RDM_POIS
+            : RDM_POIS.filter((p) => p.category === selectedCategory);
+
+        filteredPOIs.forEach((poi) => {
+          const color = CATEGORY_COLORS[poi.category] ?? '#2e9cff';
+          const customIcon = L.divIcon({
+            className: 'custom-map-pin',
+            html: `
+              <div style="
+                background: ${color};
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+                box-shadow: 0 0 15px ${color};
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: transform 0.2s;
+              ">
+                <div style="width: 10px; height: 10px; background: #fff; border-radius: 50%;"></div>
+              </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+          });
+
+          const marker = L.marker([poi.lat, poi.lng], { icon: customIcon }).addTo(mapInstance);
+          marker.on('click', () => {
+            setSelectedPOI(poi);
+            if (onSelectPOI) onSelectPOI(poi);
+          });
+        });
+
+        if (showRoutes) {
+          const routePoints: [number, number][] = [
+            [20.1415, -98.6722], // Mina Acosta
+            [20.1405, -98.6732], // Platería
+            [20.1398, -98.6738], // Pastes Portal
+            [20.1395, -98.6742], // Parroquia
+            [20.1397, -98.6769], // Panteón Inglés
+          ];
+          L.polyline(routePoints, {
+            color: '#2e9cff',
+            weight: 4,
+            opacity: 0.8,
+            dashArray: '8, 12',
+          }).addTo(mapInstance);
+        }
+
+        // Corregir el tamaño tras resolver el layout (evita mapa gris/0px)
+        requestAnimationFrame(() => {
+          if (mapInstance && !cancelled) mapInstance.invalidateSize();
+        });
+
+        setMapError(false);
+      } catch {
+        if (!cancelled) setMapError(true);
+      }
     };
 
     initMap();
 
     return () => {
+      cancelled = true;
       if (mapInstance) {
-        mapInstance.remove();
+        try {
+          mapInstance.remove();
+        } catch {
+          /* sin operación */
+        }
+        mapInstance = null;
       }
     };
   }, [selectedCategory, showRoutes, onSelectPOI]);
 
   return (
-    <div className="relative w-full h-[650px] rounded-2xl overflow-hidden glass-panel border border-cyan-500/30 shadow-[0_0_40px_rgba(6,182,212,0.15)] flex flex-col md:flex-row">
-      
-      {/* Map Control Sidebar Panel */}
-      <div className="w-full md:w-80 p-5 glass-panel border-r border-white/10 flex flex-col justify-between z-20 space-y-4">
+    <div className="relative flex h-[650px] w-full flex-col overflow-hidden rounded-2xl border border-white/10 glass-panel md:flex-row">
+      {/* Panel de control */}
+      <div className="z-20 flex w-full flex-col justify-between space-y-4 border-b border-white/10 p-5 glass-panel md:w-80 md:border-b-0 md:border-r">
         <div>
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest mb-1">
-            <Compass className="w-4 h-4 animate-spin" />
-            <span>GEMELO DIGITAL 2D/3D LEAFLET</span>
+          <div className="mb-1 flex items-center gap-2 text-[#2e9cff] font-mono text-xs uppercase tracking-widest">
+            <Compass className="h-4 w-4" />
+            <span>Gemelo digital 2D — cartografía</span>
           </div>
-
-          <h3 className="text-xl font-bold text-white mb-2">Cartografía Real del Monte</h3>
-          <p className="text-xs text-slate-300 leading-relaxed mb-4">
-            Explora puntos de interés geolocalizados, rutas phygitales de minería, gastronomía y sensores en vivo.
+          <h3 className="mb-2 text-xl font-bold text-white">Cartografía Real del Monte</h3>
+          <p className="mb-4 text-xs leading-relaxed text-[#93a5ad]">
+            Puntos de interés geolocalizados, rutas phygitales de minería y gastronomía.
           </p>
 
-          {/* Category Filter */}
           <div className="mb-4">
-            <label className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2 flex items-center gap-1">
-              <Filter className="w-3 h-3 text-cyan-400" />
-              Filtro por Categoría
+            <label className="mb-2 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[#93a5ad]">
+              <Filter className="h-3 w-3 text-[#2e9cff]" />
+              Filtro por categoría
             </label>
             <div className="flex flex-wrap gap-1.5">
               {[
@@ -154,14 +166,14 @@ export default function DigitalTwinMap({ onSelectPOI }: DigitalTwinMapProps) {
                 { id: 'cultura', label: 'Cultura' },
                 { id: 'naturaleza', label: 'Naturaleza' },
                 { id: 'plateria', label: 'Platería' },
-              ].map(cat => (
+              ].map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
                     selectedCategory === cat.id
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(6,182,212,0.6)]'
-                      : 'bg-slate-900/80 text-slate-300 border border-slate-700 hover:border-cyan-500'
+                      ? 'bg-[#2e9cff] font-bold text-white shadow-[0_0_12px_rgba(46,156,255,0.5)]'
+                      : 'border border-white/10 bg-white/[0.04] text-[#93a5ad] hover:border-[#2e9cff] hover:text-white'
                   }`}
                 >
                   {cat.label}
@@ -170,68 +182,71 @@ export default function DigitalTwinMap({ onSelectPOI }: DigitalTwinMapProps) {
             </div>
           </div>
 
-          {/* Toggle Route Overlay */}
           <button
             onClick={() => setShowRoutes(!showRoutes)}
-            className={`w-full py-2 px-3 rounded-xl border text-xs font-mono flex items-center justify-between transition-all ${
+            className={`w-full flex items-center justify-between rounded-xl border px-3 py-2 text-xs font-mono transition-all ${
               showRoutes
-                ? 'bg-cyan-950/60 border-cyan-500/50 text-cyan-300'
-                : 'bg-slate-900/60 border-slate-800 text-slate-400'
+                ? 'border-[#2e9cff]/50 bg-[#2e9cff]/10 text-[#7cc4ff]'
+                : 'border-white/10 bg-white/[0.03] text-[#93a5ad]'
             }`}
           >
             <span className="flex items-center gap-2">
-              <Navigation className="w-3.5 h-3.5" />
-              Trazado Ruta Minera Phygital
+              <Navigation className="h-3.5 w-3.5" />
+              Trazado ruta minera
             </span>
             <span className="font-bold">{showRoutes ? 'ACTIVO' : 'OCULTO'}</span>
           </button>
         </div>
 
-        {/* POI Selected Info Box */}
         {selectedPOI && (
-          <div className="p-4 rounded-xl bg-slate-950/80 border border-cyan-500/40 shadow-inner space-y-2">
+          <div className="space-y-2 rounded-xl border border-[#2e9cff]/40 bg-[#0d1c26]/80 p-4">
             <div className="flex items-center justify-between">
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase font-bold bg-cyan-900/60 text-cyan-300 border border-cyan-500/30">
-                {selectedPOI.category.toUpperCase()}
+              <span className="rounded border border-[#2e9cff]/30 bg-[#2e9cff]/10 px-2 py-0.5 text-[10px] font-mono font-bold uppercase text-[#7cc4ff]">
+                {selectedPOI.category}
               </span>
-              <span className="text-xs font-bold text-amber-400 flex items-center gap-1">
+              <span className="flex items-center gap-1 text-xs font-bold text-[#f6d38a]">
                 ★ {selectedPOI.rating}
               </span>
             </div>
-
             <h4 className="text-base font-bold text-white">{selectedPOI.name}</h4>
-            <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">{selectedPOI.description}</p>
-
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-cyan-300 font-mono">
-              <span className="flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-cyan-400" />
-                {selectedPOI.phygitalBadge}
-              </span>
+            <p className="line-clamp-2 text-xs leading-relaxed text-[#93a5ad]">
+              {selectedPOI.description}
+            </p>
+            <div className="flex items-center gap-1 border-t border-white/10 pt-2 text-[11px] font-mono text-[#7cc4ff]">
+              <MapPin className="h-3 w-3" />
+              {selectedPOI.phygitalBadge}
             </div>
           </div>
         )}
       </div>
 
-      {/* Main Interactive Leaflet Canvas Container */}
-      <div className="flex-1 relative h-full w-full bg-slate-950">
-        <div id="rdm-leaflet-map" className="w-full h-full" />
+      {/* Lienzo Leaflet */}
+      <div className="relative h-full w-full bg-[#050c12]">
+        <div id="rdm-leaflet-map" className="h-full w-full" />
 
-        {/* Floating Top Map HUD Overlay */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2 pointer-events-auto">
-          <div className="px-3 py-1.5 rounded-xl glass-panel border border-cyan-500/30 text-xs font-mono text-cyan-300 flex items-center gap-2 shadow-lg">
-            <Thermometer className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Temp. Mina Acosta: 14°C</span>
+        {mapError && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#050c12]/90 p-6">
+            <p className="max-w-sm text-center text-sm text-[#93a5ad]">
+              No se pudo cargar la cartografía en este entorno. Verifica la conexión o
+              cambia al modo SVG del mapa.
+            </p>
           </div>
+        )}
 
-          <div className="px-3 py-1.5 rounded-xl glass-panel border border-purple-500/30 text-xs font-mono text-purple-300 flex items-center gap-2 shadow-lg">
-            <Users className="w-3.5 h-3.5 text-purple-400" />
-            <span>Aforo Centro: 62%</span>
+        {/* HUD honesto */}
+        <div className="absolute right-4 top-4 z-10 flex items-center gap-2">
+          <div className="flex items-center gap-2 rounded-xl border border-[#2e9cff]/30 px-3 py-1.5 text-xs font-mono text-[#7cc4ff] glass-panel">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Cartografía soberana
+          </div>
+          <div className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5 text-xs font-mono text-[#93a5ad] glass-panel">
+            <Radio className="h-3.5 w-3.5 text-[#2e9cff]" />
+            Telemetría en integración
           </div>
         </div>
 
-        {/* Map Watermark Legend */}
-        <div className="absolute bottom-4 left-4 z-10 px-3 py-1.5 rounded-lg glass-panel text-[10px] font-mono text-slate-400 border border-white/10 pointer-events-none">
-          Coordenadas: 20.1398° N, 98.6738° W // Altitud: 2,710m
+        <div className="pointer-events-none absolute bottom-4 left-4 z-10 rounded-lg border border-white/10 px-3 py-1.5 text-[10px] font-mono text-[#647a84] glass-panel">
+          Coordenadas: 20.1398° N, 98.6738° W
         </div>
       </div>
     </div>

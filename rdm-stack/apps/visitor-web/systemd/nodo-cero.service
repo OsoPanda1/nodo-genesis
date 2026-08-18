@@ -1,0 +1,98 @@
+[Unit]
+Description=RDM Digital OS · Nodo Cero — NetFlowX + Isabella + POV Orchestrator
+Documentation=https://github.com/real-del-monte/digital-hub/blob/main/node-core/README-node-core.md
+After=network-online.target
+Wants=network-online.target
+
+# Evita bucles de reinicio ante fallos repetidos
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=exec
+
+# Identidad del servicio y acceso al hardware serie
+User=nodo
+Group=nodo
+SupplementaryGroups=dialout uucp
+UMask=0077
+
+WorkingDirectory=/opt/nodo-cero
+
+# Entorno
+Environment=PYTHONUNBUFFERED=1
+Environment=NODE_CORE_HOST=0.0.0.0
+Environment=NODE_CORE_PORT=8090
+Environment=ARDUINO_PORT=/dev/ttyACM0
+Environment=ARDUINO_BAUD=115200
+Environment=NETFLOW_PORT=2055
+Environment=ISABELLA_URL=http://localhost:8080/api/isabella
+EnvironmentFile=-/etc/nodo-cero/node-core.env
+
+# Ciclo de vida
+ExecStart=/usr/bin/python3 /opt/nodo-cero/server_core.py
+ExecReload=/bin/kill -HUP $MAINPID
+
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=45s
+TimeoutStopSec=20s
+
+# Directorios gestionados por systemd
+RuntimeDirectory=nodo-cero
+StateDirectory=nodo-cero
+LogsDirectory=nodo-cero
+ConfigurationDirectory=nodo-cero
+
+# Recursos
+CPUWeight=100
+MemoryHigh=1.5G
+MemoryMax=2G
+MemorySwapMax=0
+LimitNOFILE=65535
+
+# Privilegios
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+# Sistema de archivos
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=false
+DevicePolicy=closed
+DeviceAllow=/dev/ttyACM0 rw
+
+# Código fuente inmutable, datos controlados por systemd
+ReadOnlyPaths=/opt/nodo-cero
+ReadWritePaths=/var/log/nodo-cero /var/lib/nodo-cero /run/nodo-cero
+
+# Kernel y entorno
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+ProtectClock=true
+ProtectHostname=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+
+# Aislamiento
+RestrictNamespaces=true
+PrivateUsers=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+# Proc
+ProcSubset=pid
+ProtectProc=invisible
+
+# Syscalls
+SystemCallArchitectures=native
+SystemCallFilter=@system-service @basic-io @file-system @network-io
+SystemCallErrorNumber=EPERM
+
+[Install]
+WantedBy=multi-user.target

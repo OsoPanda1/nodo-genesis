@@ -23,8 +23,11 @@ import {
 } from "lucide-react";
 import AtmosphericHero from "@/components/rdm/atmosphere/AtmosphericHero";
 import FloatingNav from "@/components/rdm/navigation/FloatingNav";
+import TerritoryRail from "@/components/rdm/navigation/TerritoryRail";
 import IntentMenu from "@/components/rdm/navigation/IntentMenu";
 import TerritoryStatusBar from "@/components/rdm/telemetry/TerritoryStatusBar";
+import BusinessBanner from "@/components/rdm/commerce/BusinessBanner";
+import MediaSection from "@/components/media/MediaSection";
 import ExperienceCard, { ExperienceItem } from "@/components/rdm/discovery/ExperienceCard";
 import DigitalPassport from "@/components/rdm/passport/DigitalPassport";
 import SectionHeader from "@/components/rdm/layout/SectionHeader";
@@ -100,6 +103,7 @@ export default function DestinoPortada() {
   return (
     <main className="min-h-screen bg-[#081119] text-[#e8edef]">
       <FloatingNav onOpenIsabella={() => openIsabella()} onSearch={() => scrollTo("explora")} />
+      <TerritoryRail />
 
       {/* 01 · HERO TEMPORAL — observatorio del destino */}
       <AtmosphericHero
@@ -214,6 +218,11 @@ export default function DestinoPortada() {
             <BusinessPortal />
           </div>
         </div>
+        <div className="mt-8">
+          <BusinessBanner
+            onExplore={(name) => openIsabella(`Cuéntame sobre el comercio ${name}`)}
+          />
+        </div>
       </section>
 
       {/* 08 · ARCHIVO VIVO */}
@@ -263,7 +272,17 @@ export default function DestinoPortada() {
         />
       </section>
 
-      {/* 10 · AGENDA */}
+      {/* 10 · MÚSICA Y PODCAST */}
+      <section id="media" className="rdm-section rdm-shell scroll-mt-24 px-6">
+        <SectionHeader
+          meta="Música y podcast del Real"
+          title="El sonido de la comarca"
+          description="Podcast oficial en Spotify, música local y acceso a tu propia app de Spotify."
+        />
+        <MediaSection />
+      </section>
+
+      {/* 11 · AGENDA */}
       <section id="agenda" className="rdm-section rdm-shell scroll-mt-24 px-6">
         <SectionHeader
           meta="Agenda del destino"
@@ -280,7 +299,7 @@ export default function DestinoPortada() {
         <PhygitalMarketplace />
       </section>
 
-      {/* 11 · COMUNIDAD */}
+      {/* 12 · COMUNIDAD */}
       <section id="comunidad" className="rdm-section rdm-shell scroll-mt-24 px-6">
         <SectionHeader
           meta="Comunidad del Real"
@@ -308,7 +327,7 @@ export default function DestinoPortada() {
         </div>
       </section>
 
-      {/* 12 · COMPROMISO TERRITORIAL */}
+      {/* 13 · COMPROMISO TERRITORIAL */}
       <section className="rdm-section rdm-shell px-6">
         <div className="rdm-glass overflow-hidden rounded-[2rem]">
           <div className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
@@ -357,7 +376,7 @@ export default function DestinoPortada() {
         </div>
       </section>
 
-      {/* 13 · IDENTIDAD */}
+      {/* 14 · IDENTIDAD */}
       <section className="rdm-section rdm-shell px-6">
         <div className="text-center">
           <p className="rdm-meta text-[#d97832]">Autoría e identidad</p>

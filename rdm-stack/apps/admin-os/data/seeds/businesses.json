@@ -1,0 +1,11 @@
+[
+  {
+    "id": "7c9f1227-4600-4433-bd03-866b909f4f2a",
+    "name": "Café Neblina",
+    "category": "cafe",
+    "tags": ["vista", "romantico", "niebla"],
+    "location": { "lat": 20.1422, "lng": -98.6707 },
+    "media": [{ "type": "image", "url": "/img/cafe-neblina.jpg" }],
+    "open_hours": { "mon": "08:00-22:00" }
+  }
+]

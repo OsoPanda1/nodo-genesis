@@ -195,6 +195,10 @@ export function getTwinInstances(): TwinInstanceRecord[] {
   for (const [id, instance] of store.instances) {
     if (nowMs - new Date(instance.updatedAt).getTime() > MODEL_TTL_MS) store.instances.delete(id);
   }
+  // Re-siembra si el TTL dejó el store vacío: el gemelo no debe quedar mudo.
+  if (store.instances.size === 0) {
+    seed(store);
+  }
   return [...store.instances.values()].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 

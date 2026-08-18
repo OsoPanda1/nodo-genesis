@@ -1,0 +1,55 @@
+enum IsabellaVoiceStatus {
+  SUCCESS
+  FALLBACK
+  BLOCKED
+  ERROR
+  CANCELLED
+}
+
+enum IsabellaVoiceMode {
+  CLOUD
+  LOCAL
+  TEXT
+}
+
+model IsabellaVoiceAsset {
+  id              String   @id @default(cuid())
+  cacheKey        String   @unique
+  storagePath     String   @unique
+  profileId       String
+  voiceVersion    String
+  provider        String
+  providerVoiceId String
+  locale          String   @default("es-MX")
+  format          String   @default("mp3")
+  textHash        String
+  durationMs      Int?
+  byteSize        Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([profileId, createdAt])
+}
+
+model IsabellaVoiceMetric {
+  id              String              @id @default(cuid())
+  requestId       String              @unique
+  textHash        String
+  profileId       String
+  voiceVersion    String
+  provider        String
+  providerVoiceId String?
+  mode            IsabellaVoiceMode
+  status          IsabellaVoiceStatus
+  cacheHit        Boolean             @default(false)
+  latencyMs       Int?
+  durationMs      Int?
+  failureCode     String?
+  federationId    String?
+  userId          String?
+  createdAt       DateTime            @default(now())
+
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@index([federationId, createdAt])
+}

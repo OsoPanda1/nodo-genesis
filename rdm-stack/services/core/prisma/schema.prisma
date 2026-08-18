@@ -1,0 +1,50 @@
+// RDM Sovereign Stack — Esquema Prisma del core TAMV (Fase B)
+// Fuente de verdad para las tablas del motor: BookPI, Guardian y eventos.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BookpiEntry {
+  id        String   @id
+  type      String
+  source    String
+  domain    String
+  timestamp DateTime
+  hash      String   @unique
+  prevHash  String?
+  data      Json
+
+  @@index([domain])
+  @@index([timestamp])
+}
+
+model GuardianAction {
+  id             String   @id
+  actionType     String
+  target         String
+  recommendation String
+  explanation    String
+  confidence     Float
+  flags          Json
+  status         String   @default("pending")
+  createdAt      DateTime @default(now())
+
+  @@index([status])
+}
+
+model GuardianResolution {
+  id         String   @id @default(cuid())
+  actionId   String   @unique
+  decision   String
+  guardianId String
+  note       String?
+  hash       String
+  sealed     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}

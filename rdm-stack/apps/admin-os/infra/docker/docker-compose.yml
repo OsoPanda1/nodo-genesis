@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ../../:/app
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_started
+
+  api:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ../../:/app
+    command: sh -c "echo 'API placeholder: integrar NestJS en apps/api' && sleep infinity"
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      elasticsearch:
+        condition: service_healthy
+
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: rdm
+      POSTGRES_USER: rdm
+      POSTGRES_PASSWORD: rdm
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rdm -d rdm"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsSL http://localhost:9200 >/dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 20

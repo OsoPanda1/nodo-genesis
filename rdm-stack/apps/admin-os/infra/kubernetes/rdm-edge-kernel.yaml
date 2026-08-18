@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rdm-edge-kernel
+  namespace: rdmdigital
+  labels:
+    app: rdm-edge-kernel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rdm-edge-kernel
+  template:
+    metadata:
+      labels:
+        app: rdm-edge-kernel
+    spec:
+      containers:
+        - name: edge-kernel
+          image: ghcr.io/rdmdigital/rdm-edge-kernel:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: PORT
+              value: "8080"
+            - name: CLOUD_URL
+              value: "https://cloud.tamv.network"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rdm-secrets
+                  key: database_url
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rdm-edge-kernel
+  namespace: rdmdigital
+spec:
+  selector:
+    app: rdm-edge-kernel
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  type: ClusterIP

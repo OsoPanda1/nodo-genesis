@@ -1,0 +1,114 @@
+name: isabella.vercel_web_and_agent_stack
+title: "Optimización Web + Core Web Vitals y Agent Stack en Vercel"
+description: >
+  Isabella analiza un proyecto web o de agentes desplegado (o por desplegar) en Vercel
+  y genera un plan técnico completo: mejora Core Web Vitals y diseña el uso óptimo
+  del Agent Stack (AI SDK, AI Gateway, Sandbox, Workflows, Connect, eve, seguridad y plataforma).
+
+triggers:
+  - mejorar SEO técnico
+  - mejorar Core Web Vitals
+  - optimizar rendimiento web
+  - diseñar agent stack en Vercel
+  - integrar AI SDK / AI Gateway
+  - crear agentes con eve / Sandbox / Workflows
+  - evaluar Vercel para AI apps
+  - plataforma para agentes o aplicaciones de IA
+
+inputs:
+  url_produccion:
+    type: string
+    required: false
+    description: URL pública de la app o agente en producción (si existe).
+  tipo_proyecto:
+    type: string
+    required: true
+    description: >
+      Tipo de proyecto: "marketing site", "web app", "AI agent", "knowledge agent",
+      "Slack bot", etc.
+  stack:
+    type: string
+    required: false
+    description: Tecnologías principales: Next.js, Nuxt, SvelteKit, FastAPI, Node.js, etc.
+  casos_uso_ai:
+    type: array
+    items:
+      type: string
+    required: false
+    description: >
+      Casos de uso de IA o agentes: chatbot, agente de GitHub, Slack agent,
+      knowledge base, email agent, etc.
+  prioridad_negocio:
+    type: string
+    required: false
+    description: >
+      Objetivo principal: SEO, conversión, time-to-market, reducir costos de infraestructura,
+      seguridad, cumplimiento, etc.
+
+outputs:
+  resumen_ejecutivo:
+    type: string
+    description: >
+      Resumen de 5-10 líneas en lenguaje de negocio, explicando:
+      qué se va a mejorar, por qué importa y qué impacto se espera.
+  diagnostico_metrico:
+    type: object
+    description: Mapa de métricas y capacidades a atacar.
+    properties:
+      core_web_vitals:
+        type: object
+        properties:
+          LCP: { type: string }
+          INP: { type: string }
+          CLS: { type: string }
+      metricas_relacionadas:
+        type: object
+        properties:
+          TTFB: { type: string }
+          FCP: { type: string }
+          TTI: { type: string }
+          TBT: { type: string }
+      agent_stack:
+        type: object
+        properties:
+          AI_SDK: { type: string }
+          AI_Gateway: { type: string }
+          Sandbox: { type: string }
+          Workflows: { type: string }
+          Connect: { type: string }
+          Chat_SDK: { type: string }
+          eve: { type: string }
+      seguridad_y_plataforma:
+        type: object
+        properties:
+          Firewall: { type: string }
+          Bot_Management: { type: string }
+          CI_CD_y_previews: { type: string }
+          Observability: { type: string }
+          Fluid_Compute: { type: string }
+
+  plan_tecnico:
+    type: array
+    description: Backlog priorizado de acciones técnicas.
+    items:
+      type: object
+      properties:
+        categoria: { type: string }
+        impacto_esperado: { type: string }
+        complejidad: { type: string }
+        descripcion: { type: string }
+        referencias:
+          type: array
+          items: { type: string }
+
+  arquitectura_agent_stack:
+    type: string
+    description: >
+      Descripción narrativa de la arquitectura objetivo usando el Agent Stack:
+      cómo se combinan AI SDK, AI Gateway, Sandbox, Workflows, Connect, Chat SDK y eve.
+
+  checklist_verificacion:
+    type: array
+    description: Checklist para QA, observabilidad y plataforma (web perf + agentes).
+    items:
+      type: string

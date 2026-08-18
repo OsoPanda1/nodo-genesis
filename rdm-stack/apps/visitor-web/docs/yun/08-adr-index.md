@@ -1,0 +1,76 @@
+# YUN ADR Index – Registro de decisiones arquitectónicas
+
+**Versión:** v1.0  
+**Fecha:** 2026-07-04  
+**Ámbito:** Todas las decisiones arquitectónicas significativas de YUN
+
+---
+
+## 1. Propósito
+
+Este índice registra todas las Architecture Decision Records (ADR) de YUN. Cada ADR documenta una decisión significativa con contexto, alternativas, decisión y consecuencias.
+
+---
+
+## 2. Formato de ADR
+
+Cada ADR sigue este formato:
+
+```markdown
+# ADR-XXXX – Título
+
+**Fecha:** YYYY-MM-DD
+**Estado:** Proposed | Accepted | Deprecated | Superseded | Excepción
+**Decisor(es):** YUN Architecture Board
+
+## Contexto
+¿Qué problema se resuelve?
+
+## Decisión
+¿Qué se decidió?
+
+## Alternativas consideradas
+- Alternativa A: ...
+- Alternativa B: ...
+
+## Consecuencias
+- Positivas: ...
+- Negativas: ...
+- Riesgos: ...
+```
+
+---
+
+## 3. Índice de ADR
+
+| ID | Título | Fecha | Estado | Archivo |
+|----|--------|-------|--------|---------|
+| ADR-001 | Supabase para Identity | 2026-07-04 | Accepted | [ADR-001-supabase.md](adr/ADR-001-supabase.md) |
+| ADR-002 | Arquitectura event-driven | 2026-07-04 | Accepted | [ADR-002-event-driven.md](adr/ADR-002-event-driven.md) |
+| ADR-003 | YUN como base fundacional | 2026-07-04 | Accepted | [ADR-003-yun-architecture.md](adr/ADR-003-yun-architecture.md) |
+| ADR-004 | Modelo heptafederado | 2026-07-04 | Accepted | [ADR-004-heptafederation.md](adr/ADR-004-heptafederation.md) |
+| ADR-005 | Voice engine Isabella | 2026-07-13 | Accepted | [ADR-005-voice-engine.md](adr/ADR-005-voice-engine.md) |
+| ADR-006 | Isabella como capa epistemológica | 2026-07-13 | Accepted | [ADR-006-isabella-layer.md](adr/ADR-006-isabella-layer.md) |
+| ADR-007 | ISA-API contratos de integración | 2026-07-13 | Accepted | [ADR-007-isa-api-contracts.md](adr/ADR-007-isa-api-contracts.md) |
+| ADR-008 | Canonización constitucional YUN v1.0 | 2026-07-13 | Accepted | [ADR-008-yun-canonical-spec.md](adr/ADR-008-yun-canonical-spec.md) |
+
+---
+
+## 4. Estados de ADR
+
+| Estado | Significado |
+|--------|-------------|
+| **Proposed** | En revisión por el Architecture Board |
+| **Accepted** | Aprobada e implementada |
+| **Deprecated** | Obsoleta, ya no aplica |
+| **Superseded** | Reemplazada por otra ADR |
+| **Excepción** | Excepción aprobada con fecha de revisión |
+
+---
+
+## 5. Proceso
+
+1. Se propone una ADR como PR al repositorio.
+2. El Architecture Board revisa contra la Constitución YUN.
+3. Se aprueba, rechaza o aprueba con condiciones.
+4. El estado se actualiza y se registra en este índice.

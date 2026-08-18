@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://isa-ai.local/schema/isa-ai.schema.json",
+  "title": "ISA-AI Structured Output",
+  "description": "Structured response format for ISA-AI / MEXA-AI heptafederated agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "MEXA-AI semantic version (e.g. mexa-ai-v2.1.0)."
+    },
+    "provider": {
+      "type": "string",
+      "description": "Provider identifier.",
+      "const": "isa-ai"
+    },
+    "model": {
+      "type": "string",
+      "description": "Internal model identifier (e.g. mexa-ai-v2)."
+    },
+    "traceId": {
+      "type": "string",
+      "description": "Unique trace identifier for observability and MSR blockchain."
+    },
+    "intent": {
+      "type": "string",
+      "description": "Primary classified intent category."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score of the intent classification."
+    },
+    "heptaDomain": {
+      "type": "string",
+      "description": "Heptafederated domain selected for this interaction.",
+      "enum": [
+        "tourism",
+        "rdm",
+        "infra",
+        "security",
+        "observability",
+        "blockchain",
+        "governance"
+      ]
+    },
+    "topic": {
+      "type": "string",
+      "description": "High-level topic or thread id within the conversation."
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "Logical conversation/session identifier."
+    },
+    "content": {
+      "type": "string",
+      "description": "Human-readable answer text."
+    },
+    "structured": {
+      "type": "object",
+      "description": "Machine-readable structured payload.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "tool",
+            "faq",
+            "route",
+            "event",
+            "rdm-node",
+            "diagnostic"
+          ],
+          "description": "High-level type of structured response."
+        },
+        "toolName": {
+          "type": "string",
+          "description": "Name of the primary internal tool / system invoked."
+        },
+        "tools": {
+          "type": "array",
+          "description": "List of tools/systems invoked during this response.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Tool or subsystem name (e.g. runtime_climate_stub, anubis_core)."
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "filter",
+                  "security",
+                  "radar",
+                  "mdx",
+                  "blockchain",
+                  "governance",
+                  "library"
+                ],
+                "description": "High-level tool category."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "applied",
+                  "skipped",
+                  "failed"
+                ],
+                "description": "Execution status of the tool."
+              },
+              "details": {
+                "type": "object",
+                "description": "Optional details or metrics produced by the tool.",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "name",
+              "kind",
+              "status"
+            ]
+          }
+        },
+        "pipelines": {
+          "type": "object",
+          "description": "Heptafederated + hexagonal pipeline information.",
+          "additionalProperties": false,
+          "properties": {
+            "inputHex": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Names/ids of input pipeline stages applied."
+            },
+            "outputHex": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Names/ids of output pipeline stages applied."
+            }
+          }
+        },
+        "data": {
+          "description": "Payload, shape depends on 'type' and 'toolName'.",
+          "oneOf": [
+            {
+              "type": "object",
+              "description": "Generic key/value payload.",
+              "additionalProperties": true
+            },
+            {
+              "type": "array",
+              "description": "List payload."
+            },
+            {
+              "type": "null",
+              "description": "Empty payload."
+            }
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "description": "Governance and alignment information.",
+      "additionalProperties": false,
+      "properties": {
+        "alignment": {
+          "type": "string",
+          "description": "Alignment family (e.g. local-cultural, korima)."
+        },
+        "dataScope": {
+          "type": "string",
+          "description": "Scope/constraints on data usage (e.g. tourism-real-del-monte)."
+        },
+        "korimaCodex": {
+          "type": "object",
+          "description": "Korima Codex references (obligations, reciprocity, social contracts).",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "alignment",
+        "dataScope"
+      ]
+    },
+    "observability": {
+      "type": "object",
+      "description": "Radar / observability metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "radars": {
+          "type": "array",
+          "description": "List of radar subsystems used (e.g. radar_ojo_de_ra).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "latencyMs": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "status"
+            ]
+          }
+        },
+        "latencyMs": {
+          "type": "number",
+          "description": "End-to-end latency in milliseconds."
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "description": "Security systems involved (Anubis, Horus, etc.).",
+      "additionalProperties": false,
+      "properties": {
+        "systems": {
+          "type": "array",
+          "description": "List of security checks applied.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "decision": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "status"
+            ]
+          }
+        }
+      }
+    },
+    "kb": {
+      "type": "object",
+      "description": "Knowledge base traces.",
+      "additionalProperties": false,
+      "properties": {
+        "entriesUsed": {
+          "type": "array",
+          "description": "List of KB entries used to synthesize the answer.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "version",
+    "provider",
+    "model",
+    "traceId",
+    "intent",
+    "content"
+  ]
+}

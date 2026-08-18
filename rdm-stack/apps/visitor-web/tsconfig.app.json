@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2022",
+    "useDefineForClassFields": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/test",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/app",
+    "src/integrations/supabase/types.ts",
+    "src/integrations/supabase/admin.server.ts",
+    "src/kernel",
+    "src/lib/cache",
+    "src/lib/security",
+    "src/lib/env.server.ts",
+    "src/lib/secure-random.ts",
+    "src/core/unified",
+    "src/core/territorial",
+    "src/security",
+    "src/orchestrator",
+    "src/pages/TerritorialDashboard.tsx"
+  ]
+}
