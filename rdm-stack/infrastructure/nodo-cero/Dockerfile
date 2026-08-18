@@ -10,17 +10,12 @@ FROM node:22-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
-COPY --from=build /app/package.json ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
-
-# Ejecutar como usuario no-root
-RUN groupadd -r app && useradd -r -g app app && chown -R app:app /app
-USER app
-
+COPY --from=build --chown=node:node /app/package.json ./
+COPY --from=build --chown=node:node /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/.next ./.next
+COPY --from=build --chown=node:node /app/public ./public
+USER node
 EXPOSE 3000
 HEALTHCHECK --interval=15s --timeout=10s --retries=5 \
   CMD node -e "fetch('http://localhost:3000/api/yun/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
-
 CMD ["npm", "start"]
